@@ -1,0 +1,11 @@
+# Generated datasets too large for GitHub (exceed 100 MB hard limit)
+# Regenerate with diabetes_csv.py if needed
+diabetes_output/diabetes_5000000_*.csv
+diabetes_output/diabetes_10000000_*.csv
+
+# Prediction outputs from test runs
+*_preds.csv
+preds_*.csv
+serial_preds.csv
+omp_preds.csv
+diabetes_predictions.csv
