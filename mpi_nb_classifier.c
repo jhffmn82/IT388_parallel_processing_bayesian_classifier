@@ -574,18 +574,6 @@ void copy_rows(int* src, int src_cols, int* row_indices, int total_n_rows, int* 
     free(recv_counts);
     free(displacements);
 }
-    // Gather local row blocks into the global dest array on Rank 0
-    MPI_Gatherv(local_dest, local_rows * src_cols, MPI_INT,
-                dest, recv_counts, displacements, MPI_INT,
-                0, MPI_COMM_WORLD);
-
-    // Cleanup
-    free(local_dest);
-    if (rank == 0) {
-        free(recv_counts);
-        free(displacements);
-    }
-}
 
 
 /* Run k-fold cross validation.
