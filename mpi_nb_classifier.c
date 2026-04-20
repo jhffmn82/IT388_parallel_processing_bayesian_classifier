@@ -532,48 +532,48 @@ void confusion_matrix_binary(int* truth, int* pred, int total_n,
 /* Copy selected rows from one flat matrix into another.
  * We use this when building train/test sets for k-fold validation.
  */
+// fixed this too ~ justin
 void copy_rows(int* src, int src_cols, int* row_indices, int total_n_rows, int* dest) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    // Calculate row distribution
     int rows_per_proc = total_n_rows / size;
     int remainder = total_n_rows % size;
 
     int local_rows = rows_per_proc + (rank < remainder ? 1 : 0);
     int start_row_idx = rank * rows_per_proc + (rank < remainder ? rank : remainder);
 
-    // Perform local copy
-    // We need a local buffer to store the rows this process is responsible for
     int* local_dest = (int*)malloc(local_rows * src_cols * sizeof(int));
 
     for (int i = 0; i < local_rows; i++) {
         int global_row_to_copy = row_indices[start_row_idx + i];
-        // Use memcpy for a faster row-wise copy than a nested loop
-        memcpy(&local_dest[i * src_cols], 
-               &src[global_row_to_copy * src_cols], 
+        memcpy(&local_dest[i * src_cols],
+               &src[global_row_to_copy * src_cols],
                src_cols * sizeof(int));
     }
 
-    // Prepare Gathering metadata (only needed by root)
-    int* recv_counts = NULL;
-    int* displacements = NULL;
+    // All ranks need recv_counts and displacements for Allgatherv ~ updated Justin
+    int* recv_counts = (int*)malloc(size * sizeof(int));
+    int* displacements = (int*)malloc(size * sizeof(int));
 
-    if (rank == 0) {
-        recv_counts = (int*)malloc(size * sizeof(int));
-        displacements = (int*)malloc(size * sizeof(int));
+    for (int i = 0; i < size; i++) {
+        int proc_rows = rows_per_proc + (i < remainder ? 1 : 0);
+        int proc_start = i * rows_per_proc + (i < remainder ? i : remainder);
 
-        for (int i = 0; i < size; i++) {
-            int proc_rows = rows_per_proc + (i < remainder ? 1 : 0);
-            int proc_start = i * rows_per_proc + (i < remainder ? i : remainder);
-            
-            // Counts and displacements are in units of MPI_INT (total elements)
-            recv_counts[i] = proc_rows * src_cols;
-            displacements[i] = proc_start * src_cols;
-        }
+        recv_counts[i] = proc_rows * src_cols;
+        displacements[i] = proc_start * src_cols;
     }
 
+    // Changed to Allgatherv ~ Justin
+    MPI_Allgatherv(local_dest, local_rows * src_cols, MPI_INT,
+                   dest, recv_counts, displacements, MPI_INT,
+                   MPI_COMM_WORLD);
+
+    free(local_dest);
+    free(recv_counts);
+    free(displacements);
+}
     // Gather local row blocks into the global dest array on Rank 0
     MPI_Gatherv(local_dest, local_rows * src_cols, MPI_INT,
                 dest, recv_counts, displacements, MPI_INT,
