@@ -422,7 +422,7 @@ void build_truth(int* labeled_data, int total_rows, int labeled_cols, int* truth
     // Calculate row distribution
     int rows_per_proc = total_rows / size;
     int remainder = total_rows % size;
-    
+
     int local_rows = rows_per_proc + (rank < remainder ? 1 : 0);
     int start_row = rank * rows_per_proc + (rank < remainder ? rank : remainder);
 
@@ -430,34 +430,27 @@ void build_truth(int* labeled_data, int total_rows, int labeled_cols, int* truth
     int* local_truth = (int*)malloc(local_rows * sizeof(int));
     for (int i = 0; i < local_rows; i++) {
         int global_row_idx = start_row + i;
-        // Grab the last column (the label) for each row
         local_truth[i] = labeled_data[global_row_idx * labeled_cols + labeled_cols - 1];
     }
 
-    // Prepare Gathering metadata (only needed by root)
-    int* recv_counts = NULL;
-    int* displacements = NULL;
+    // All ranks need recv_counts and displacements for Allgatherv ~ updated Justin
+    int* recv_counts = (int*)malloc(size * sizeof(int));
+    int* displacements = (int*)malloc(size * sizeof(int));
 
-    if (rank == 0) {
-        recv_counts = (int*)malloc(size * sizeof(int));
-        displacements = (int*)malloc(size * sizeof(int));
-        for (int i = 0; i < size; i++) {
-            recv_counts[i] = rows_per_proc + (i < remainder ? 1 : 0);
-            displacements[i] = i * rows_per_proc + (i < remainder ? i : remainder);
-        }
+    for (int i = 0; i < size; i++) {
+        recv_counts[i] = rows_per_proc + (i < remainder ? 1 : 0);
+        displacements[i] = i * rows_per_proc + (i < remainder ? i : remainder);
     }
-    // Changed to Allgather ~ Justin
-    // Gather local truth arrays into the global truth array on Rank 0
+
+    // Changed to Allgatherv ~ Justin
     MPI_Allgatherv(local_truth, local_rows, MPI_INT,
                    truth, recv_counts, displacements, MPI_INT,
                    MPI_COMM_WORLD);
 
     // Cleanup
     free(local_truth);
-    if (rank == 0) {
-        free(recv_counts);
-        free(displacements);
-    }
+    free(recv_counts);
+    free(displacements);
 }
 
 
