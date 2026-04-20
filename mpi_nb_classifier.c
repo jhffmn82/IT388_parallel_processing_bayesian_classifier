@@ -392,17 +392,13 @@ void classify_dataset(int* data,
 
     // Prepare for Gather
     // MPI_Gatherv is needed because the number of rows might differ by 1 per process
-    int* recv_counts = NULL;
-    int* displacements = NULL;
+    // All ranks need recv_counts and displacements for Allgatherv ~ updated Justin
+    int* recv_counts = (int*)malloc(size * sizeof(int));
+    int* displacements = (int*)malloc(size * sizeof(int));
 
-    if (rank == 0) {
-        recv_counts = (int*)malloc(size * sizeof(int));
-        displacements = (int*)malloc(size * sizeof(int));
-
-        for (int i = 0; i < size; i++) {
-            recv_counts[i] = rows_per_proc + (i < remainder ? 1 : 0);
-            displacements[i] = i * rows_per_proc + (i < remainder ? i : remainder);
-        }
+    for (int i = 0; i < size; i++) {
+        recv_counts[i] = rows_per_proc + (i < remainder ? 1 : 0);
+        displacements[i] = i * rows_per_proc + (i < remainder ? i : remainder);
     }
     // Changed to Allgather ~ Justin
     // Collect all local predictions into the root's predictions array
@@ -412,10 +408,8 @@ void classify_dataset(int* data,
 
     // Cleanup
     free(local_predictions);
-    if (rank == 0) {
-        free(recv_counts);
-        free(displacements);
-    }
+    free(recv_counts);
+    free(displacements);
 }
 
 
