@@ -21,6 +21,7 @@
 #include <string.h>
 #include <math.h>
 #include <mpi.h>
+#include <omp.h>
 
 //needed for reading in CSV, defines max rows to read in at a time
 #define MAX_LINE_LEN 8192
