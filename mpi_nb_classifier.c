@@ -404,11 +404,11 @@ void classify_dataset(int* data,
             displacements[i] = i * rows_per_proc + (i < remainder ? i : remainder);
         }
     }
-
+    // Changed to Allgather ~ Justin
     // Collect all local predictions into the root's predictions array
-    MPI_Gatherv(local_predictions, local_rows, MPI_INT,
-                predictions, recv_counts, displacements, MPI_INT,
-                0, MPI_COMM_WORLD);
+    MPI_Allgatherv(local_predictions, local_rows, MPI_INT,
+                   predictions, recv_counts, displacements, MPI_INT,
+                   MPI_COMM_WORLD);
 
     // Cleanup
     free(local_predictions);
@@ -452,11 +452,11 @@ void build_truth(int* labeled_data, int total_rows, int labeled_cols, int* truth
             displacements[i] = i * rows_per_proc + (i < remainder ? i : remainder);
         }
     }
-
+    // Changed to Allgather ~ Justin
     // Gather local truth arrays into the global truth array on Rank 0
-    MPI_Gatherv(local_truth, local_rows, MPI_INT,
-                truth, recv_counts, displacements, MPI_INT,
-                0, MPI_COMM_WORLD);
+    MPI_Allgatherv(local_truth, local_rows, MPI_INT,
+                   truth, recv_counts, displacements, MPI_INT,
+                   MPI_COMM_WORLD);
 
     // Cleanup
     free(local_truth);
