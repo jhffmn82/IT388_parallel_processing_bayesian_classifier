@@ -712,7 +712,7 @@ int main(int argc, char* argv[]) {
     printf("Features:        %d\n", num_features);
     printf("Classes:         %d\n", num_classes);
     printf("k-folds:         %d\n", k);
-    printf("Processes:       %d\n", num_processes);
+    printf("Threads:       %d\n", num_processes);
 
     printf("\nTraining accuracy:         %.6f\n", train_accuracy);
     printf("Average CV train accuracy: %.6f\n", avg_train_acc);
