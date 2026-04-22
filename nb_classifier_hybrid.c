@@ -540,14 +540,13 @@ void cross_validate(int* labeled_data,
     MPI_Reduce(&local_train_sum, &global_train_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&local_test_sum, &global_test_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
-    MPI_Reduce(&l_tn, total_tn, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(&l_fp, total_fp, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(&l_fn, total_fn, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(&l_tp, total_tp, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
-
     if (rank == 0) {
         *avg_train_acc = global_train_sum / (k * size);
         *avg_test_acc = global_test_sum / (k * size);
+        *total_tn = l_tn;
+        *total_fp = l_fp;
+        *total_fn = l_fn;
+        *total_tp = l_tp;
     }
 
     free(class_counts);
