@@ -26,7 +26,7 @@
 //needed for reading in CSV, defines max rows to read in at a time
 #define MAX_LINE_LEN 8192
 
-/* Print the expected command line format and quit. */
+// Print the expected command line format and quit.
 void Usage(char* prog_name) {
     fprintf(stderr,
         "usage: %s <meta.csv> <labeled.csv> <unlabeled.csv> <output.csv> <k> <num_threads>\n",
@@ -103,7 +103,7 @@ void read_metadata(const char* meta_file,
     int total_cols = 0;
     int i, r;
 
-    /* Count how many columns are in the metadata header. */
+    // Count how many columns are in the metadata header.
     (void) fgets(line, sizeof(line), fp);
     strcpy(copy, line);
     token = strtok(copy, ",\r\n");
@@ -115,12 +115,12 @@ void read_metadata(const char* meta_file,
     *num_features = total_cols - 1;
     get_target_name(meta_file, target_name);
 
-    /* Allocate the main metadata arrays. */
-    *feature_num_values = (int*) malloc((*num_features) * sizeof(int));
-    *feature_min_values = (int*) malloc((*num_features) * sizeof(int));
-    *feature_offsets = (int*) malloc((*num_features) * sizeof(int));
+    // Allocate the main metadata arrays.
+    *feature_num_values = (int*) malloc(*num_features * sizeof(int));
+    *feature_min_values = (int*) malloc(*num_features * sizeof(int));
+    *feature_offsets = (int*) malloc(*num_features * sizeof(int));
 
-    /* The second row tells us how many values each column can take. */
+    // The second row tells us how many values each column can take.
     (void) fgets(line, sizeof(line), fp);
     token = strtok(line, ",\r\n");
     for (i = 0; i < *num_features; i++) {
@@ -128,7 +128,7 @@ void read_metadata(const char* meta_file,
         token = strtok(NULL, ",\r\n");
     }
     *num_classes = atoi(token);
-    *class_values = (int*) malloc((*num_classes) * sizeof(int));
+    *class_values = (int*) malloc(*num_classes * sizeof(int));
 
     /* Precompute offsets so all feature/class/value counts can live
      * in one flat array instead of a 3D structure.
@@ -165,7 +165,7 @@ void read_csv_data(const char* filename, int cols, int rows, int* data) {
     char* token;
     int i, j;
 
-    (void) fgets(line, sizeof(line), fp);   /* skip header */
+    (void) fgets(line, sizeof(line), fp); // skip header
 
     for (i = 0; i < rows; i++) {
         (void) fgets(line, sizeof(line), fp);
@@ -179,7 +179,7 @@ void read_csv_data(const char* filename, int cols, int rows, int* data) {
     fclose(fp);
 }
 
-/* Convert an actual class label into a class index 0..C-1. */
+// Convert an actual class label into a class index 0..C-1.
 int class_label_to_index(int class_label, int* class_values, int num_classes) {
     int c;
     for (c = 0; c < num_classes; c++) {
@@ -195,7 +195,7 @@ int feature_value_to_index(int feature_j, int value, int* feature_min_values) {
     return value - feature_min_values[feature_j];
 }
 
-/* Set all class counts and feature counts back to zero before training. */
+// Set all class counts and feature counts back to zero before training.
 void zero_arrays(int num_classes,
                  int total_prob_size,
                  long long* class_counts,
@@ -208,9 +208,9 @@ void zero_arrays(int num_classes,
 /* Count how often each class appears and how often each feature value
  * appears inside each class.
  *
- * This is the main training loop.
- * Later OpenMP: split rows across threads and reduce local counts.
- * Later MPI: each process handles part of the rows and reduces counts.
+ * OpenMP parallelizes the row loop with array reductions on the count arrays.
+ * total_prob_size is passed explicitly because OpenMP needs the array length
+ * at the reduction clause.
  */
 void accumulate_counts_range(int* labeled_data,
                              int start_row,
@@ -258,12 +258,12 @@ void counts_to_log_probs(int num_features,
     int c, j, v;
     double prior_denom = total_rows + alpha * num_classes;
 
-    /* Compute the prior probability for each class. */
+    // Compute the prior probability for each class.
     for (c = 0; c < num_classes; c++) {
         log_class_priors[c] = log((class_counts[c] + alpha) / prior_denom);
     }
 
-    /* Compute the conditional probability tables for each feature. */
+    // Compute the conditional probability tables for each feature.
     for (j = 0; j < num_features; j++) {
         for (c = 0; c < num_classes; c++) {
             double denom = class_counts[c] + alpha * feature_num_values[j];
@@ -277,35 +277,51 @@ void counts_to_log_probs(int num_features,
 
 /* Train the model by clearing the old counts, collecting new counts,
  * and then converting those counts into log probabilities.
+ *
+ * Each MPI rank accumulates counts for its slice of rows, then
+ * Allreduce combines them so every rank ends up with the full model.
  */
-void train_model(int* labeled_data, int rows, int labeled_cols, int num_features, int num_classes, int* feature_num_values, int* feature_offsets, int* class_values, int* feature_min_values, int total_prob_size, long long* class_counts, long long* feature_counts, double* log_class_priors, double* log_probs) {
-    
+void train_model(int* labeled_data,
+                 int rows,
+                 int labeled_cols,
+                 int num_features,
+                 int num_classes,
+                 int* feature_num_values,
+                 int* feature_offsets,
+                 int* class_values,
+                 int* feature_min_values,
+                 int total_prob_size,
+                 long long* class_counts,
+                 long long* feature_counts,
+                 double* log_class_priors,
+                 double* log_probs) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    // Determine this rank's chunk of the data
+    // Determine this rank's chunk of the data.
     int rows_per_proc = rows / size;
     int start_row = rank * rows_per_proc;
     int end_row = (rank == size - 1) ? rows : start_row + rows_per_proc;
 
-    // Local accumulation arrays
+    // Allocate local count buffers for this rank's slice.
     long long* local_class_counts = (long long*) calloc(num_classes, sizeof(long long));
     long long* local_feature_counts = (long long*) calloc(total_prob_size, sizeof(long long));
 
-    // Each process counts only its assigned range
-    accumulate_counts_range(labeled_data, start_row, end_row, labeled_cols, num_features, num_classes, feature_num_values, feature_offsets, class_values, feature_min_values, total_prob_size, local_class_counts, local_feature_counts);
+    // Each process counts only its assigned range.
+    accumulate_counts_range(labeled_data, start_row, end_row, labeled_cols,
+                            num_features, num_classes, feature_num_values,
+                            feature_offsets, class_values, feature_min_values,
+                            total_prob_size, local_class_counts, local_feature_counts);
 
-    // Combine all local counts into the global arrays
-    // MPI_SUM adds the values from all processes together
+    // Combine all local counts into the global arrays.
     MPI_Allreduce(local_class_counts, class_counts, num_classes, MPI_LONG_LONG, MPI_SUM, MPI_COMM_WORLD);
     MPI_Allreduce(local_feature_counts, feature_counts, total_prob_size, MPI_LONG_LONG, MPI_SUM, MPI_COMM_WORLD);
 
-    // Convert the combined global counts into log probabilities
-    // Every process does this so they all have the full model for classification
-    counts_to_log_probs(num_features, num_classes, feature_num_values, feature_offsets, class_counts, feature_counts, rows, log_class_priors, log_probs);
+    // Every process converts counts to log probs so all ranks have the full model.
+    counts_to_log_probs(num_features, num_classes, feature_num_values, feature_offsets,
+                        class_counts, feature_counts, rows, log_class_priors, log_probs);
 
-    // Clean up local buffers
     free(local_class_counts);
     free(local_feature_counts);
 }
@@ -342,11 +358,7 @@ int classify_row(int* row,
     return class_values[best_class];
 }
 
-/* Classify every row in a dataset.
- *
- * Later OpenMP: this loop is easy to parallelize because each row
- * can be classified independently.
- */
+// Classify every row in a dataset. Each row is independent so OpenMP can parallelize freely.
 void classify_dataset(int* data,
                       int rows,
                       int cols,
@@ -370,7 +382,7 @@ void classify_dataset(int* data,
     }
 }
 
-/* Pull the true class labels out of the last column of the labeled data. */
+// Pull the true class labels out of the last column of the labeled data.
 void build_truth(int* labeled_data, int rows, int labeled_cols, int* truth) {
     int i;
 #pragma omp parallel for
@@ -379,7 +391,7 @@ void build_truth(int* labeled_data, int rows, int labeled_cols, int* truth) {
     }
 }
 
-/* Compute simple accuracy = correct / total. */
+// Compute simple accuracy = correct / total.
 double compute_accuracy(int* truth, int* pred, int n) {
     int i, correct = 0;
 #pragma omp parallel for reduction(+:correct)
@@ -398,12 +410,15 @@ void confusion_matrix_binary(int* truth, int* pred, int n,
     int l_tn = 0, l_fp = 0, l_fn = 0, l_tp = 0;
 #pragma omp parallel for reduction(+:l_tn, l_fp, l_fn, l_tp)
     for (i = 0; i < n; i++) {
-        if (truth[i] == 0 && pred[i] == 0) l_tn++;
+        if      (truth[i] == 0 && pred[i] == 0) l_tn++;
         else if (truth[i] == 0 && pred[i] == 1) l_fp++;
         else if (truth[i] == 1 && pred[i] == 0) l_fn++;
         else if (truth[i] == 1 && pred[i] == 1) l_tp++;
     }
-    *tn = l_tn; *fp = l_fp; *fn = l_fn; *tp = l_tp;
+    *tn = l_tn;
+    *fp = l_fp;
+    *fn = l_fn;
+    *tp = l_tp;
 }
 
 /* Copy selected rows from one flat matrix into another.
@@ -419,12 +434,27 @@ void copy_rows(int* src, int src_cols, int* row_indices, int n_rows, int* dest) 
     }
 }
 
-/* Run k-fold cross validation.
- * This version uses simple contiguous folds instead of shuffling.
- *
- * Later on, folds could also be split across processes or threads.
+/* Run k-fold cross validation using contiguous folds.
+ * Each MPI rank runs all k folds independently. Fold accuracies and
+ * confusion matrix counts are then reduced to rank 0 for the final averages.
  */
-void cross_validate(int* labeled_data, int labeled_rows, int labeled_cols, int num_features, int num_classes, int* feature_num_values, int* feature_min_values, int* feature_offsets, int* class_values, int total_prob_size, int k, double* avg_train_acc, double* avg_test_acc, int* total_tn, int* total_fp, int* total_fn, int* total_tp) {
+void cross_validate(int* labeled_data,
+                    int labeled_rows,
+                    int labeled_cols,
+                    int num_features,
+                    int num_classes,
+                    int* feature_num_values,
+                    int* feature_min_values,
+                    int* feature_offsets,
+                    int* class_values,
+                    int total_prob_size,
+                    int k,
+                    double* avg_train_acc,
+                    double* avg_test_acc,
+                    int* total_tn,
+                    int* total_fp,
+                    int* total_fn,
+                    int* total_tp) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -433,24 +463,23 @@ void cross_validate(int* labeled_data, int labeled_rows, int labeled_cols, int n
     double local_train_sum = 0.0, local_test_sum = 0.0;
     int l_tn = 0, l_fp = 0, l_fn = 0, l_tp = 0;
 
-    /* Allocation (same as original) */
+    // Allocate one model for reuse across all folds.
     long long* class_counts = (long long*) malloc(num_classes * sizeof(long long));
     long long* feature_counts = (long long*) malloc(total_prob_size * sizeof(long long));
     double* log_class_priors = (double*) malloc(num_classes * sizeof(double));
     double* log_probs = (double*) malloc(total_prob_size * sizeof(double));
 
-    /* Each process performs all folds (training within folds is parallelized with MPI) */
     for (fold = 0; fold < k; fold++) {
         int start = (fold * labeled_rows) / k;
         int end = ((fold + 1) * labeled_rows) / k;
         int test_size = end - start;
         int train_size = labeled_rows - test_size;
 
-        /* Build row index lists for this fold. */
+        // Build row index lists for this fold.
         int* train_idx = (int*) malloc(train_size * sizeof(int));
         int* test_idx = (int*) malloc(test_size * sizeof(int));
 
-        /* Allocate the fold-specific train/test data and predictions. */
+        // Allocate the fold-specific train/test data and predictions.
         int* train_data = (int*) malloc(train_size * labeled_cols * sizeof(int));
         int* test_data = (int*) malloc(test_size * labeled_cols * sizeof(int));
         int* y_train = (int*) malloc(train_size * sizeof(int));
@@ -461,7 +490,7 @@ void cross_validate(int* labeled_data, int labeled_rows, int labeled_cols, int n
         int train_pos = 0, test_pos = 0;
         int tn, fp, fn, tp;
 
-        /* Split rows into this fold's train set and test set. */
+        // Split rows into this fold's train set and test set.
         for (i = 0; i < labeled_rows; i++) {
             if (i >= start && i < end) test_idx[test_pos++] = i;
             else train_idx[train_pos++] = i;
@@ -472,13 +501,13 @@ void cross_validate(int* labeled_data, int labeled_rows, int labeled_cols, int n
         build_truth(train_data, train_size, labeled_cols, y_train);
         build_truth(test_data, test_size, labeled_cols, y_test);
 
-        /* Train on the training fold. */
+        // Train on the training fold.
         train_model(train_data, train_size, labeled_cols, num_features, num_classes,
                     feature_num_values, feature_offsets, class_values,
                     feature_min_values, total_prob_size,
                     class_counts, feature_counts, log_class_priors, log_probs);
 
-        /* Score both train and test so we can report both averages. */
+        // Score both train and test so we can report both averages.
         classify_dataset(train_data, train_size, labeled_cols, num_features, num_classes,
                          feature_num_values, feature_offsets, class_values,
                          feature_min_values, log_class_priors, log_probs, pred_train);
@@ -491,7 +520,10 @@ void cross_validate(int* labeled_data, int labeled_rows, int labeled_cols, int n
         local_test_sum += compute_accuracy(y_test, pred_test, test_size);
 
         confusion_matrix_binary(y_test, pred_test, test_size, &tn, &fp, &fn, &tp);
-           l_tn += tn; l_fp += fp; l_fn += fn; l_tp += tp;
+        l_tn += tn;
+        l_fp += fp;
+        l_fn += fn;
+        l_tp += tp;
 
         free(train_idx);
         free(test_idx);
@@ -503,22 +535,21 @@ void cross_validate(int* labeled_data, int labeled_rows, int labeled_cols, int n
         free(pred_test);
     }
 
-    /* AGGREGATE RESULTS */
+    // Each rank ran all k folds, so reduce the sums to rank 0 and divide by k * size.
     double global_train_sum, global_test_sum;
     MPI_Reduce(&local_train_sum, &global_train_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&local_test_sum, &global_test_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    
+
     MPI_Reduce(&l_tn, total_tn, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&l_fp, total_fp, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&l_fn, total_fn, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&l_tp, total_tp, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
-    /* Rank 0 calculates final averages */
     if (rank == 0) {
-    *avg_train_acc = global_train_sum / (k * size);
-    *avg_test_acc = global_test_sum / (k * size);
+        *avg_train_acc = global_train_sum / (k * size);
+        *avg_test_acc = global_test_sum / (k * size);
     }
-    
+
     free(class_counts);
     free(feature_counts);
     free(log_class_priors);
@@ -537,13 +568,11 @@ void write_predictions_csv(const char* filename,
     FILE* fp = fopen(filename, "w");
     int i, j;
 
-    /* Write a simple header. */
     for (j = 0; j < num_features; j++) {
         fprintf(fp, "X%d,", j + 1);
     }
     fprintf(fp, "%s\n", target_name);
 
-    /* Write each unlabeled row followed by its prediction. */
     for (i = 0; i < unlabeled_rows; i++) {
         for (j = 0; j < num_features; j++) {
             fprintf(fp, "%d,", unlabeled_data[i * num_features + j]);
@@ -563,11 +592,12 @@ int main(int argc, char* argv[]) {
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+
     char* meta_file;
     char* labeled_file;
     char* unlabeled_file;
     char* output_file;
-    int k, num_processes;
+    int k, num_threads;
 
     int num_features, num_classes, total_prob_size;
     int* feature_num_values;
@@ -600,18 +630,22 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    /* Read command line arguments. */
+    // Read command line arguments.
     meta_file = argv[1];
     labeled_file = argv[2];
     unlabeled_file = argv[3];
     output_file = argv[4];
     k = atoi(argv[5]);
-    num_processes = atoi(argv[6]);
+    num_threads = atoi(argv[6]);
 
-    if (k < 2) Usage(argv[0]);
+    if (k < 2) {
+        if (rank == 0) Usage(argv[0]);
+        MPI_Finalize();
+        return 0;
+    }
 
-    // set num_threads
-    omp_set_num_threads(num_processes);
+    // Set the OpenMP thread count from the command line argument.
+    omp_set_num_threads(num_threads);
 
     #pragma omp parallel
     {
@@ -619,17 +653,17 @@ int main(int argc, char* argv[]) {
         printf("OpenMP running with %d threads\n", omp_get_num_threads());
     }
 
-    /* Read metadata and figure out the problem dimensions. */
+    // Only rank 0 reads the files; dimensions are then broadcast to everyone.
     if (rank == 0) {
         read_metadata(meta_file, &num_features, &num_classes,
-                    &feature_num_values, &feature_min_values,
-                    &class_values, &feature_offsets,
-                    &total_prob_size, target_name);
+                      &feature_num_values, &feature_min_values,
+                      &class_values, &feature_offsets,
+                      &total_prob_size, target_name);
         labeled_rows = count_rows(labeled_file);
         unlabeled_rows = count_rows(unlabeled_file);
     }
-    /* BROADCAST DIMENSIONS */
-    // All processes need these numbers to allocate memory correctly
+
+    // Broadcast scalar values so non-root ranks know the sizes.
     MPI_Bcast(&num_features, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(&num_classes, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(&total_prob_size, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -638,48 +672,48 @@ int main(int argc, char* argv[]) {
 
     labeled_cols = num_features + 1;
 
-    /* ALLOCATE MEMORY ON ALL PROCESSES */
+    // Non-root processes allocate their metadata arrays now that sizes are known.
     if (rank != 0) {
         feature_num_values = (int*) malloc(num_features * sizeof(int));
         feature_min_values = (int*) malloc(num_features * sizeof(int));
         class_values = (int*) malloc(num_classes * sizeof(int));
         feature_offsets = (int*) malloc(num_features * sizeof(int));
     }
-    /* Allocate the labeled and unlabeled datasets. */
+
+    // Allocate the labeled and unlabeled datasets on all ranks.
     labeled_data = (int*) malloc(labeled_rows * labeled_cols * sizeof(int));
     unlabeled_data = (int*) malloc(unlabeled_rows * num_features * sizeof(int));
 
-     /* BROADCAST METADATA ARRAYS */
+    // Broadcast metadata arrays to all ranks.
     MPI_Bcast(feature_num_values, num_features, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(feature_min_values, num_features, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(class_values, num_classes, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(feature_offsets, num_features, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(target_name, 256, MPI_CHAR, 0, MPI_COMM_WORLD);
 
-    /* RANK 0 READS LARGE DATA AND BROADCASTS */
+    // Read the actual CSV values into memory on rank 0, then broadcast.
     if (rank == 0) {
-        read_csv_data(argv[2], labeled_cols, labeled_rows, labeled_data);
-        read_csv_data(argv[3], num_features, unlabeled_rows, unlabeled_data);
+        read_csv_data(labeled_file, labeled_cols, labeled_rows, labeled_data);
+        read_csv_data(unlabeled_file, num_features, unlabeled_rows, unlabeled_data);
     }
 
-    // Broadcast the full datasets to everyone
     MPI_Bcast(labeled_data, labeled_rows * labeled_cols, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(unlabeled_data, unlabeled_rows * num_features, MPI_INT, 0, MPI_COMM_WORLD);
 
-    /* Allocate the model arrays. */
+    // Allocate the model arrays.
     class_counts = (long long*) malloc(num_classes * sizeof(long long));
     feature_counts = (long long*) malloc(total_prob_size * sizeof(long long));
     log_class_priors = (double*) malloc(num_classes * sizeof(double));
     log_probs = (double*) malloc(total_prob_size * sizeof(double));
 
-    /* Allocate arrays for labels and predictions. */
+    // Allocate arrays for labels and predictions.
     truth = (int*) malloc(labeled_rows * sizeof(int));
     train_predictions = (int*) malloc(labeled_rows * sizeof(int));
     unlabeled_predictions = (int*) malloc(unlabeled_rows * sizeof(int));
 
     build_truth(labeled_data, labeled_rows, labeled_cols, truth);
 
-    /* Time the training step on the full labeled dataset. */
+    // Time the training step on the full labeled dataset.
     t0 = MPI_Wtime();
     train_model(labeled_data, labeled_rows, labeled_cols, num_features, num_classes,
                 feature_num_values, feature_offsets, class_values,
@@ -688,7 +722,7 @@ int main(int argc, char* argv[]) {
     t1 = MPI_Wtime();
     train_time = t1 - t0;
 
-    /* Time classification on both the labeled and unlabeled datasets. */
+    // Time classification on both the labeled and unlabeled datasets.
     t0 = MPI_Wtime();
     classify_dataset(labeled_data, labeled_rows, labeled_cols, num_features, num_classes,
                      feature_num_values, feature_offsets, class_values,
@@ -702,7 +736,7 @@ int main(int argc, char* argv[]) {
 
     train_accuracy = compute_accuracy(truth, train_predictions, labeled_rows);
 
-    /* Time k-fold cross validation separately. */
+    // Time k-fold cross validation separately.
     t0 = MPI_Wtime();
     cross_validate(labeled_data, labeled_rows, labeled_cols, num_features, num_classes,
                    feature_num_values, feature_min_values, feature_offsets,
@@ -713,20 +747,19 @@ int main(int argc, char* argv[]) {
 
     total_time = train_time + classify_time + cv_time;
 
-
     if (rank == 0) {
-    /* Write predictions for the unlabeled dataset. */
+        // Write predictions for the unlabeled dataset.
         write_predictions_csv(output_file, unlabeled_data, unlabeled_rows,
-                          num_features, target_name, unlabeled_predictions);
+                              num_features, target_name, unlabeled_predictions);
 
-    /* Print a simple summary of results. */
+        // Print a simple summary of results.
         printf("\n=== Naive Bayesian Classification Results ===\n");
         printf("Training rows:   %d\n", labeled_rows);
         printf("Unlabeled rows:  %d\n", unlabeled_rows);
         printf("Features:        %d\n", num_features);
         printf("Classes:         %d\n", num_classes);
         printf("k-folds:         %d\n", k);
-        printf("Processes:       %d\n", num_processes);
+        printf("Processes:       %d\n", world_size);
 
         printf("\nTraining accuracy:         %.6f\n", train_accuracy);
         printf("Average CV train accuracy: %.6f\n", avg_train_acc);
@@ -742,9 +775,9 @@ int main(int argc, char* argv[]) {
         printf("CV time:       %.6f sec\n", cv_time);
         printf("Total time:    %.6f sec\n", total_time);
         printf("\nPredictions written to: %s\n", output_file);
-        }
+    }
 
-    /* Free all heap memory before exiting. */
+    // Free all heap memory before exiting.
     free(feature_num_values);
     free(feature_min_values);
     free(class_values);
@@ -761,5 +794,4 @@ int main(int argc, char* argv[]) {
 
     MPI_Finalize();
     return 0;
-
 }
