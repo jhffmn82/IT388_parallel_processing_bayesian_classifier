@@ -134,13 +134,11 @@ def print_all_runs(runs):
 
 
 def build_tables(runs):
-    # Group all runs by key
     groups = defaultdict(list)
     for run in runs:
         key = (run['binary'], run['size'], run['procs'], run['threads'])
         groups[key].append(run)
 
-    # Build averages lookup
     averages = {}
     for key, group in groups.items():
         averages[key] = {
@@ -150,7 +148,14 @@ def build_tables(runs):
             'total':    avg([r['total_time']    for r in group]),
         }
 
-    # Get serial baseline totals per size for speedup
+    # Each binary uses its own 1-worker run as the speedup baseline.
+    # Hybrid uses 1p x 1t as the baseline for all its tables.
+    serial_1m  = averages.get(('serial', '1m', 1, 1), {}).get('total', 0)
+    omp_base   = averages.get(('omp',    '1m', 1, 1), {}).get('total', 0)
+    mpi_base   = averages.get(('mpi',    '1m', 1, 1), {}).get('total', 0)
+    hybrid_base = averages.get(('hybrid','1m', 1, 1), {}).get('total', 0)
+
+    # Serial table uses serial 1m as baseline across all sizes
     serial_baselines = {
         size: averages[('serial', size, 1, 1)]['total']
         for (binary, size, p, t) in averages
@@ -159,17 +164,14 @@ def build_tables(runs):
 
     tables = []
 
-    # Helper to format one summary table
-    def make_table(title, rows):
-        # rows is a list of (config_label, avg_dict, total_workers)
+    def make_table(title, rows, baseline):
         col_w = 16
-        header = f"\n{title}\n"
+        header  = f"\n{title}\n"
         header += f"  {'config':<{col_w}} {'train':>10} {'classify':>10} {'cv':>10} {'total':>10} {'speedup':>9} {'efficiency':>11}\n"
         header += f"  {'-' * col_w} {'----------':>10} {'----------':>10} {'----------':>10} {'----------':>10} {'---------':>9} {'-----------':>11}\n"
         lines = [header]
-        for (label, a, total_workers, size) in rows:
-            baseline = serial_baselines.get(size, 0)
-            speedup    = baseline / a['total'] if baseline > 0 else 0.0
+        for (label, a, total_workers) in rows:
+            speedup    = baseline / a['total'] if baseline > 0 and a['total'] > 0 else 0.0
             efficiency = speedup / total_workers if total_workers > 0 else 0.0
             lines.append(
                 f"  {label:<{col_w}} {a['train']:>10.6f} {a['classify']:>10.6f} "
@@ -177,38 +179,84 @@ def build_tables(runs):
             )
         return ''.join(lines)
 
-    # --- Serial table ---
+    # Serial table — speedup vs serial 1m baseline
     serial_rows = []
     for (binary, size, p, t), a in averages.items():
         if binary == 'serial':
-            serial_rows.append((size, a, 1, size))
-    tables.append(make_table("Serial", serial_rows))
+            serial_rows.append((size, a, 1))
+    tables.append(make_table("Serial (baseline = serial 1m)", serial_rows, serial_1m))
 
-    # --- OMP table ---
+    # OMP table — speedup vs OMP 1 thread
     omp_rows = []
     for (binary, size, p, t), a in averages.items():
         if binary == 'omp' and size == '1m':
-            omp_rows.append((f"{t} threads", a, t, size))
-    tables.append(make_table("OMP (1m dataset)", sorted(omp_rows, key=lambda x: int(x[0].split()[0]))))
+            omp_rows.append((f"{t} threads", a, t))
+    tables.append(make_table(
+        "OMP (1m dataset, baseline = 1 thread)",
+        sorted(omp_rows, key=lambda x: int(x[0].split()[0])),
+        omp_base
+    ))
 
-    # --- MPI table ---
+    # MPI table — speedup vs MPI 1 proc
     mpi_rows = []
     for (binary, size, p, t), a in averages.items():
         if binary == 'mpi' and size == '1m':
-            mpi_rows.append((f"{p} procs", a, p, size))
-    tables.append(make_table("MPI (1m dataset)", sorted(mpi_rows, key=lambda x: int(x[0].split()[0]))))
+            mpi_rows.append((f"{p} procs", a, p))
+    tables.append(make_table(
+        "MPI (1m dataset, baseline = 1 proc)",
+        sorted(mpi_rows, key=lambda x: int(x[0].split()[0])),
+        mpi_base
+    ))
 
-    # --- Hybrid tables, one per process count ---
+    # Hybrid tables — one per process count, all vs 1p x 1t baseline
     hybrid_procs = sorted(set(p for (binary, size, p, t) in averages if binary == 'hybrid' and size == '1m'))
     for proc_count in hybrid_procs:
         hybrid_rows = []
         for (binary, size, p, t), a in averages.items():
             if binary == 'hybrid' and size == '1m' and p == proc_count:
-                hybrid_rows.append((f"{p}p x {t}t", a, p * t, size))
+                hybrid_rows.append((f"{p}p x {t}t", a, p * t))
         tables.append(make_table(
-            f"Hybrid (1m dataset, {proc_count} procs)",
-            sorted(hybrid_rows, key=lambda x: int(x[0].split('x')[1].strip().rstrip('t')))
+            f"Hybrid (1m dataset, {proc_count} procs, baseline = 1p x 1t)",
+            sorted(hybrid_rows, key=lambda x: int(x[0].split('x')[1].strip().rstrip('t'))),
+            hybrid_base
         ))
+
+
+    # Data-size scaling table — fixed config per binary, total time and % of serial at each size.
+    # Configs used in Phase 2: serial=1t, omp=8t, mpi=8p, hybrid=2px4t
+    sizes_ordered = ['20k', '100k', '500k', '1m']
+    scaling_binaries = [
+        ('serial', 1, 1, 'serial (1t)'),
+        ('omp',    1, 8, 'omp (8t)'),
+        ('mpi',    8, 1, 'mpi (8p)'),
+        ('hybrid', 2, 4, 'hybrid (2p x 4t)'),
+    ]
+
+    col_w = 16
+    size_header = f"  {'binary':<{col_w}}"
+    for s in sizes_ordered:
+        size_header += f"   {'time (s)':>8}  {'% serial':>8}  ({s})"
+    size_header += "\n"
+    sep = f"  {'-' * col_w}"
+    for _ in sizes_ordered:
+        sep += f"   {'--------':>8}  {'--------':>8}  {'------'}"
+    sep += "\n"
+
+    lines = ["\nData-size scaling (total time and % of serial)\n", size_header, sep]
+
+    for (binary, p, t, label) in scaling_binaries:
+        line = f"  {label:<{col_w}}"
+        for s in sizes_ordered:
+            a = averages.get((binary, s, p, t))
+            serial_a = averages.get(('serial', s, 1, 1))
+            if a and serial_a and serial_a['total'] > 0:
+                pct = (a['total'] / serial_a['total']) * 100
+                line += f"   {a['total']:>8.4f}  {pct:>7.1f}%  "
+            else:
+                line += f"   {'N/A':>8}  {'N/A':>8}  "
+        lines.append(line + "\n")
+
+    tables.append(''.join(lines))
 
     return tables
 
@@ -221,10 +269,8 @@ if __name__ == '__main__':
     runs = parse_output(output_file)
     print(f"\nParsed {len(runs)} total runs.")
 
-    # Print all individual runs to console
     print_all_runs(runs)
 
-    # Build and write summary tables to parsed file
     tables = build_tables(runs)
     base = os.path.splitext(filename)[0]
     parsed_file = os.path.join(script_dir, base + '_parsed.txt')
