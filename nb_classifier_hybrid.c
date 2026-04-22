@@ -1,19 +1,19 @@
-/* File:     nb_classifier.c
+/* File:     nb_classifier_hybrid.c
  *
- * Purpose:  Serial Naive Bayesian classifier for our group project.
- *           This is the simple baseline version before adding MPI,
- *           OpenMP, or a hybrid version later.
+ * Purpose:  Hybrid MPI+OpenMP Naive Bayesian classifier for our group project.
+ *           Combines distributed processing (MPI) with thread-level parallelism (OpenMP).
+ *           Each MPI process handles a subset of training rows; OpenMP parallelizes within.
  *
  * Course:   IT 388 Parallel Processing
- * Group:    Justin Hoffman, Nathan Wolniak, Brady Davidson
+ * Group:    Justin Hoffman, Nathan Wolniak, Brady Davidson, Daniel Sevik
  *
- * Compile:  mpicc -o nb_mpi nb_classifier_mpi.c -lm
- * Run:      mpiexec ./nb_mpi <meta.csv> <labeled.csv> <unlabeled.csv> <output.csv> <k> <num_processes>
+ * Compile:  mpicc -O2 -Wall -fopenmp -Wno-unused-result nb_classifier_hybrid.c -lm -o nb_hybrid
+ * Run:      mpiexec --oversubscribe -n <num_procs> ./nb_hybrid <meta.csv> <labeled.csv> <unlabeled.csv> <output.csv> <k> <num_threads>
  *
  * Notes:
  *   1. Laplace smoothing is fixed at 1.0 in this version.
- *   2. num_processes is just a placeholder for the later parallel version.
- *   3. The main spots for parallelism are marked in the code.
+ *   2. Argument 6 (num_threads) sets the OpenMP thread count via omp_set_num_threads.
+ *   3. MPI handles process-level data distribution; OpenMP parallelizes inner loops.
  */
 
 #include <stdio.h>
@@ -29,7 +29,7 @@
 /* Print the expected command line format and quit. */
 void Usage(char* prog_name) {
     fprintf(stderr,
-        "usage: %s <meta.csv> <labeled.csv> <unlabeled.csv> <output.csv> <k> <num_processes>\n",
+        "usage: %s <meta.csv> <labeled.csv> <unlabeled.csv> <output.csv> <k> <num_threads>\n",
         prog_name);
     exit(0);
 }
@@ -55,7 +55,19 @@ void get_target_name(const char* meta_file, char* target_name) {
     char line[MAX_LINE_LEN];
     char* token;
 
-    fgets(line, sizeof(line), fp);
+    if (fp == NULL) {
+        perror("Error opening metadata file for target name");
+        strcpy(target_name, "target");
+        return;
+    }
+
+    if (fgets(line, sizeof(line), fp) == NULL) {
+        perror("Error reading target name from metadata");
+        strcpy(target_name, "target");
+        fclose(fp);
+        return;
+    }
+
     fclose(fp);
 
     token = strtok(line, ",\r\n");
@@ -92,7 +104,7 @@ void read_metadata(const char* meta_file,
     int i, r;
 
     /* Count how many columns are in the metadata header. */
-    fgets(line, sizeof(line), fp);
+    (void) fgets(line, sizeof(line), fp);
     strcpy(copy, line);
     token = strtok(copy, ",\r\n");
     while (token != NULL) {
@@ -109,7 +121,7 @@ void read_metadata(const char* meta_file,
     *feature_offsets = (int*) malloc((*num_features) * sizeof(int));
 
     /* The second row tells us how many values each column can take. */
-    fgets(line, sizeof(line), fp);
+    (void) fgets(line, sizeof(line), fp);
     token = strtok(line, ",\r\n");
     for (i = 0; i < *num_features; i++) {
         (*feature_num_values)[i] = atoi(token);
@@ -131,7 +143,7 @@ void read_metadata(const char* meta_file,
      * We only really need the minimum feature value and the class labels.
      */
     for (r = 0; r < *num_classes; r++) {
-        fgets(line, sizeof(line), fp);
+        (void) fgets(line, sizeof(line), fp);
         token = strtok(line, ",\r\n");
         for (i = 0; i < total_cols; i++) {
             int value = atoi(token);
@@ -153,10 +165,10 @@ void read_csv_data(const char* filename, int cols, int rows, int* data) {
     char* token;
     int i, j;
 
-    fgets(line, sizeof(line), fp);   /* skip header */
+    (void) fgets(line, sizeof(line), fp);   /* skip header */
 
     for (i = 0; i < rows; i++) {
-        fgets(line, sizeof(line), fp);
+        (void) fgets(line, sizeof(line), fp);
         token = strtok(line, ",\r\n");
         for (j = 0; j < cols; j++) {
             data[i * cols + j] = atoi(token);
@@ -210,10 +222,12 @@ void accumulate_counts_range(int* labeled_data,
                              int* feature_offsets,
                              int* class_values,
                              int* feature_min_values,
+                             int total_prob_size,
                              long long* class_counts,
                              long long* feature_counts) {
     int i, j;
 
+#pragma omp parallel for schedule(static) reduction(+:class_counts[:num_classes]) reduction(+:feature_counts[:total_prob_size])
     for (i = start_row; i < end_row; i++) {
         int class_label = labeled_data[i * labeled_cols + labeled_cols - 1];
         int class_idx = class_label_to_index(class_label, class_values, num_classes);
@@ -280,7 +294,7 @@ void train_model(int* labeled_data, int rows, int labeled_cols, int num_features
     long long* local_feature_counts = (long long*) calloc(total_prob_size, sizeof(long long));
 
     // Each process counts only its assigned range
-    accumulate_counts_range(labeled_data, start_row, end_row, labeled_cols, num_features, num_classes, feature_num_values, feature_offsets, class_values, feature_min_values, local_class_counts, local_feature_counts);
+    accumulate_counts_range(labeled_data, start_row, end_row, labeled_cols, num_features, num_classes, feature_num_values, feature_offsets, class_values, feature_min_values, total_prob_size, local_class_counts, local_feature_counts);
 
     // Combine all local counts into the global arrays
     // MPI_SUM adds the values from all processes together
@@ -347,6 +361,7 @@ void classify_dataset(int* data,
                       int* predictions) {
     int i;
 
+#pragma omp parallel for
     for (i = 0; i < rows; i++) {
         predictions[i] = classify_row(&data[i * cols], num_features, num_classes,
                                       feature_num_values, feature_offsets,
@@ -358,6 +373,7 @@ void classify_dataset(int* data,
 /* Pull the true class labels out of the last column of the labeled data. */
 void build_truth(int* labeled_data, int rows, int labeled_cols, int* truth) {
     int i;
+#pragma omp parallel for
     for (i = 0; i < rows; i++) {
         truth[i] = labeled_data[i * labeled_cols + labeled_cols - 1];
     }
@@ -366,6 +382,7 @@ void build_truth(int* labeled_data, int rows, int labeled_cols, int* truth) {
 /* Compute simple accuracy = correct / total. */
 double compute_accuracy(int* truth, int* pred, int n) {
     int i, correct = 0;
+#pragma omp parallel for reduction(+:correct)
     for (i = 0; i < n; i++) {
         if (truth[i] == pred[i]) correct++;
     }
@@ -378,14 +395,15 @@ double compute_accuracy(int* truth, int* pred, int n) {
 void confusion_matrix_binary(int* truth, int* pred, int n,
                              int* tn, int* fp, int* fn, int* tp) {
     int i;
-    *tn = *fp = *fn = *tp = 0;
-
+    int l_tn = 0, l_fp = 0, l_fn = 0, l_tp = 0;
+#pragma omp parallel for reduction(+:l_tn, l_fp, l_fn, l_tp)
     for (i = 0; i < n; i++) {
-        if (truth[i] == 0 && pred[i] == 0) (*tn)++;
-        else if (truth[i] == 0 && pred[i] == 1) (*fp)++;
-        else if (truth[i] == 1 && pred[i] == 0) (*fn)++;
-        else if (truth[i] == 1 && pred[i] == 1) (*tp)++;
+        if (truth[i] == 0 && pred[i] == 0) l_tn++;
+        else if (truth[i] == 0 && pred[i] == 1) l_fp++;
+        else if (truth[i] == 1 && pred[i] == 0) l_fn++;
+        else if (truth[i] == 1 && pred[i] == 1) l_tp++;
     }
+    *tn = l_tn; *fp = l_fp; *fn = l_fn; *tp = l_tp;
 }
 
 /* Copy selected rows from one flat matrix into another.
@@ -393,6 +411,7 @@ void confusion_matrix_binary(int* truth, int* pred, int n,
  */
 void copy_rows(int* src, int src_cols, int* row_indices, int n_rows, int* dest) {
     int i, j;
+#pragma omp parallel for private(j)
     for (i = 0; i < n_rows; i++) {
         for (j = 0; j < src_cols; j++) {
             dest[i * src_cols + j] = src[row_indices[i] * src_cols + j];
@@ -420,8 +439,8 @@ void cross_validate(int* labeled_data, int labeled_rows, int labeled_cols, int n
     double* log_class_priors = (double*) malloc(num_classes * sizeof(double));
     double* log_probs = (double*) malloc(total_prob_size * sizeof(double));
 
-    /* STRATEGY: Each rank processes folds in a round-robin fashion */
-    for (fold = rank; fold < k; fold += size) {
+    /* Each process performs all folds (training within folds is parallelized with MPI) */
+    for (fold = 0; fold < k; fold++) {
         int start = (fold * labeled_rows) / k;
         int end = ((fold + 1) * labeled_rows) / k;
         int test_size = end - start;
@@ -496,8 +515,8 @@ void cross_validate(int* labeled_data, int labeled_rows, int labeled_cols, int n
 
     /* Rank 0 calculates final averages */
     if (rank == 0) {
-    *avg_train_acc = global_train_sum / k;
-    *avg_test_acc = global_test_sum / k;
+    *avg_train_acc = global_train_sum / (k * size);
+    *avg_test_acc = global_test_sum / (k * size);
     }
     
     free(class_counts);
@@ -590,6 +609,15 @@ int main(int argc, char* argv[]) {
     num_processes = atoi(argv[6]);
 
     if (k < 2) Usage(argv[0]);
+
+    // set num_threads
+    omp_set_num_threads(num_processes);
+
+    #pragma omp parallel
+    {
+        #pragma omp single
+        printf("OpenMP running with %d threads\n", omp_get_num_threads());
+    }
 
     /* Read metadata and figure out the problem dimensions. */
     if (rank == 0) {
