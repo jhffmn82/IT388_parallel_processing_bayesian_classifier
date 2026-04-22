@@ -1,6 +1,6 @@
 ============================================
  CLUSTER TRIAL RUN
- Wed Apr 22 12:36:42 PM CDT 2026
+ Wed Apr 22 12:55:27 PM CDT 2026
 ============================================
 
 === Compiling binaries ===
@@ -106,10 +106,10 @@ TN: 203216  FP: 26571
 FN: 12070  TP: 11823
 
 Timings (excluding file I/O)
-Train time:    0.009543 sec
-Classify time: 0.028530 sec
-CV time:       0.164041 sec
-Total time:    0.202114 sec
+Train time:    0.012659 sec
+Classify time: 0.037965 sec
+CV time:       0.213413 sec
+Total time:    0.264037 sec
 
 Predictions written to: temp.csv
 -- OMP | heart | 8 threads --
@@ -132,10 +132,10 @@ TN: 203216  FP: 26571
 FN: 12070  TP: 11823
 
 Timings (excluding file I/O)
-Train time:    0.002101 sec
-Classify time: 0.005393 sec
-CV time:       0.043545 sec
-Total time:    0.051039 sec
+Train time:    0.002027 sec
+Classify time: 0.004945 sec
+CV time:       0.037125 sec
+Total time:    0.044096 sec
 
 Predictions written to: temp.csv
 -- MPI | heart | 8 procs --
@@ -157,10 +157,10 @@ TN: 203216  FP: 26571
 FN: 12070  TP: 11823
 
 Timings (excluding file I/O)
-Train time:    0.001913 sec
-Classify time: 0.007829 sec
-CV time:       0.182984 sec
-Total time:    0.192725 sec
+Train time:    0.001896 sec
+Classify time: 0.007763 sec
+CV time:       0.185301 sec
+Total time:    0.194960 sec
 
 Predictions written to: temp.csv
 -- Hybrid | heart | 4 procs x 2 threads --
@@ -182,14 +182,14 @@ Average CV train accuracy: 0.847758
 Average CV test accuracy:  0.847678
 
 Confusion Matrix from CV test folds
-TN: 812864  FP: 106284
-FN: 48280  TP: 47292
+TN: 203216  FP: 26571
+FN: 12070  TP: 11823
 
 Timings (excluding file I/O)
-Train time:    0.002847 sec
-Classify time: 0.019016 sec
-CV time:       0.117033 sec
-Total time:    0.138896 sec
+Train time:    0.007729 sec
+Classify time: 0.019081 sec
+CV time:       0.129881 sec
+Total time:    0.156692 sec
 
 Predictions written to: temp.csv
 
@@ -213,10 +213,10 @@ TN: 14884  FP: 2329
 FN: 1363  TP: 1424
 
 Timings (excluding file I/O)
-Train time:    0.000799 sec
-Classify time: 0.002287 sec
-CV time:       0.012381 sec
-Total time:    0.015466 sec
+Train time:    0.001069 sec
+Classify time: 0.002996 sec
+CV time:       0.015900 sec
+Total time:    0.019965 sec
 
 Predictions written to: temp.csv
 -- OMP | 20000 | 8 threads --
@@ -239,10 +239,10 @@ TN: 14884  FP: 2329
 FN: 1363  TP: 1424
 
 Timings (excluding file I/O)
-Train time:    0.000236 sec
-Classify time: 0.000745 sec
-CV time:       0.005384 sec
-Total time:    0.006365 sec
+Train time:    0.000177 sec
+Classify time: 0.000460 sec
+CV time:       0.003956 sec
+Total time:    0.004593 sec
 
 Predictions written to: temp.csv
 -- MPI | 20000 | 8 procs --
@@ -264,10 +264,10 @@ TN: 14884  FP: 2329
 FN: 1363  TP: 1424
 
 Timings (excluding file I/O)
-Train time:    0.000294 sec
-Classify time: 0.000882 sec
-CV time:       0.017242 sec
-Total time:    0.018417 sec
+Train time:    0.000377 sec
+Classify time: 0.000811 sec
+CV time:       0.017334 sec
+Total time:    0.018521 sec
 
 Predictions written to: temp.csv
 -- Hybrid | 20000 | 2 procs x 4 threads --
@@ -287,14 +287,14 @@ Average CV train accuracy: 0.815650
 Average CV test accuracy:  0.815400
 
 Confusion Matrix from CV test folds
-TN: 29768  FP: 4658
-FN: 2726  TP: 2848
+TN: 14884  FP: 2329
+FN: 1363  TP: 1424
 
 Timings (excluding file I/O)
-Train time:    0.000387 sec
-Classify time: 0.000926 sec
-CV time:       0.007280 sec
-Total time:    0.008593 sec
+Train time:    0.000315 sec
+Classify time: 0.000905 sec
+CV time:       0.006530 sec
+Total time:    0.007750 sec
 
 Predictions written to: temp.csv
 -- Serial | 100000 --
@@ -316,10 +316,10 @@ TN: 74346  FP: 11721
 FN: 6914  TP: 7019
 
 Timings (excluding file I/O)
-Train time:    0.003763 sec
-Classify time: 0.011355 sec
-CV time:       0.062368 sec
-Total time:    0.077487 sec
+Train time:    0.005042 sec
+Classify time: 0.015154 sec
+CV time:       0.081366 sec
+Total time:    0.101562 sec
 
 Predictions written to: temp.csv
 -- OMP | 100000 | 8 threads --
@@ -342,10 +342,10 @@ TN: 74346  FP: 11721
 FN: 6914  TP: 7019
 
 Timings (excluding file I/O)
-Train time:    0.000822 sec
-Classify time: 0.002279 sec
-CV time:       0.015320 sec
-Total time:    0.018421 sec
+Train time:    0.000858 sec
+Classify time: 0.002122 sec
+CV time:       0.014741 sec
+Total time:    0.017721 sec
 
 Predictions written to: temp.csv
 -- MPI | 100000 | 8 procs --
@@ -367,10 +367,10 @@ TN: 74346  FP: 11721
 FN: 6914  TP: 7019
 
 Timings (excluding file I/O)
-Train time:    0.000950 sec
-Classify time: 0.003264 sec
-CV time:       0.068995 sec
-Total time:    0.073208 sec
+Train time:    0.000951 sec
+Classify time: 0.003448 sec
+CV time:       0.058225 sec
+Total time:    0.062624 sec
 
 Predictions written to: temp.csv
 -- Hybrid | 100000 | 2 procs x 4 threads --
@@ -390,14 +390,14 @@ Average CV train accuracy: 0.813825
 Average CV test accuracy:  0.813650
 
 Confusion Matrix from CV test folds
-TN: 148692  FP: 23442
-FN: 13828  TP: 14038
+TN: 74346  FP: 11721
+FN: 6914  TP: 7019
 
 Timings (excluding file I/O)
-Train time:    0.001042 sec
-Classify time: 0.004568 sec
-CV time:       0.027453 sec
-Total time:    0.033064 sec
+Train time:    0.001169 sec
+Classify time: 0.004527 sec
+CV time:       0.028393 sec
+Total time:    0.034088 sec
 
 Predictions written to: temp.csv
 -- Serial | 500000 --
@@ -419,10 +419,10 @@ TN: 371771  FP: 58562
 FN: 34334  TP: 35333
 
 Timings (excluding file I/O)
-Train time:    0.018724 sec
-Classify time: 0.056318 sec
-CV time:       0.415108 sec
-Total time:    0.490150 sec
+Train time:    0.050644 sec
+Classify time: 0.074748 sec
+CV time:       0.523482 sec
+Total time:    0.648873 sec
 
 Predictions written to: temp.csv
 -- OMP | 500000 | 8 threads --
@@ -445,10 +445,10 @@ TN: 371771  FP: 58562
 FN: 34334  TP: 35333
 
 Timings (excluding file I/O)
-Train time:    0.004097 sec
-Classify time: 0.009471 sec
-CV time:       0.116285 sec
-Total time:    0.129852 sec
+Train time:    0.003894 sec
+Classify time: 0.010770 sec
+CV time:       0.117954 sec
+Total time:    0.132618 sec
 
 Predictions written to: temp.csv
 -- MPI | 500000 | 8 procs --
@@ -470,10 +470,10 @@ TN: 371771  FP: 58562
 FN: 34334  TP: 35333
 
 Timings (excluding file I/O)
-Train time:    0.003511 sec
-Classify time: 0.014966 sec
-CV time:       0.535048 sec
-Total time:    0.553525 sec
+Train time:    0.007525 sec
+Classify time: 0.014661 sec
+CV time:       0.537488 sec
+Total time:    0.559674 sec
 
 Predictions written to: temp.csv
 -- Hybrid | 500000 | 2 procs x 4 threads --
@@ -493,14 +493,14 @@ Average CV train accuracy: 0.814234
 Average CV test accuracy:  0.814208
 
 Confusion Matrix from CV test folds
-TN: 743542  FP: 117124
-FN: 68668  TP: 70666
+TN: 371771  FP: 58562
+FN: 34334  TP: 35333
 
 Timings (excluding file I/O)
-Train time:    0.004368 sec
-Classify time: 0.019306 sec
-CV time:       0.181903 sec
-Total time:    0.205577 sec
+Train time:    0.004157 sec
+Classify time: 0.019207 sec
+CV time:       0.172473 sec
+Total time:    0.195837 sec
 
 Predictions written to: temp.csv
 
@@ -524,10 +524,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.031546 sec
-Classify time: 0.090412 sec
-CV time:       0.606752 sec
-Total time:    0.728709 sec
+Train time:    0.033559 sec
+Classify time: 0.094986 sec
+CV time:       0.609153 sec
+Total time:    0.737698 sec
 
 Predictions written to: temp.csv
 -- Run 2 --
@@ -549,10 +549,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.035645 sec
-Classify time: 0.100843 sec
-CV time:       0.624806 sec
-Total time:    0.761294 sec
+Train time:    0.037036 sec
+Classify time: 0.105726 sec
+CV time:       0.636044 sec
+Total time:    0.778806 sec
 
 Predictions written to: temp.csv
 -- Run 3 --
@@ -574,10 +574,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.036065 sec
-Classify time: 0.101894 sec
-CV time:       0.632403 sec
-Total time:    0.770363 sec
+Train time:    0.035944 sec
+Classify time: 0.101276 sec
+CV time:       0.637819 sec
+Total time:    0.775039 sec
 
 Predictions written to: temp.csv
 -- Run 4 --
@@ -599,10 +599,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.036295 sec
-Classify time: 0.102308 sec
-CV time:       0.624932 sec
-Total time:    0.763534 sec
+Train time:    0.037294 sec
+Classify time: 0.112642 sec
+CV time:       0.728580 sec
+Total time:    0.878516 sec
 
 Predictions written to: temp.csv
 -- Run 5 --
@@ -624,10 +624,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.050411 sec
-Classify time: 0.148156 sec
-CV time:       1.090923 sec
-Total time:    1.289490 sec
+Train time:    0.035378 sec
+Classify time: 0.100919 sec
+CV time:       0.620309 sec
+Total time:    0.756606 sec
 
 Predictions written to: temp.csv
 
@@ -652,10 +652,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.036347 sec
-Classify time: 0.100998 sec
-CV time:       0.667013 sec
-Total time:    0.804358 sec
+Train time:    0.035322 sec
+Classify time: 0.099291 sec
+CV time:       0.656735 sec
+Total time:    0.791348 sec
 
 Predictions written to: temp.csv
 -- 1 threads | Run 2 --
@@ -678,10 +678,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.035931 sec
-Classify time: 0.101524 sec
-CV time:       0.660142 sec
-Total time:    0.797597 sec
+Train time:    0.034893 sec
+Classify time: 0.099413 sec
+CV time:       0.670853 sec
+Total time:    0.805159 sec
 
 Predictions written to: temp.csv
 -- 1 threads | Run 3 --
@@ -704,10 +704,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.036164 sec
-Classify time: 0.101584 sec
-CV time:       0.668174 sec
-Total time:    0.805921 sec
+Train time:    0.037977 sec
+Classify time: 0.112916 sec
+CV time:       0.775733 sec
+Total time:    0.926625 sec
 
 Predictions written to: temp.csv
 -- 1 threads | Run 4 --
@@ -730,10 +730,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.035928 sec
-Classify time: 0.101473 sec
-CV time:       0.658413 sec
-Total time:    0.795814 sec
+Train time:    0.036219 sec
+Classify time: 0.102055 sec
+CV time:       0.654483 sec
+Total time:    0.792757 sec
 
 Predictions written to: temp.csv
 -- 1 threads | Run 5 --
@@ -756,10 +756,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.036484 sec
-Classify time: 0.101709 sec
-CV time:       0.664076 sec
-Total time:    0.802269 sec
+Train time:    0.050579 sec
+Classify time: 0.149687 sec
+CV time:       1.002641 sec
+Total time:    1.202907 sec
 
 Predictions written to: temp.csv
 -- 2 threads | Run 1 --
@@ -782,10 +782,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.026242 sec
-Classify time: 0.075019 sec
-CV time:       0.627624 sec
-Total time:    0.728886 sec
+Train time:    0.026118 sec
+Classify time: 0.075633 sec
+CV time:       0.619775 sec
+Total time:    0.721526 sec
 
 Predictions written to: temp.csv
 -- 2 threads | Run 2 --
@@ -808,10 +808,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.025322 sec
-Classify time: 0.075045 sec
-CV time:       0.740125 sec
-Total time:    0.840491 sec
+Train time:    0.025180 sec
+Classify time: 0.075016 sec
+CV time:       0.623422 sec
+Total time:    0.723618 sec
 
 Predictions written to: temp.csv
 -- 2 threads | Run 3 --
@@ -834,10 +834,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.022012 sec
-Classify time: 0.063485 sec
-CV time:       0.442393 sec
-Total time:    0.527890 sec
+Train time:    0.026576 sec
+Classify time: 0.075055 sec
+CV time:       0.643260 sec
+Total time:    0.744891 sec
 
 Predictions written to: temp.csv
 -- 2 threads | Run 4 --
@@ -860,10 +860,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.026307 sec
-Classify time: 0.074945 sec
-CV time:       0.619018 sec
-Total time:    0.720271 sec
+Train time:    0.025457 sec
+Classify time: 0.075053 sec
+CV time:       0.627880 sec
+Total time:    0.728390 sec
 
 Predictions written to: temp.csv
 -- 2 threads | Run 5 --
@@ -886,10 +886,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.019958 sec
-Classify time: 0.058020 sec
-CV time:       0.422199 sec
-Total time:    0.500178 sec
+Train time:    0.023623 sec
+Classify time: 0.070131 sec
+CV time:       0.540196 sec
+Total time:    0.633950 sec
 
 Predictions written to: temp.csv
 -- 4 threads | Run 1 --
@@ -912,10 +912,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.012606 sec
-Classify time: 0.037838 sec
-CV time:       0.350950 sec
-Total time:    0.401394 sec
+Train time:    0.013073 sec
+Classify time: 0.037482 sec
+CV time:       0.345147 sec
+Total time:    0.395701 sec
 
 Predictions written to: temp.csv
 -- 4 threads | Run 2 --
@@ -938,10 +938,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.013700 sec
-Classify time: 0.037651 sec
-CV time:       0.348685 sec
-Total time:    0.400036 sec
+Train time:    0.013635 sec
+Classify time: 0.038053 sec
+CV time:       0.353967 sec
+Total time:    0.405655 sec
 
 Predictions written to: temp.csv
 -- 4 threads | Run 3 --
@@ -964,10 +964,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.013526 sec
-Classify time: 0.037609 sec
-CV time:       0.355274 sec
-Total time:    0.406409 sec
+Train time:    0.013435 sec
+Classify time: 0.037682 sec
+CV time:       0.354717 sec
+Total time:    0.405834 sec
 
 Predictions written to: temp.csv
 -- 4 threads | Run 4 --
@@ -990,10 +990,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.013130 sec
-Classify time: 0.037625 sec
-CV time:       0.347533 sec
-Total time:    0.398288 sec
+Train time:    0.013190 sec
+Classify time: 0.037848 sec
+CV time:       0.346615 sec
+Total time:    0.397653 sec
 
 Predictions written to: temp.csv
 -- 4 threads | Run 5 --
@@ -1016,10 +1016,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.013468 sec
-Classify time: 0.037643 sec
-CV time:       0.346206 sec
-Total time:    0.397316 sec
+Train time:    0.013930 sec
+Classify time: 0.037949 sec
+CV time:       0.365057 sec
+Total time:    0.416936 sec
 
 Predictions written to: temp.csv
 -- 8 threads | Run 1 --
@@ -1042,10 +1042,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007116 sec
-Classify time: 0.018853 sec
-CV time:       0.212892 sec
-Total time:    0.238862 sec
+Train time:    0.007255 sec
+Classify time: 0.019110 sec
+CV time:       0.208069 sec
+Total time:    0.234435 sec
 
 Predictions written to: temp.csv
 -- 8 threads | Run 2 --
@@ -1068,10 +1068,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007580 sec
-Classify time: 0.019515 sec
-CV time:       0.217956 sec
-Total time:    0.245051 sec
+Train time:    0.007660 sec
+Classify time: 0.019209 sec
+CV time:       0.223784 sec
+Total time:    0.250654 sec
 
 Predictions written to: temp.csv
 -- 8 threads | Run 3 --
@@ -1094,10 +1094,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007632 sec
-Classify time: 0.019306 sec
-CV time:       0.216643 sec
-Total time:    0.243581 sec
+Train time:    0.007175 sec
+Classify time: 0.019084 sec
+CV time:       0.216546 sec
+Total time:    0.242806 sec
 
 Predictions written to: temp.csv
 -- 8 threads | Run 4 --
@@ -1120,10 +1120,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007202 sec
-Classify time: 0.018799 sec
-CV time:       0.210972 sec
-Total time:    0.236974 sec
+Train time:    0.007696 sec
+Classify time: 0.020901 sec
+CV time:       0.231250 sec
+Total time:    0.259846 sec
 
 Predictions written to: temp.csv
 -- 8 threads | Run 5 --
@@ -1146,10 +1146,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007595 sec
-Classify time: 0.019038 sec
-CV time:       0.220319 sec
-Total time:    0.246953 sec
+Train time:    0.007790 sec
+Classify time: 0.018926 sec
+CV time:       0.217026 sec
+Total time:    0.243743 sec
 
 Predictions written to: temp.csv
 
@@ -1173,10 +1173,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.034773 sec
-Classify time: 0.099045 sec
-CV time:       0.988410 sec
-Total time:    1.122228 sec
+Train time:    0.034047 sec
+Classify time: 0.100313 sec
+CV time:       0.967401 sec
+Total time:    1.101760 sec
 
 Predictions written to: temp.csv
 -- 1 procs | Run 2 --
@@ -1198,10 +1198,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.023808 sec
-Classify time: 0.073091 sec
-CV time:       0.949830 sec
-Total time:    1.046729 sec
+Train time:    0.024015 sec
+Classify time: 0.073200 sec
+CV time:       0.941416 sec
+Total time:    1.038631 sec
 
 Predictions written to: temp.csv
 -- 1 procs | Run 3 --
@@ -1223,10 +1223,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.023889 sec
-Classify time: 0.073007 sec
-CV time:       0.948902 sec
-Total time:    1.045799 sec
+Train time:    0.024139 sec
+Classify time: 0.073465 sec
+CV time:       0.947584 sec
+Total time:    1.045188 sec
 
 Predictions written to: temp.csv
 -- 1 procs | Run 4 --
@@ -1248,10 +1248,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.023849 sec
-Classify time: 0.075411 sec
-CV time:       0.951988 sec
-Total time:    1.051248 sec
+Train time:    0.024425 sec
+Classify time: 0.075149 sec
+CV time:       0.951246 sec
+Total time:    1.050820 sec
 
 Predictions written to: temp.csv
 -- 1 procs | Run 5 --
@@ -1273,10 +1273,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.024062 sec
-Classify time: 0.075407 sec
-CV time:       0.932602 sec
-Total time:    1.032071 sec
+Train time:    0.024280 sec
+Classify time: 0.073444 sec
+CV time:       0.944019 sec
+Total time:    1.041744 sec
 
 Predictions written to: temp.csv
 -- 2 procs | Run 1 --
@@ -1298,10 +1298,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.022923 sec
-Classify time: 0.072497 sec
-CV time:       0.910438 sec
-Total time:    1.005858 sec
+Train time:    0.024747 sec
+Classify time: 0.078138 sec
+CV time:       1.241975 sec
+Total time:    1.344860 sec
 
 Predictions written to: temp.csv
 -- 2 procs | Run 2 --
@@ -1323,10 +1323,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.012244 sec
-Classify time: 0.040645 sec
-CV time:       0.784486 sec
-Total time:    0.837375 sec
+Train time:    0.023523 sec
+Classify time: 0.073569 sec
+CV time:       0.912777 sec
+Total time:    1.009869 sec
 
 Predictions written to: temp.csv
 -- 2 procs | Run 3 --
@@ -1348,10 +1348,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.016064 sec
-Classify time: 0.050115 sec
-CV time:       1.152896 sec
-Total time:    1.219075 sec
+Train time:    0.025130 sec
+Classify time: 0.079948 sec
+CV time:       1.155575 sec
+Total time:    1.260652 sec
 
 Predictions written to: temp.csv
 -- 2 procs | Run 4 --
@@ -1373,10 +1373,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.024943 sec
-Classify time: 0.080409 sec
-CV time:       0.992651 sec
-Total time:    1.098003 sec
+Train time:    0.015153 sec
+Classify time: 0.049087 sec
+CV time:       0.790933 sec
+Total time:    0.855174 sec
 
 Predictions written to: temp.csv
 -- 2 procs | Run 5 --
@@ -1398,10 +1398,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.024430 sec
-Classify time: 0.078062 sec
-CV time:       1.053440 sec
-Total time:    1.155932 sec
+Train time:    0.016275 sec
+Classify time: 0.052440 sec
+CV time:       0.793006 sec
+Total time:    0.861721 sec
 
 Predictions written to: temp.csv
 -- 4 procs | Run 1 --
@@ -1423,10 +1423,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.008016 sec
-Classify time: 0.030057 sec
-CV time:       0.922882 sec
-Total time:    0.960954 sec
+Train time:    0.009118 sec
+Classify time: 0.033246 sec
+CV time:       0.801291 sec
+Total time:    0.843656 sec
 
 Predictions written to: temp.csv
 -- 4 procs | Run 2 --
@@ -1448,10 +1448,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.010061 sec
-Classify time: 0.036722 sec
-CV time:       0.752361 sec
-Total time:    0.799144 sec
+Train time:    0.013815 sec
+Classify time: 0.046151 sec
+CV time:       0.990459 sec
+Total time:    1.050425 sec
 
 Predictions written to: temp.csv
 -- 4 procs | Run 3 --
@@ -1473,10 +1473,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007733 sec
-Classify time: 0.031047 sec
-CV time:       0.825190 sec
-Total time:    0.863970 sec
+Train time:    0.012580 sec
+Classify time: 0.045683 sec
+CV time:       1.017257 sec
+Total time:    1.075520 sec
 
 Predictions written to: temp.csv
 -- 4 procs | Run 4 --
@@ -1498,10 +1498,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.011906 sec
-Classify time: 0.043050 sec
-CV time:       0.832552 sec
-Total time:    0.887508 sec
+Train time:    0.012186 sec
+Classify time: 0.042577 sec
+CV time:       0.848688 sec
+Total time:    0.903451 sec
 
 Predictions written to: temp.csv
 -- 4 procs | Run 5 --
@@ -1523,10 +1523,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.012761 sec
-Classify time: 0.046729 sec
-CV time:       0.889432 sec
-Total time:    0.948922 sec
+Train time:    0.016438 sec
+Classify time: 0.042113 sec
+CV time:       0.932847 sec
+Total time:    0.991399 sec
 
 Predictions written to: temp.csv
 -- 8 procs | Run 1 --
@@ -1548,10 +1548,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.006878 sec
-Classify time: 0.025461 sec
-CV time:       0.850498 sec
-Total time:    0.882837 sec
+Train time:    0.004379 sec
+Classify time: 0.020453 sec
+CV time:       0.735132 sec
+Total time:    0.759964 sec
 
 Predictions written to: temp.csv
 -- 8 procs | Run 2 --
@@ -1573,10 +1573,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.004244 sec
-Classify time: 0.020200 sec
-CV time:       0.890852 sec
-Total time:    0.915296 sec
+Train time:    0.005972 sec
+Classify time: 0.026974 sec
+CV time:       0.887100 sec
+Total time:    0.920046 sec
 
 Predictions written to: temp.csv
 -- 8 procs | Run 3 --
@@ -1598,10 +1598,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.006326 sec
-Classify time: 0.027542 sec
-CV time:       0.862758 sec
-Total time:    0.896626 sec
+Train time:    0.006720 sec
+Classify time: 0.018652 sec
+CV time:       0.754948 sec
+Total time:    0.780320 sec
 
 Predictions written to: temp.csv
 -- 8 procs | Run 4 --
@@ -1623,10 +1623,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007157 sec
-Classify time: 0.030718 sec
-CV time:       0.866082 sec
-Total time:    0.903957 sec
+Train time:    0.005197 sec
+Classify time: 0.021893 sec
+CV time:       0.689390 sec
+Total time:    0.716480 sec
 
 Predictions written to: temp.csv
 -- 8 procs | Run 5 --
@@ -1648,10 +1648,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.006684 sec
-Classify time: 0.028747 sec
-CV time:       0.967151 sec
-Total time:    1.002581 sec
+Train time:    0.007505 sec
+Classify time: 0.032169 sec
+CV time:       0.896629 sec
+Total time:    0.936303 sec
 
 Predictions written to: temp.csv
 
@@ -1676,10 +1676,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.024590 sec
-Classify time: 0.073172 sec
-CV time:       0.620158 sec
-Total time:    0.717920 sec
+Train time:    0.024615 sec
+Classify time: 0.073357 sec
+CV time:       0.615767 sec
+Total time:    0.713738 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 1 threads | Run 2 --
@@ -1702,10 +1702,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.050194 sec
-Classify time: 0.149796 sec
-CV time:       0.915282 sec
-Total time:    1.115272 sec
+Train time:    0.025017 sec
+Classify time: 0.073186 sec
+CV time:       0.623494 sec
+Total time:    0.721697 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 1 threads | Run 3 --
@@ -1728,10 +1728,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.035007 sec
-Classify time: 0.099503 sec
-CV time:       0.644508 sec
-Total time:    0.779018 sec
+Train time:    0.024369 sec
+Classify time: 0.072963 sec
+CV time:       0.611410 sec
+Total time:    0.708742 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 1 threads | Run 4 --
@@ -1754,10 +1754,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.048103 sec
-Classify time: 0.142042 sec
-CV time:       1.081356 sec
-Total time:    1.271500 sec
+Train time:    0.024574 sec
+Classify time: 0.072930 sec
+CV time:       0.610255 sec
+Total time:    0.707760 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 1 threads | Run 5 --
@@ -1780,10 +1780,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.035626 sec
-Classify time: 0.099975 sec
-CV time:       0.654301 sec
-Total time:    0.789902 sec
+Train time:    0.024157 sec
+Classify time: 0.073080 sec
+CV time:       0.612745 sec
+Total time:    0.709981 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 2 threads | Run 1 --
@@ -1806,10 +1806,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.025760 sec
-Classify time: 0.075036 sec
-CV time:       0.614358 sec
-Total time:    0.715154 sec
+Train time:    0.025271 sec
+Classify time: 0.075835 sec
+CV time:       0.621017 sec
+Total time:    0.722123 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 2 threads | Run 2 --
@@ -1832,10 +1832,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.026369 sec
-Classify time: 0.075082 sec
-CV time:       0.626967 sec
-Total time:    0.728419 sec
+Train time:    0.024946 sec
+Classify time: 0.073968 sec
+CV time:       0.622066 sec
+Total time:    0.720980 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 2 threads | Run 3 --
@@ -1858,10 +1858,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.052499 sec
-Classify time: 0.074804 sec
-CV time:       0.727569 sec
-Total time:    0.854872 sec
+Train time:    0.025421 sec
+Classify time: 0.076155 sec
+CV time:       0.617280 sec
+Total time:    0.718855 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 2 threads | Run 4 --
@@ -1884,10 +1884,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.025392 sec
-Classify time: 0.075519 sec
-CV time:       0.618149 sec
-Total time:    0.719060 sec
+Train time:    0.025404 sec
+Classify time: 0.075791 sec
+CV time:       0.611280 sec
+Total time:    0.712475 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 2 threads | Run 5 --
@@ -1910,10 +1910,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.026209 sec
-Classify time: 0.075811 sec
-CV time:       0.617379 sec
-Total time:    0.719398 sec
+Train time:    0.025675 sec
+Classify time: 0.075435 sec
+CV time:       0.620874 sec
+Total time:    0.721984 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 4 threads | Run 1 --
@@ -1936,10 +1936,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.013354 sec
-Classify time: 0.037959 sec
-CV time:       0.347622 sec
-Total time:    0.398935 sec
+Train time:    0.014448 sec
+Classify time: 0.038100 sec
+CV time:       0.345365 sec
+Total time:    0.397913 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 4 threads | Run 2 --
@@ -1962,10 +1962,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.014783 sec
-Classify time: 0.037849 sec
-CV time:       0.352379 sec
-Total time:    0.405012 sec
+Train time:    0.013029 sec
+Classify time: 0.038199 sec
+CV time:       0.343724 sec
+Total time:    0.394953 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 4 threads | Run 3 --
@@ -1988,10 +1988,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.014702 sec
-Classify time: 0.037888 sec
-CV time:       0.348397 sec
-Total time:    0.400987 sec
+Train time:    0.013569 sec
+Classify time: 0.037966 sec
+CV time:       0.342387 sec
+Total time:    0.393922 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 4 threads | Run 4 --
@@ -2014,10 +2014,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.013092 sec
-Classify time: 0.038007 sec
-CV time:       0.339963 sec
-Total time:    0.391062 sec
+Train time:    0.014212 sec
+Classify time: 0.037865 sec
+CV time:       0.345325 sec
+Total time:    0.397402 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 4 threads | Run 5 --
@@ -2040,10 +2040,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.013665 sec
-Classify time: 0.038019 sec
-CV time:       0.351900 sec
-Total time:    0.403585 sec
+Train time:    0.013936 sec
+Classify time: 0.038050 sec
+CV time:       0.344591 sec
+Total time:    0.396576 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 8 threads | Run 1 --
@@ -2066,10 +2066,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007155 sec
-Classify time: 0.019170 sec
-CV time:       0.210785 sec
-Total time:    0.237111 sec
+Train time:    0.007602 sec
+Classify time: 0.019835 sec
+CV time:       0.210428 sec
+Total time:    0.237865 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 8 threads | Run 2 --
@@ -2092,10 +2092,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007634 sec
-Classify time: 0.019195 sec
-CV time:       0.212712 sec
-Total time:    0.239541 sec
+Train time:    0.007236 sec
+Classify time: 0.018987 sec
+CV time:       0.206148 sec
+Total time:    0.232370 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 8 threads | Run 3 --
@@ -2118,10 +2118,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007766 sec
-Classify time: 0.019610 sec
-CV time:       0.209359 sec
-Total time:    0.236735 sec
+Train time:    0.008851 sec
+Classify time: 0.021680 sec
+CV time:       0.246957 sec
+Total time:    0.277489 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 8 threads | Run 4 --
@@ -2144,10 +2144,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.013019 sec
-Classify time: 0.018873 sec
-CV time:       0.258625 sec
-Total time:    0.290517 sec
+Train time:    0.007625 sec
+Classify time: 0.019448 sec
+CV time:       0.212990 sec
+Total time:    0.240062 sec
 
 Predictions written to: temp.csv
 -- 1 procs x 8 threads | Run 5 --
@@ -2170,10 +2170,10 @@ TN: 744137  FP: 116530
 FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.008641 sec
-Classify time: 0.019045 sec
-CV time:       0.221319 sec
-Total time:    0.249005 sec
+Train time:    0.009285 sec
+Classify time: 0.017726 sec
+CV time:       0.213666 sec
+Total time:    0.240677 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 1 threads | Run 1 --
@@ -2193,14 +2193,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.028054 sec
-Classify time: 0.073566 sec
-CV time:       1.054154 sec
-Total time:    1.155774 sec
+Train time:    0.026858 sec
+Classify time: 0.072919 sec
+CV time:       0.840130 sec
+Total time:    0.939908 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 1 threads | Run 2 --
@@ -2220,14 +2220,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.026826 sec
-Classify time: 0.073213 sec
-CV time:       0.724455 sec
-Total time:    0.824494 sec
+Train time:    0.023492 sec
+Classify time: 0.125670 sec
+CV time:       0.997036 sec
+Total time:    1.146198 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 1 threads | Run 3 --
@@ -2247,14 +2247,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.012597 sec
-Classify time: 0.073096 sec
-CV time:       0.612459 sec
-Total time:    0.698152 sec
+Train time:    0.035178 sec
+Classify time: 0.147968 sec
+CV time:       0.831593 sec
+Total time:    1.014739 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 1 threads | Run 4 --
@@ -2274,14 +2274,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.015779 sec
-Classify time: 0.073827 sec
-CV time:       0.717329 sec
-Total time:    0.806935 sec
+Train time:    0.058074 sec
+Classify time: 0.111948 sec
+CV time:       0.715792 sec
+Total time:    0.885814 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 1 threads | Run 5 --
@@ -2301,14 +2301,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.025978 sec
-Classify time: 0.073124 sec
-CV time:       0.809370 sec
-Total time:    0.908472 sec
+Train time:    0.012952 sec
+Classify time: 0.073411 sec
+CV time:       0.600030 sec
+Total time:    0.686393 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 2 threads | Run 1 --
@@ -2328,14 +2328,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.014523 sec
-Classify time: 0.064694 sec
-CV time:       0.594243 sec
-Total time:    0.673459 sec
+Train time:    0.014293 sec
+Classify time: 0.074819 sec
+CV time:       0.594868 sec
+Total time:    0.683979 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 2 threads | Run 2 --
@@ -2355,14 +2355,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.015072 sec
-Classify time: 0.075455 sec
-CV time:       0.611639 sec
-Total time:    0.702166 sec
+Train time:    0.014305 sec
+Classify time: 0.075623 sec
+CV time:       0.584144 sec
+Total time:    0.674072 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 2 threads | Run 3 --
@@ -2382,14 +2382,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.014811 sec
-Classify time: 0.085942 sec
-CV time:       0.599870 sec
-Total time:    0.700623 sec
+Train time:    0.033157 sec
+Classify time: 0.072488 sec
+CV time:       0.568998 sec
+Total time:    0.674643 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 2 threads | Run 4 --
@@ -2409,14 +2409,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.012657 sec
-Classify time: 0.075801 sec
-CV time:       0.616109 sec
-Total time:    0.704567 sec
+Train time:    0.021308 sec
+Classify time: 0.075209 sec
+CV time:       0.608293 sec
+Total time:    0.704811 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 2 threads | Run 5 --
@@ -2436,14 +2436,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.012560 sec
-Classify time: 0.058193 sec
-CV time:       0.582611 sec
-Total time:    0.653363 sec
+Train time:    0.014109 sec
+Classify time: 0.075653 sec
+CV time:       0.593315 sec
+Total time:    0.683077 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 4 threads | Run 1 --
@@ -2463,14 +2463,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.020240 sec
-Classify time: 0.038116 sec
-CV time:       0.397355 sec
-Total time:    0.455710 sec
+Train time:    0.009791 sec
+Classify time: 0.037862 sec
+CV time:       0.367356 sec
+Total time:    0.415009 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 4 threads | Run 2 --
@@ -2490,14 +2490,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.006820 sec
-Classify time: 0.039121 sec
-CV time:       0.353939 sec
-Total time:    0.399880 sec
+Train time:    0.007503 sec
+Classify time: 0.038197 sec
+CV time:       0.360356 sec
+Total time:    0.406056 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 4 threads | Run 3 --
@@ -2517,14 +2517,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.009750 sec
-Classify time: 0.038402 sec
-CV time:       0.373955 sec
-Total time:    0.422107 sec
+Train time:    0.018366 sec
+Classify time: 0.038218 sec
+CV time:       0.375233 sec
+Total time:    0.431817 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 4 threads | Run 4 --
@@ -2544,14 +2544,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007234 sec
-Classify time: 0.029966 sec
-CV time:       0.341601 sec
-Total time:    0.378801 sec
+Train time:    0.007274 sec
+Classify time: 0.037804 sec
+CV time:       0.334695 sec
+Total time:    0.379773 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 4 threads | Run 5 --
@@ -2571,14 +2571,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.010586 sec
-Classify time: 0.037959 sec
-CV time:       0.344362 sec
-Total time:    0.392907 sec
+Train time:    0.026535 sec
+Classify time: 0.038278 sec
+CV time:       0.412294 sec
+Total time:    0.477106 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 8 threads | Run 1 --
@@ -2598,14 +2598,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.005773 sec
-Classify time: 0.030392 sec
-CV time:       0.234640 sec
-Total time:    0.270804 sec
+Train time:    0.004040 sec
+Classify time: 0.019003 sec
+CV time:       0.210778 sec
+Total time:    0.233821 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 8 threads | Run 2 --
@@ -2625,14 +2625,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.005579 sec
-Classify time: 0.026435 sec
-CV time:       0.218564 sec
-Total time:    0.250577 sec
+Train time:    0.012861 sec
+Classify time: 0.019139 sec
+CV time:       0.249364 sec
+Total time:    0.281364 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 8 threads | Run 3 --
@@ -2652,14 +2652,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.004132 sec
-Classify time: 0.018923 sec
-CV time:       0.235949 sec
-Total time:    0.259004 sec
+Train time:    0.005451 sec
+Classify time: 0.021796 sec
+CV time:       0.233336 sec
+Total time:    0.260583 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 8 threads | Run 4 --
@@ -2679,14 +2679,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.005721 sec
-Classify time: 0.025971 sec
-CV time:       0.202399 sec
-Total time:    0.234091 sec
+Train time:    0.004082 sec
+Classify time: 0.019285 sec
+CV time:       0.197443 sec
+Total time:    0.220810 sec
 
 Predictions written to: temp.csv
 -- 2 procs x 8 threads | Run 5 --
@@ -2706,14 +2706,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 1488274  FP: 233060
-FN: 138032  TP: 140634
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.004443 sec
-Classify time: 0.019685 sec
-CV time:       0.201683 sec
-Total time:    0.225810 sec
+Train time:    0.007872 sec
+Classify time: 0.018811 sec
+CV time:       0.224821 sec
+Total time:    0.251504 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 1 threads | Run 1 --
@@ -2735,14 +2735,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.009906 sec
-Classify time: 0.080895 sec
-CV time:       0.727478 sec
-Total time:    0.818279 sec
+Train time:    0.014973 sec
+Classify time: 0.086830 sec
+CV time:       1.080983 sec
+Total time:    1.182786 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 1 threads | Run 2 --
@@ -2764,14 +2764,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.016577 sec
-Classify time: 0.085461 sec
-CV time:       1.100123 sec
-Total time:    1.202161 sec
+Train time:    0.011150 sec
+Classify time: 0.115291 sec
+CV time:       0.732297 sec
+Total time:    0.858738 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 1 threads | Run 3 --
@@ -2793,14 +2793,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.009606 sec
-Classify time: 0.085858 sec
-CV time:       0.669465 sec
-Total time:    0.764929 sec
+Train time:    0.015365 sec
+Classify time: 0.073437 sec
+CV time:       0.872186 sec
+Total time:    0.960988 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 1 threads | Run 4 --
@@ -2822,14 +2822,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.008041 sec
-Classify time: 0.092778 sec
-CV time:       0.608700 sec
-Total time:    0.709519 sec
+Train time:    0.014248 sec
+Classify time: 0.085148 sec
+CV time:       0.798483 sec
+Total time:    0.897879 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 1 threads | Run 5 --
@@ -2851,14 +2851,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.015366 sec
-Classify time: 0.073199 sec
-CV time:       1.116873 sec
-Total time:    1.205438 sec
+Train time:    0.013680 sec
+Classify time: 0.090673 sec
+CV time:       0.785144 sec
+Total time:    0.889497 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 2 threads | Run 1 --
@@ -2880,14 +2880,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007763 sec
-Classify time: 0.075712 sec
-CV time:       0.532753 sec
-Total time:    0.616228 sec
+Train time:    0.007364 sec
+Classify time: 0.075317 sec
+CV time:       0.553050 sec
+Total time:    0.635730 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 2 threads | Run 2 --
@@ -2909,14 +2909,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.017568 sec
-Classify time: 0.074725 sec
-CV time:       0.616052 sec
-Total time:    0.708344 sec
+Train time:    0.007410 sec
+Classify time: 0.075326 sec
+CV time:       0.543770 sec
+Total time:    0.626506 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 2 threads | Run 3 --
@@ -2938,14 +2938,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.006859 sec
-Classify time: 0.075604 sec
-CV time:       0.594715 sec
-Total time:    0.677179 sec
+Train time:    0.006233 sec
+Classify time: 0.060609 sec
+CV time:       0.610687 sec
+Total time:    0.677530 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 2 threads | Run 4 --
@@ -2967,14 +2967,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.006648 sec
-Classify time: 0.075430 sec
-CV time:       0.593300 sec
-Total time:    0.675379 sec
+Train time:    0.006572 sec
+Classify time: 0.075683 sec
+CV time:       0.528476 sec
+Total time:    0.610731 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 2 threads | Run 5 --
@@ -2996,14 +2996,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.016860 sec
-Classify time: 0.075591 sec
-CV time:       0.622658 sec
-Total time:    0.715109 sec
+Train time:    0.010369 sec
+Classify time: 0.060339 sec
+CV time:       0.600193 sec
+Total time:    0.670902 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 4 threads | Run 1 --
@@ -3025,14 +3025,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.009113 sec
-Classify time: 0.037671 sec
-CV time:       0.348595 sec
-Total time:    0.395379 sec
+Train time:    0.008311 sec
+Classify time: 0.038087 sec
+CV time:       0.326628 sec
+Total time:    0.373025 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 4 threads | Run 2 --
@@ -3054,14 +3054,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.008747 sec
-Classify time: 0.037642 sec
-CV time:       0.345325 sec
-Total time:    0.391713 sec
+Train time:    0.010971 sec
+Classify time: 0.037660 sec
+CV time:       0.337178 sec
+Total time:    0.385810 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 4 threads | Run 3 --
@@ -3083,14 +3083,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.005291 sec
-Classify time: 0.037814 sec
-CV time:       0.319309 sec
-Total time:    0.362414 sec
+Train time:    0.004604 sec
+Classify time: 0.040048 sec
+CV time:       0.318630 sec
+Total time:    0.363281 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 4 threads | Run 4 --
@@ -3112,14 +3112,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.008375 sec
-Classify time: 0.037643 sec
-CV time:       0.341670 sec
-Total time:    0.387688 sec
+Train time:    0.011516 sec
+Classify time: 0.037920 sec
+CV time:       0.362996 sec
+Total time:    0.412432 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 4 threads | Run 5 --
@@ -3141,14 +3141,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.011614 sec
-Classify time: 0.037674 sec
-CV time:       0.348397 sec
-Total time:    0.397685 sec
+Train time:    0.005543 sec
+Classify time: 0.037707 sec
+CV time:       0.322483 sec
+Total time:    0.365732 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 8 threads | Run 1 --
@@ -3170,14 +3170,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.006757 sec
-Classify time: 0.021442 sec
-CV time:       0.243728 sec
-Total time:    0.271927 sec
+Train time:    0.018427 sec
+Classify time: 0.019007 sec
+CV time:       0.269388 sec
+Total time:    0.306821 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 8 threads | Run 2 --
@@ -3199,14 +3199,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.012084 sec
-Classify time: 0.038367 sec
-CV time:       0.234310 sec
-Total time:    0.284760 sec
+Train time:    0.004133 sec
+Classify time: 0.019420 sec
+CV time:       0.220969 sec
+Total time:    0.244522 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 8 threads | Run 3 --
@@ -3228,14 +3228,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.005761 sec
-Classify time: 0.039689 sec
-CV time:       0.234606 sec
-Total time:    0.280056 sec
+Train time:    0.006469 sec
+Classify time: 0.019172 sec
+CV time:       0.261798 sec
+Total time:    0.287438 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 8 threads | Run 4 --
@@ -3257,14 +3257,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007090 sec
-Classify time: 0.038300 sec
-CV time:       0.238319 sec
-Total time:    0.283709 sec
+Train time:    0.009944 sec
+Classify time: 0.040705 sec
+CV time:       0.228026 sec
+Total time:    0.278674 sec
 
 Predictions written to: temp.csv
 -- 4 procs x 8 threads | Run 5 --
@@ -3286,14 +3286,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 2976548  FP: 466120
-FN: 276064  TP: 281268
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.003839 sec
-Classify time: 0.032367 sec
-CV time:       0.218197 sec
-Total time:    0.254403 sec
+Train time:    0.010102 sec
+Classify time: 0.024315 sec
+CV time:       0.232640 sec
+Total time:    0.267057 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 1 threads | Run 1 --
@@ -3319,14 +3319,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.008431 sec
-Classify time: 0.075215 sec
-CV time:       1.012244 sec
-Total time:    1.095891 sec
+Train time:    0.014909 sec
+Classify time: 0.112901 sec
+CV time:       0.871949 sec
+Total time:    0.999760 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 1 threads | Run 2 --
@@ -3352,14 +3352,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.010000 sec
-Classify time: 0.082543 sec
-CV time:       0.666678 sec
-Total time:    0.759222 sec
+Train time:    0.010327 sec
+Classify time: 0.108483 sec
+CV time:       0.699927 sec
+Total time:    0.818738 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 1 threads | Run 3 --
@@ -3385,14 +3385,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.020170 sec
-Classify time: 0.074275 sec
-CV time:       0.855797 sec
-Total time:    0.950242 sec
+Train time:    0.006209 sec
+Classify time: 0.124913 sec
+CV time:       0.978698 sec
+Total time:    1.109819 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 1 threads | Run 4 --
@@ -3418,14 +3418,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.015796 sec
-Classify time: 0.074514 sec
-CV time:       1.025844 sec
-Total time:    1.116155 sec
+Train time:    0.029399 sec
+Classify time: 0.092485 sec
+CV time:       0.948475 sec
+Total time:    1.070358 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 1 threads | Run 5 --
@@ -3451,14 +3451,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.006162 sec
-Classify time: 0.080069 sec
-CV time:       0.663352 sec
-Total time:    0.749583 sec
+Train time:    0.022764 sec
+Classify time: 0.150208 sec
+CV time:       1.003143 sec
+Total time:    1.176115 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 2 threads | Run 1 --
@@ -3484,14 +3484,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.011380 sec
-Classify time: 0.076638 sec
-CV time:       0.536932 sec
-Total time:    0.624950 sec
+Train time:    0.010785 sec
+Classify time: 0.055481 sec
+CV time:       0.549666 sec
+Total time:    0.615932 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 2 threads | Run 2 --
@@ -3517,14 +3517,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.012368 sec
-Classify time: 0.047184 sec
-CV time:       0.569309 sec
-Total time:    0.628861 sec
+Train time:    0.016358 sec
+Classify time: 0.080094 sec
+CV time:       0.573941 sec
+Total time:    0.670393 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 2 threads | Run 3 --
@@ -3550,14 +3550,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.005081 sec
-Classify time: 0.046936 sec
-CV time:       0.559653 sec
-Total time:    0.611670 sec
+Train time:    0.006396 sec
+Classify time: 0.056761 sec
+CV time:       0.555482 sec
+Total time:    0.618639 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 2 threads | Run 4 --
@@ -3583,14 +3583,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.011049 sec
-Classify time: 0.050564 sec
-CV time:       0.556983 sec
-Total time:    0.618596 sec
+Train time:    0.010503 sec
+Classify time: 0.074585 sec
+CV time:       0.551730 sec
+Total time:    0.636818 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 2 threads | Run 5 --
@@ -3616,14 +3616,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.013854 sec
-Classify time: 0.074952 sec
-CV time:       0.524377 sec
-Total time:    0.613183 sec
+Train time:    0.003410 sec
+Classify time: 0.074929 sec
+CV time:       0.517396 sec
+Total time:    0.595735 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 4 threads | Run 1 --
@@ -3649,14 +3649,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.027562 sec
-Classify time: 0.057540 sec
-CV time:       0.395448 sec
-Total time:    0.480550 sec
+Train time:    0.011304 sec
+Classify time: 0.043043 sec
+CV time:       0.415897 sec
+Total time:    0.470244 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 4 threads | Run 2 --
@@ -3682,14 +3682,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.018013 sec
-Classify time: 0.041586 sec
-CV time:       0.422007 sec
-Total time:    0.481606 sec
+Train time:    0.019603 sec
+Classify time: 0.057841 sec
+CV time:       0.386464 sec
+Total time:    0.463908 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 4 threads | Run 3 --
@@ -3715,14 +3715,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.007832 sec
-Classify time: 0.037442 sec
-CV time:       0.427467 sec
-Total time:    0.472742 sec
+Train time:    0.010219 sec
+Classify time: 0.041475 sec
+CV time:       0.395445 sec
+Total time:    0.447139 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 4 threads | Run 4 --
@@ -3748,14 +3748,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.019971 sec
-Classify time: 0.054199 sec
-CV time:       0.402145 sec
-Total time:    0.476315 sec
+Train time:    0.018865 sec
+Classify time: 0.051688 sec
+CV time:       0.408798 sec
+Total time:    0.479351 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 4 threads | Run 5 --
@@ -3781,14 +3781,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.022480 sec
-Classify time: 0.040158 sec
-CV time:       0.421412 sec
-Total time:    0.484050 sec
+Train time:    0.014294 sec
+Classify time: 0.051952 sec
+CV time:       0.384297 sec
+Total time:    0.450543 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 8 threads | Run 1 --
@@ -3814,14 +3814,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.029578 sec
-Classify time: 0.045431 sec
-CV time:       0.940954 sec
-Total time:    1.015963 sec
+Train time:    0.034719 sec
+Classify time: 0.069685 sec
+CV time:       0.974915 sec
+Total time:    1.079319 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 8 threads | Run 2 --
@@ -3847,14 +3847,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.022557 sec
-Classify time: 0.071829 sec
-CV time:       1.015754 sec
-Total time:    1.110141 sec
+Train time:    0.036142 sec
+Classify time: 0.047843 sec
+CV time:       0.929809 sec
+Total time:    1.013794 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 8 threads | Run 3 --
@@ -3880,14 +3880,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.025862 sec
-Classify time: 0.047365 sec
-CV time:       1.027211 sec
-Total time:    1.100438 sec
+Train time:    0.023528 sec
+Classify time: 0.056473 sec
+CV time:       0.947291 sec
+Total time:    1.027291 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 8 threads | Run 4 --
@@ -3913,14 +3913,14 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.031082 sec
-Classify time: 0.063150 sec
-CV time:       0.935413 sec
-Total time:    1.029644 sec
+Train time:    0.035411 sec
+Classify time: 0.047035 sec
+CV time:       1.013143 sec
+Total time:    1.095590 sec
 
 Predictions written to: temp.csv
 -- 8 procs x 8 threads | Run 5 --
@@ -3946,17 +3946,17 @@ Average CV train accuracy: 0.814449
 Average CV test accuracy:  0.814454
 
 Confusion Matrix from CV test folds
-TN: 5953096  FP: 932240
-FN: 552128  TP: 562536
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
 
 Timings (excluding file I/O)
-Train time:    0.039157 sec
-Classify time: 0.058181 sec
-CV time:       0.953324 sec
-Total time:    1.050662 sec
+Train time:    0.045495 sec
+Classify time: 0.054921 sec
+CV time:       1.025376 sec
+Total time:    1.125792 sec
 
 Predictions written to: temp.csv
 
 ============================================
- TRIAL COMPLETE: Wed Apr 22 12:45:17 PM CDT 2026
+ TRIAL COMPLETE: Wed Apr 22 01:03:51 PM CDT 2026
 ============================================
