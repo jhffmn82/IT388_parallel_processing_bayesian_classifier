@@ -4,8 +4,7 @@
  *           Forked from the serial baseline. Parallelism is added to the
  *           training count accumulation, log-probability conversion,
  *           classification, accuracy, and confusion matrix steps.
- *           The sixth CLI argument (num_processes) is used here as the
- *           number of OpenMP threads.
+ *           The sixth CLI argument (num_threads) sets the OpenMP thread count.
  *
  * Course:   IT 388 Parallel Processing
  * Group:    Justin Hoffman, Nathan Wolniak, Brady Davidson
@@ -30,10 +29,10 @@
 //needed for reading in CSV, defines max rows to read in at a time
 #define MAX_LINE_LEN 8192
 
-/* Print the expected command line format and quit. */
+// Print the expected command line format and quit.
 void Usage(char* prog_name) {
     fprintf(stderr,
-        "usage: %s <meta.csv> <labeled.csv> <unlabeled.csv> <output.csv> <k> <num_processes>\n",
+        "usage: %s <meta.csv> <labeled.csv> <unlabeled.csv> <output.csv> <k> <num_threads>\n",
         prog_name);
     exit(0);
 }
@@ -95,7 +94,7 @@ void read_metadata(const char* meta_file,
     int total_cols = 0;
     int i, r;
 
-    /* Count how many columns are in the metadata header. */
+    // Count how many columns are in the metadata header.
     fgets(line, sizeof(line), fp);
     strcpy(copy, line);
     token = strtok(copy, ",\r\n");
@@ -107,12 +106,12 @@ void read_metadata(const char* meta_file,
     *num_features = total_cols - 1;
     get_target_name(meta_file, target_name);
 
-    /* Allocate the main metadata arrays. */
-    *feature_num_values = (int*) malloc((*num_features) * sizeof(int));
-    *feature_min_values = (int*) malloc((*num_features) * sizeof(int));
-    *feature_offsets = (int*) malloc((*num_features) * sizeof(int));
+    // Allocate the main metadata arrays.
+    *feature_num_values = (int*) malloc(*num_features * sizeof(int));
+    *feature_min_values = (int*) malloc(*num_features * sizeof(int));
+    *feature_offsets = (int*) malloc(*num_features * sizeof(int));
 
-    /* The second row tells us how many values each column can take. */
+    // The second row tells us how many values each column can take.
     fgets(line, sizeof(line), fp);
     token = strtok(line, ",\r\n");
     for (i = 0; i < *num_features; i++) {
@@ -120,7 +119,7 @@ void read_metadata(const char* meta_file,
         token = strtok(NULL, ",\r\n");
     }
     *num_classes = atoi(token);
-    *class_values = (int*) malloc((*num_classes) * sizeof(int));
+    *class_values = (int*) malloc(*num_classes * sizeof(int));
 
     /* Precompute offsets so all feature/class/value counts can live
      * in one flat array instead of a 3D structure.
@@ -157,7 +156,7 @@ void read_csv_data(const char* filename, int cols, int rows, int* data) {
     char* token;
     int i, j;
 
-    fgets(line, sizeof(line), fp);   /* skip header */
+    fgets(line, sizeof(line), fp); // skip header
 
     for (i = 0; i < rows; i++) {
         fgets(line, sizeof(line), fp);
@@ -171,7 +170,7 @@ void read_csv_data(const char* filename, int cols, int rows, int* data) {
     fclose(fp);
 }
 
-/* Convert an actual class label into a class index 0..C-1. */
+// Convert an actual class label into a class index 0..C-1.
 int class_label_to_index(int class_label, int* class_values, int num_classes) {
     int c;
     for (c = 0; c < num_classes; c++) {
@@ -187,7 +186,7 @@ int feature_value_to_index(int feature_j, int value, int* feature_min_values) {
     return value - feature_min_values[feature_j];
 }
 
-/* Set all class counts and feature counts back to zero before training. */
+// Set all class counts and feature counts back to zero before training.
 void zero_arrays(int num_classes,
                  int total_prob_size,
                  long long* class_counts,
@@ -197,20 +196,14 @@ void zero_arrays(int num_classes,
     for (i = 0; i < total_prob_size; i++) feature_counts[i] = 0;
 }
 
-
 /* Count how often each class appears and how often each feature value
  * appears inside each class.
- *
- * This is the main training loop.
  *
  * OpenMP strategy:
  *   Use array reductions on the two count arrays. The runtime gives each
  *   thread private copies, accumulates into them during the loop, then
- *   merges them into the shared global counts (typically via a tree
- *   reduction) at the end of the parallel region.
- *
- *   The MPI version uses the same logical pattern with MPI_Allreduce on
- *   class_counts and feature_counts; the hybrid version combines both.
+ *   merges them into the shared global counts via a tree reduction at the
+ *   end of the parallel region.
  */
 void accumulate_counts_range(int* labeled_data,
                              int start_row,
@@ -226,7 +219,7 @@ void accumulate_counts_range(int* labeled_data,
                              long long* feature_counts) {
     int i, j;
 
-    /* Compute total_prob_size so we can size the reduction clause. */
+    // Compute total_prob_size so we can size the reduction clause.
     int total_prob_size = 0;
     for (j = 0; j < num_features; j++) {
         total_prob_size += num_classes * feature_num_values[j];
@@ -263,12 +256,12 @@ void counts_to_log_probs(int num_features,
     int c, j, v;
     double prior_denom = total_rows + alpha * num_classes;
 
-    /* Compute the prior probability for each class. */
+    // Compute the prior probability for each class.
     for (c = 0; c < num_classes; c++) {
         log_class_priors[c] = log((class_counts[c] + alpha) / prior_denom);
     }
 
-    /* Compute the conditional probability tables for each feature. */
+    // Compute the conditional probability tables for each feature.
     for (j = 0; j < num_features; j++) {
         for (c = 0; c < num_classes; c++) {
             double denom = class_counts[c] + alpha * feature_num_values[j];
@@ -297,7 +290,7 @@ void train_model(int* labeled_data,
                  long long* feature_counts,
                  double* log_class_priors,
                  double* log_probs) {
-    
+
     zero_arrays(num_classes, total_prob_size, class_counts, feature_counts);
     accumulate_counts_range(labeled_data, 0, rows, labeled_cols, num_features, num_classes,
                             feature_num_values, feature_offsets, class_values,
@@ -340,12 +333,9 @@ int classify_row(int* row,
 
 /* Classify every row in a dataset.
  *
- * OpenMP approach:
- *   Each row is classified independently from
- *   the others, and each thread writes to its own predictions[i] slot -
- *   so no contention, no reduction needed. Just split the rows across
- *   threads with schedule(static) since every row does the same amount
- *   of work (same number of features, same arithmetic).
+ * OpenMP: each row is classified independently so there is no contention —
+ * each thread writes to its own predictions[i] slot. Split rows with
+ * schedule(static) since every row does the same amount of work.
  */
 void classify_dataset(int* data,
                       int rows,
@@ -382,6 +372,7 @@ void build_truth(int* labeled_data, int rows, int labeled_cols, int* truth) {
         truth[i] = labeled_data[i * labeled_cols + labeled_cols - 1];
     }
 }
+
 /* Compute simple accuracy = correct / total.
  *
  * OpenMP: standard reduction on the correct count.
@@ -423,12 +414,11 @@ void confusion_matrix_binary(int* truth, int* pred, int n,
     *tp = tp_local;
 }
 
-
 /* Copy selected rows from one flat matrix into another.
  * We use this when building train/test sets for k-fold validation.
  *
  * OpenMP: parallelize the outer row loop. Each iteration writes to a
- * distinct row in dest, so no contention.
+ * distinct row in dest so there is no contention.
  */
 void copy_rows(int* src, int src_cols, int* row_indices, int n_rows, int* dest) {
     int i, j;
@@ -443,8 +433,8 @@ void copy_rows(int* src, int src_cols, int* row_indices, int n_rows, int* dest) 
 
 /* Run k-fold cross validation.
  * This version uses simple contiguous folds instead of shuffling.
- *
- * Later on, folds could also be split across processes or threads.
+ * The fold loop is left serial; parallelism comes from the inner
+ * train and classify calls.
  */
 void cross_validate(int* labeled_data,
                     int labeled_rows,
@@ -466,7 +456,7 @@ void cross_validate(int* labeled_data,
     int fold, i;
     double train_sum = 0.0, test_sum = 0.0;
 
-    /* Allocate one model for reuse across all folds. */
+    // Allocate one model for reuse across all folds.
     long long* class_counts = (long long*) malloc(num_classes * sizeof(long long));
     long long* feature_counts = (long long*) malloc(total_prob_size * sizeof(long long));
     double* log_class_priors = (double*) malloc(num_classes * sizeof(double));
@@ -480,11 +470,11 @@ void cross_validate(int* labeled_data,
         int test_size = end - start;
         int train_size = labeled_rows - test_size;
 
-        /* Build row index lists for this fold. */
+        // Build row index lists for this fold.
         int* train_idx = (int*) malloc(train_size * sizeof(int));
         int* test_idx = (int*) malloc(test_size * sizeof(int));
 
-        /* Allocate the fold-specific train/test data and predictions. */
+        // Allocate the fold-specific train/test data and predictions.
         int* train_data = (int*) malloc(train_size * labeled_cols * sizeof(int));
         int* test_data = (int*) malloc(test_size * labeled_cols * sizeof(int));
         int* y_train = (int*) malloc(train_size * sizeof(int));
@@ -495,7 +485,7 @@ void cross_validate(int* labeled_data,
         int train_pos = 0, test_pos = 0;
         int tn, fp, fn, tp;
 
-        /* Split rows into this fold's train set and test set. */
+        // Split rows into this fold's train set and test set.
         for (i = 0; i < labeled_rows; i++) {
             if (i >= start && i < end) test_idx[test_pos++] = i;
             else train_idx[train_pos++] = i;
@@ -506,13 +496,13 @@ void cross_validate(int* labeled_data,
         build_truth(train_data, train_size, labeled_cols, y_train);
         build_truth(test_data, test_size, labeled_cols, y_test);
 
-        /* Train on the training fold. */
+        // Train on the training fold.
         train_model(train_data, train_size, labeled_cols, num_features, num_classes,
                     feature_num_values, feature_offsets, class_values,
                     feature_min_values, total_prob_size,
                     class_counts, feature_counts, log_class_priors, log_probs);
 
-        /* Score both train and test so we can report both averages. */
+        // Score both train and test so we can report both averages.
         classify_dataset(train_data, train_size, labeled_cols, num_features, num_classes,
                          feature_num_values, feature_offsets, class_values,
                          feature_min_values, log_class_priors, log_probs, pred_train);
@@ -561,13 +551,11 @@ void write_predictions_csv(const char* filename,
     FILE* fp = fopen(filename, "w");
     int i, j;
 
-    /* Write a simple header. */
     for (j = 0; j < num_features; j++) {
         fprintf(fp, "X%d,", j + 1);
     }
     fprintf(fp, "%s\n", target_name);
 
-    /* Write each unlabeled row followed by its prediction. */
     for (i = 0; i < unlabeled_rows; i++) {
         for (j = 0; j < num_features; j++) {
             fprintf(fp, "%d,", unlabeled_data[i * num_features + j]);
@@ -587,7 +575,7 @@ int main(int argc, char* argv[]) {
     char* labeled_file;
     char* unlabeled_file;
     char* output_file;
-    int k, num_processes;
+    int k, num_threads;
 
     int num_features, num_classes, total_prob_size;
     int* feature_num_values;
@@ -616,27 +604,25 @@ int main(int argc, char* argv[]) {
 
     if (argc != 7) Usage(argv[0]);
 
-    /* Read command line arguments. */
+    // Read command line arguments.
     meta_file = argv[1];
     labeled_file = argv[2];
     unlabeled_file = argv[3];
     output_file = argv[4];
     k = atoi(argv[5]);
-    num_processes = atoi(argv[6]);
+    num_threads = atoi(argv[6]);
 
     if (k < 2) Usage(argv[0]);
 
-    // set num_threads
-    omp_set_num_threads(num_processes);
+    omp_set_num_threads(num_threads);
 
-    /* Confirm the thread count for our log files. */
     #pragma omp parallel
     {
         #pragma omp single
         printf("OpenMP running with %d threads\n", omp_get_num_threads());
     }
 
-    /* Read metadata and figure out the problem dimensions. */
+    // Read metadata and figure out the problem dimensions.
     read_metadata(meta_file, &num_features, &num_classes,
                   &feature_num_values, &feature_min_values,
                   &class_values, &feature_offsets,
@@ -646,28 +632,28 @@ int main(int argc, char* argv[]) {
     labeled_rows = count_rows(labeled_file);
     unlabeled_rows = count_rows(unlabeled_file);
 
-    /* Allocate the labeled and unlabeled datasets. */
+    // Allocate the labeled and unlabeled datasets.
     labeled_data = (int*) malloc(labeled_rows * labeled_cols * sizeof(int));
     unlabeled_data = (int*) malloc(unlabeled_rows * num_features * sizeof(int));
 
-    /* Read the actual CSV values into memory. */
+    // Read the actual CSV values into memory.
     read_csv_data(labeled_file, labeled_cols, labeled_rows, labeled_data);
     read_csv_data(unlabeled_file, num_features, unlabeled_rows, unlabeled_data);
 
-    /* Allocate the model arrays. */
+    // Allocate the model arrays.
     class_counts = (long long*) malloc(num_classes * sizeof(long long));
     feature_counts = (long long*) malloc(total_prob_size * sizeof(long long));
     log_class_priors = (double*) malloc(num_classes * sizeof(double));
     log_probs = (double*) malloc(total_prob_size * sizeof(double));
 
-    /* Allocate arrays for labels and predictions. */
+    // Allocate arrays for labels and predictions.
     truth = (int*) malloc(labeled_rows * sizeof(int));
     train_predictions = (int*) malloc(labeled_rows * sizeof(int));
     unlabeled_predictions = (int*) malloc(unlabeled_rows * sizeof(int));
 
     build_truth(labeled_data, labeled_rows, labeled_cols, truth);
 
-    /* Time the training step on the full labeled dataset. */
+    // Time the training step on the full labeled dataset.
     t0 = omp_get_wtime();
     train_model(labeled_data, labeled_rows, labeled_cols, num_features, num_classes,
                 feature_num_values, feature_offsets, class_values,
@@ -676,7 +662,7 @@ int main(int argc, char* argv[]) {
     t1 = omp_get_wtime();
     train_time = t1 - t0;
 
-    /* Time classification on both the labeled and unlabeled datasets. */
+    // Time classification on both the labeled and unlabeled datasets.
     t0 = omp_get_wtime();
     classify_dataset(labeled_data, labeled_rows, labeled_cols, num_features, num_classes,
                      feature_num_values, feature_offsets, class_values,
@@ -690,7 +676,7 @@ int main(int argc, char* argv[]) {
 
     train_accuracy = compute_accuracy(truth, train_predictions, labeled_rows);
 
-    /* Time k-fold cross validation separately. */
+    // Time k-fold cross validation separately.
     t0 = omp_get_wtime();
     cross_validate(labeled_data, labeled_rows, labeled_cols, num_features, num_classes,
                    feature_num_values, feature_min_values, feature_offsets,
@@ -701,18 +687,18 @@ int main(int argc, char* argv[]) {
 
     total_time = train_time + classify_time + cv_time;
 
-    /* Write predictions for the unlabeled dataset. */
+    // Write predictions for the unlabeled dataset.
     write_predictions_csv(output_file, unlabeled_data, unlabeled_rows,
                           num_features, target_name, unlabeled_predictions);
 
-    /* Print a simple summary of results. */
+    // Print a simple summary of results.
     printf("\n=== Naive Bayesian Classification Results ===\n");
     printf("Training rows:   %d\n", labeled_rows);
     printf("Unlabeled rows:  %d\n", unlabeled_rows);
     printf("Features:        %d\n", num_features);
     printf("Classes:         %d\n", num_classes);
     printf("k-folds:         %d\n", k);
-    printf("Threads:       %d\n", num_processes);
+    printf("Threads:         %d\n", num_threads);
 
     printf("\nTraining accuracy:         %.6f\n", train_accuracy);
     printf("Average CV train accuracy: %.6f\n", avg_train_acc);
@@ -729,7 +715,7 @@ int main(int argc, char* argv[]) {
     printf("Total time:    %.6f sec\n", total_time);
     printf("\nPredictions written to: %s\n", output_file);
 
-    /* Free all heap memory before exiting. */
+    // Free all heap memory before exiting.
     free(feature_num_values);
     free(feature_min_values);
     free(class_values);
@@ -746,4 +732,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-
