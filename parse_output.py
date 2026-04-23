@@ -9,6 +9,8 @@ def format_size(rows):
 
 
 def parse_label(label):
+    """Parse the old '-- label --' format used in aspen/local runs.
+    Returns (binary, procs, threads) or (None, 1, 1) if unrecognized."""
     label = label.strip().strip('-').strip()
     procs = 1
     threads = 1
@@ -51,11 +53,82 @@ def parse_label(label):
     return None, procs, threads
 
 
+def infer_binary_from_context(phase, block_info, phase2_position):
+    """For Expanse format, infer the binary type from:
+    - current phase header
+    - whether the block has 'Processes:' or 'Threads:' line
+    - how many runs we've seen in this phase so far
+
+    Phase 1 (heart correctness): serial, omp, mpi, hybrid in that order
+    Phase 2 (data-size): for each size (20k, 100k, 500k): serial, omp, mpi, hybrid
+    Phase 3: all serial at 1m
+    Phase 4: all omp at 1m
+    Phase 5: all mpi at 1m
+    Phase 6: all hybrid at 1m
+    """
+    has_threads = block_info.get('threads_line') is not None
+    has_processes = block_info.get('processes_line') is not None
+    threads_val = block_info.get('threads_line', 1)
+    processes_val = block_info.get('processes_line', 1)
+
+    if phase == 1:
+        # 4 runs in fixed order: serial, omp, mpi, hybrid
+        if phase2_position == 0:
+            return 'serial', 1, 1
+        elif phase2_position == 1:
+            return 'omp', 1, threads_val
+        elif phase2_position == 2:
+            return 'mpi', processes_val, 1
+        elif phase2_position == 3:
+            return 'hybrid', processes_val, 8  # Phase 1 hybrid is 4p x 8t but Processes line shows 4
+        return None, 1, 1
+
+    if phase == 2:
+        # 12 runs: (serial, omp, mpi, hybrid) x (20k, 100k, 500k)
+        binary_idx = phase2_position % 4
+        if binary_idx == 0:
+            return 'serial', 1, 1
+        elif binary_idx == 1:
+            return 'omp', 1, threads_val
+        elif binary_idx == 2:
+            return 'mpi', processes_val, 1
+        elif binary_idx == 3:
+            # Phase 2 hybrid is 2p x 4t; Processes line shows 2
+            return 'hybrid', processes_val, 4
+
+    if phase == 3:
+        return 'serial', 1, 1
+
+    if phase == 4:
+        return 'omp', 1, threads_val
+
+    if phase == 5:
+        return 'mpi', processes_val, 1
+
+    if phase == 6:
+        # hybrid runs - we need to figure out the thread count
+        # Expanse hybrid only prints "Processes: N" not threads
+        # But OMP runtime prints "OpenMP running with X threads" lines before the block
+        # We track threads separately from the OpenMP announcement lines
+        threads = block_info.get('omp_threads', 1)
+        return 'hybrid', processes_val, threads
+
+    return None, 1, 1
+
+
 def parse_output(filename):
+    """Parse both label-based format and Expanse phase-based format."""
     runs = []
     current_binary  = None
     current_procs   = 1
     current_threads = 1
+
+    # Phase tracking for Expanse format
+    current_phase = 0
+    phase_position = 0  # Position within current phase
+
+    # Track recent OpenMP thread announcements (for hybrid where we can't see threads in block)
+    recent_omp_threads = None
 
     with open(filename, 'r') as f:
         lines = f.readlines()
@@ -64,9 +137,26 @@ def parse_output(filename):
     while i < len(lines):
         line = lines[i].rstrip()
 
+        # Old-format label: "-- Serial | heart | 1 thread --"
         m = re.match(r'^--\s+(.+?)\s+--\s*$', line)
         if m:
             current_binary, current_procs, current_threads = parse_label(m.group(1))
+            i += 1
+            continue
+
+        # Expanse-format phase header: "=== PHASE N: ... ==="
+        m = re.match(r'^=== PHASE (\d+):', line)
+        if m:
+            current_phase = int(m.group(1))
+            phase_position = 0
+            recent_omp_threads = None
+            i += 1
+            continue
+
+        # Track OpenMP thread announcement so we can use it for hybrid blocks
+        m = re.match(r'^OpenMP running with (\d+) threads?', line)
+        if m:
+            recent_omp_threads = int(m.group(1))
             i += 1
             continue
 
@@ -81,11 +171,24 @@ def parse_output(filename):
                 'cv_time':       None,
                 'total_time':    None,
             }
+
+            block_info = {
+                'processes_line': None,
+                'threads_line':   None,
+                'omp_threads':    recent_omp_threads,
+            }
+
             i += 1
             while i < len(lines):
                 l = lines[i].rstrip()
                 m = re.match(r'Training rows:\s+(\d+)', l)
                 if m: run['size'] = format_size(m.group(1))
+                m = re.match(r'Processes:\s+(\d+)', l)
+                if m: block_info['processes_line'] = int(m.group(1))
+                m = re.match(r'Threads:\s+(\d+)', l)
+                if m: block_info['threads_line'] = int(m.group(1))
+                m = re.match(r'Threads/proc:\s+(\d+)', l)
+                if m: block_info['threads_line'] = int(m.group(1))
                 m = re.match(r'Train time:\s+([\d.]+)', l)
                 if m: run['train_time'] = float(m.group(1))
                 m = re.match(r'Classify time:\s+([\d.]+)', l)
@@ -95,6 +198,25 @@ def parse_output(filename):
                 m = re.match(r'Total time:\s+([\d.]+)', l)
                 if m:
                     run['total_time'] = float(m.group(1))
+
+                    # If Expanse-format phase is active, derive binary/procs/threads from context
+                    if current_phase > 0:
+                        binary, procs, threads = infer_binary_from_context(
+                            current_phase, block_info, phase_position
+                        )
+                        if binary:
+                            run['binary'] = binary
+                            run['procs'] = procs
+                            run['threads'] = threads
+
+                        # Override size for phases 3-6 (always 1m)
+                        if current_phase >= 3:
+                            run['size'] = '1m'
+
+                        phase_position += 1
+                        # Reset recent_omp_threads after we use it
+                        recent_omp_threads = None
+
                     runs.append(run)
                     i += 1
                     break
@@ -116,7 +238,16 @@ def print_all_runs(runs):
         key = (run['binary'], run['size'], run['procs'], run['threads'])
         groups[key].append(run)
 
-    for (binary, size, procs, threads), group in groups.items():
+    # Sort groups for readable output
+    def sort_key(key):
+        binary, size, procs, threads = key
+        binary_order = {'serial': 0, 'omp': 1, 'mpi': 2, 'hybrid': 3, None: 99}.get(binary, 99)
+        size_order = {'20k': 0, '100k': 1, '500k': 2, '1m': 3, 'heart': 4}.get(size, 99)
+        return (binary_order, size_order, procs, threads)
+
+    for key in sorted(groups.keys(), key=sort_key):
+        binary, size, procs, threads = key
+        group = groups[key]
         config = f"{procs}p x {threads}t" if binary == 'hybrid' else \
                  f"{procs} procs"          if binary == 'mpi'    else \
                  f"{threads} threads"      if binary == 'omp'    else \
@@ -155,13 +286,6 @@ def build_tables(runs):
     mpi_base   = averages.get(('mpi',    '1m', 1, 1), {}).get('total', 0)
     hybrid_base = averages.get(('hybrid','1m', 1, 1), {}).get('total', 0)
 
-    # Serial table uses serial 1m as baseline across all sizes
-    serial_baselines = {
-        size: averages[('serial', size, 1, 1)]['total']
-        for (binary, size, p, t) in averages
-        if binary == 'serial'
-    }
-
     tables = []
 
     def make_table(title, rows, baseline):
@@ -181,9 +305,11 @@ def build_tables(runs):
 
     # Serial table — speedup vs serial 1m baseline
     serial_rows = []
-    for (binary, size, p, t), a in averages.items():
-        if binary == 'serial':
-            serial_rows.append((size, a, 1))
+    size_order = {'20k': 0, '100k': 1, '500k': 2, '1m': 3, 'heart': 4}
+    serial_items = [(k, a) for k, a in averages.items() if k[0] == 'serial']
+    serial_items.sort(key=lambda x: size_order.get(x[0][1], 99))
+    for (binary, size, p, t), a in serial_items:
+        serial_rows.append((size, a, 1))
     tables.append(make_table("Serial (baseline = serial 1m)", serial_rows, serial_1m))
 
     # OMP table — speedup vs OMP 1 thread
@@ -220,7 +346,6 @@ def build_tables(runs):
             sorted(hybrid_rows, key=lambda x: int(x[0].split('x')[1].strip().rstrip('t'))),
             hybrid_base
         ))
-
 
     # Data-size scaling table — fixed config per binary, total time and % of serial at each size.
     # Configs used in Phase 2: serial=1t, omp=8t, mpi=8p, hybrid=2px4t
