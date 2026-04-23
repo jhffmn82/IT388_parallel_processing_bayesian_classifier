@@ -1,249 +1,308 @@
 #!/bin/bash
 #SBATCH --job-name="project_output"
 #SBATCH --output="project_output.%j.%N.out"
-#SBATCH --partition=shared
+#SBATCH --partition=compute
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=4
-#SBATCH --cpus-per-task=24
-#SBATCH --mem=4G
+#SBATCH --exclusive
+#SBATCH --mem=0
 #SBATCH --account=isu103
 #SBATCH --export=ALL
-#SBATCH -t 00:30:00
+#SBATCH -t 02:00:00
 
+# ==============================================================
+# MODULE SETUP - start from clean slate, load exactly what we need
+# ==============================================================
+module purge
+module load gcc/10.2.0/npcyll4
+module load openmpi/4.1.1/ygduf2r
 
+echo "=== Modules loaded ==="
+module list 2>&1
+echo ""
 
+# ==============================================================
+# COMPILE - build all four binaries fresh
+# ==============================================================
+echo "=== Compiling binaries ==="
+gcc -O2 -Wall -fopenmp nb_classifier.c -lm -o serial_executable
+gcc -O2 -Wall -fopenmp omp_nb_classifier.c -lm -o omp_executable
+mpicc -O2 -Wall -Wno-unused-result mpi_nb_classifier.c -lm -o mpi_executable
+mpicc -O2 -Wall -fopenmp -Wno-unused-result nb_classifier_hybrid.c -lm -o hybrid_executable
+
+# Verify all four binaries built successfully before proceeding
+if [ ! -x serial_executable ] || [ ! -x omp_executable ] || [ ! -x mpi_executable ] || [ ! -x hybrid_executable ]; then
+    echo "ERROR: One or more binaries failed to compile. Aborting."
+    ls -la *executable 2>/dev/null
+    exit 1
+fi
+echo "=== All four binaries compiled successfully ==="
+ls -la *executable
+echo ""
+
+# ==============================================================
+# PHASE 1 - Heart correctness check (1 run each)
+# ==============================================================
+echo "=== PHASE 1: Heart correctness check ==="
 ./serial_executable ./heart_output/heart_meta.csv ./heart_output/heart_full_labeled.csv ./heart_output/heart_full_unlabeled.csv ./heart_output/heart_serial.csv 5 1
 ./omp_executable ./heart_output/heart_meta.csv ./heart_output/heart_full_labeled.csv ./heart_output/heart_full_unlabeled.csv ./heart_output/heart_omp.csv 5 8
 mpiexec -n 8 ./mpi_executable ./heart_output/heart_meta.csv ./heart_output/heart_full_labeled.csv ./heart_output/heart_full_unlabeled.csv ./heart_output/heart_mpi.csv 5 8
 mpiexec --oversubscribe -n 4 ./hybrid_executable ./heart_output/heart_meta.csv ./heart_output/heart_full_labeled.csv ./heart_output/heart_full_unlabeled.csv ./heart_output/heart_hybrid.csv 5 8
 
-./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_20000_labeled.csv ./diabetes_output/diabetes_20000_unlabeled.csv d20k_serial.csv 5 1
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_20000_labeled.csv ./diabetes_output/diabetes_20000_unlabeled.csv d20k_omp.csv 5 8
-mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_20000_labeled.csv ./diabetes_output/diabetes_20000_unlabeled.csv d20k_mpi.csv 5 8
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_20000_labeled.csv ./diabetes_output/diabetes_20000_unlabeled.csv d20k_hybrid.csv 5 4
+# ==============================================================
+# PHASE 2 - Data-size scaling (1 run each at 20k, 100k, 500k)
+# ==============================================================
+echo "=== PHASE 2: Data-size scaling ==="
+./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_20000_labeled.csv ./diabetes_output/diabetes_20000_unlabeled.csv /tmp/temp.csv 5 1
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_20000_labeled.csv ./diabetes_output/diabetes_20000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_20000_labeled.csv ./diabetes_output/diabetes_20000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_20000_labeled.csv ./diabetes_output/diabetes_20000_unlabeled.csv /tmp/temp.csv 5 4
 
-./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_100000_labeled.csv ./diabetes_output/diabetes_100000_unlabeled.csv d100k_serial.csv 5 1
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_100000_labeled.csv ./diabetes_output/diabetes_100000_unlabeled.csv d100k_omp.csv 5 8
-mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_100000_labeled.csv ./diabetes_output/diabetes_100000_unlabeled.csv d100k_mpi.csv 5 8
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_100000_labeled.csv ./diabetes_output/diabetes_100000_unlabeled.csv d100k_hybrid.csv 5 4
+./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_100000_labeled.csv ./diabetes_output/diabetes_100000_unlabeled.csv /tmp/temp.csv 5 1
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_100000_labeled.csv ./diabetes_output/diabetes_100000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_100000_labeled.csv ./diabetes_output/diabetes_100000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_100000_labeled.csv ./diabetes_output/diabetes_100000_unlabeled.csv /tmp/temp.csv 5 4
 
-./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_500000_labeled.csv ./diabetes_output/diabetes_500000_unlabeled.csv d500k_serial.csv 5 1
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_500000_labeled.csv ./diabetes_output/diabetes_500000_unlabeled.csv d500k_omp.csv 5 8
-mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_500000_labeled.csv ./diabetes_output/diabetes_500000_unlabeled.csv d500k_mpi.csv 5 8
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_500000_labeled.csv ./diabetes_output/diabetes_500000_unlabeled.csv d500k_hybrid.csv 5 4
+./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_500000_labeled.csv ./diabetes_output/diabetes_500000_unlabeled.csv /tmp/temp.csv 5 1
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_500000_labeled.csv ./diabetes_output/diabetes_500000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_500000_labeled.csv ./diabetes_output/diabetes_500000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_500000_labeled.csv ./diabetes_output/diabetes_500000_unlabeled.csv /tmp/temp.csv 5 4
 
-./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_serial_1.csv 5 1
-./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_serial_2.csv 5 1
-./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_serial_3.csv 5 1
-./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_serial_4.csv 5 1
-./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_serial_5.csv 5 1
+# ==============================================================
+# PHASE 3 - Serial baseline (5 reps at 1M)
+# ==============================================================
+echo "=== PHASE 3: Serial baseline (1M) ==="
+./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+./serial_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
 
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_1t_1.csv 5 1
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_1t_2.csv 5 1
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_1t_3.csv 5 1
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_1t_4.csv 5 1
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_1t_5.csv 5 1
+# ==============================================================
+# PHASE 4 - OMP scaling on 1M (5 reps x 5 thread counts = 25)
+# ==============================================================
+echo "=== PHASE 4: OMP scaling (1M) ==="
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
 
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_2t_1.csv 5 2
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_2t_2.csv 5 2
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_2t_3.csv 5 2
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_2t_4.csv 5 2
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_2t_5.csv 5 2
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
 
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_4t_1.csv 5 4
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_4t_2.csv 5 4
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_4t_3.csv 5 4
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_4t_4.csv 5 4
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_4t_5.csv 5 4
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
 
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_8t_1.csv 5 8
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_8t_2.csv 5 8
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_8t_3.csv 5 8
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_8t_4.csv 5 8
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_8t_5.csv 5 8
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
 
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_16t_1.csv 5 16
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_16t_2.csv 5 16
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_16t_3.csv 5 16
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_16t_4.csv 5 16
-./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_omp_16t_5.csv 5 16
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+./omp_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
 
-mpiexec -n 1 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_1p_1.csv 5 1
-mpiexec -n 1 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_1p_2.csv 5 1
-mpiexec -n 1 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_1p_3.csv 5 1
-mpiexec -n 1 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_1p_4.csv 5 1
-mpiexec -n 1 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_1p_5.csv 5 1
+# ==============================================================
+# PHASE 5 - MPI scaling on 1M (5 reps x 5 process counts = 25)
+# ==============================================================
+echo "=== PHASE 5: MPI scaling (1M) ==="
+mpiexec -n 1 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec -n 1 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec -n 1 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec -n 1 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec -n 1 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
 
-mpiexec -n 2 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_2p_1.csv 5 2
-mpiexec -n 2 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_2p_2.csv 5 2
-mpiexec -n 2 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_2p_3.csv 5 2
-mpiexec -n 2 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_2p_4.csv 5 2
-mpiexec -n 2 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_2p_5.csv 5 2
+mpiexec -n 2 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec -n 2 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec -n 2 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec -n 2 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec -n 2 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
 
-mpiexec -n 4 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_4p_1.csv 5 4
-mpiexec -n 4 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_4p_2.csv 5 4
-mpiexec -n 4 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_4p_3.csv 5 4
-mpiexec -n 4 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_4p_4.csv 5 4
-mpiexec -n 4 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_4p_5.csv 5 4
+mpiexec -n 4 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec -n 4 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec -n 4 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec -n 4 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec -n 4 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
 
-mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_8p_1.csv 5 8
-mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_8p_2.csv 5 8
-mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_8p_3.csv 5 8
-mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_8p_4.csv 5 8
-mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_8p_5.csv 5 8
+mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec -n 8 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
 
-mpiexec -n 16 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_16p_1.csv 5 16
-mpiexec -n 16 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_16p_2.csv 5 16
-mpiexec -n 16 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_16p_3.csv 5 16
-mpiexec -n 16 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_16p_4.csv 5 16
-mpiexec -n 16 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_mpi_16p_5.csv 5 16
+mpiexec -n 16 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec -n 16 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec -n 16 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec -n 16 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec -n 16 ./mpi_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
 
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p1t_1.csv 5 1
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p1t_2.csv 5 1
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p1t_3.csv 5 1
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p1t_4.csv 5 1
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p1t_5.csv 5 1
+# ==============================================================
+# PHASE 6 - Hybrid sweep on 1M (5 reps x 25 configs = 125)
+# ==============================================================
+echo "=== PHASE 6: Hybrid sweep (1M) ==="
 
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p2t_1.csv 5 2
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p2t_2.csv 5 2
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p2t_3.csv 5 2
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p2t_4.csv 5 2
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p2t_5.csv 5 2
+# p=1
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
 
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p4t_1.csv 5 4
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p4t_2.csv 5 4
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p4t_3.csv 5 4
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p4t_4.csv 5 4
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p4t_5.csv 5 4
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
 
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p8t_1.csv 5 8
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p8t_2.csv 5 8
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p8t_3.csv 5 8
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p8t_4.csv 5 8
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p8t_5.csv 5 8
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
 
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p16t_1.csv 5 16
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p16t_2.csv 5 16
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p16t_3.csv 5 16
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p16t_4.csv 5 16
-mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_1p16t_5.csv 5 16
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
 
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p1t_1.csv 5 1
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p1t_2.csv 5 1
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p1t_3.csv 5 1
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p1t_4.csv 5 1
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p1t_5.csv 5 1
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 1 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
 
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p2t_1.csv 5 2
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p2t_2.csv 5 2
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p2t_3.csv 5 2
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p2t_4.csv 5 2
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p2t_5.csv 5 2
+# p=2
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
 
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p4t_1.csv 5 4
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p4t_2.csv 5 4
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p4t_3.csv 5 4
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p4t_4.csv 5 4
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p4t_5.csv 5 4
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
 
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p8t_1.csv 5 8
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p8t_2.csv 5 8
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p8t_3.csv 5 8
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p8t_4.csv 5 8
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p8t_5.csv 5 8
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
 
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p16t_1.csv 5 16
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p16t_2.csv 5 16
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p16t_3.csv 5 16
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p16t_4.csv 5 16
-mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_2p16t_5.csv 5 16
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
 
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p1t_1.csv 5 1
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p1t_2.csv 5 1
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p1t_3.csv 5 1
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p1t_4.csv 5 1
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p1t_5.csv 5 1
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 2 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
 
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p2t_1.csv 5 2
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p2t_2.csv 5 2
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p2t_3.csv 5 2
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p2t_4.csv 5 2
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p2t_5.csv 5 2
+# p=4
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
 
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p4t_1.csv 5 4
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p4t_2.csv 5 4
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p4t_3.csv 5 4
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p4t_4.csv 5 4
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p4t_5.csv 5 4
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
 
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p8t_1.csv 5 8
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p8t_2.csv 5 8
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p8t_3.csv 5 8
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p8t_4.csv 5 8
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p8t_5.csv 5 8
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
 
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p16t_1.csv 5 16
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p16t_2.csv 5 16
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p16t_3.csv 5 16
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p16t_4.csv 5 16
-mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_4p16t_5.csv 5 16
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
 
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p1t_1.csv 5 1
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p1t_2.csv 5 1
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p1t_3.csv 5 1
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p1t_4.csv 5 1
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p1t_5.csv 5 1
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 4 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
 
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p2t_1.csv 5 2
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p2t_2.csv 5 2
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p2t_3.csv 5 2
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p2t_4.csv 5 2
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p2t_5.csv 5 2
+# p=8
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
 
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p4t_1.csv 5 4
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p4t_2.csv 5 4
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p4t_3.csv 5 4
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p4t_4.csv 5 4
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p4t_5.csv 5 4
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
 
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p8t_1.csv 5 8
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p8t_2.csv 5 8
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p8t_3.csv 5 8
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p8t_4.csv 5 8
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p8t_5.csv 5 8
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
 
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p16t_1.csv 5 16
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p16t_2.csv 5 16
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p16t_3.csv 5 16
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p16t_4.csv 5 16
-mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_8p16t_5.csv 5 16
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
 
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p1t_1.csv 5 1
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p1t_2.csv 5 1
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p1t_3.csv 5 1
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p1t_4.csv 5 1
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p1t_5.csv 5 1
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 8 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
 
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p2t_1.csv 5 2
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p2t_2.csv 5 2
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p2t_3.csv 5 2
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p2t_4.csv 5 2
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p2t_5.csv 5 2
+# p=16
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 1
 
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p4t_1.csv 5 4
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p4t_2.csv 5 4
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p4t_3.csv 5 4
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p4t_4.csv 5 4
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p4t_5.csv 5 4
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 2
 
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p8t_1.csv 5 8
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p8t_2.csv 5 8
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p8t_3.csv 5 8
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p8t_4.csv 5 8
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p8t_5.csv 5 8
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 4
 
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p16t_1.csv 5 16
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p16t_2.csv 5 16
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p16t_3.csv 5 16
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p16t_4.csv 5 16
-mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv d1M_hybrid_16p16t_5.csv 5 16
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 8
+
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+mpiexec --oversubscribe -n 16 ./hybrid_executable ./diabetes_output/diabetes_meta.csv ./diabetes_output/diabetes_1000000_labeled.csv ./diabetes_output/diabetes_1000000_unlabeled.csv /tmp/temp.csv 5 16
+
+echo "=== ALL PHASES COMPLETE ==="
