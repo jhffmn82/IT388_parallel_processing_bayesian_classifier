@@ -1,0 +1,5171 @@
+
+=== Naive Bayesian Classification Results ===
+Training rows:   253680
+Unlabeled rows:  253680
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.847666
+Average CV train accuracy: 0.847758
+Average CV test accuracy:  0.847678
+
+Confusion Matrix from CV test folds
+TN: 203216  FP: 26571
+FN: 12070  TP: 11823
+
+Timings (excluding file I/O)
+Train time:    0.009096 sec
+Classify time: 0.022354 sec
+CV time:       0.126977 sec
+Total time:    0.158427 sec
+
+Predictions written to: ./heart_output/heart_serial.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   253680
+Unlabeled rows:  253680
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.847666
+Average CV train accuracy: 0.847758
+Average CV test accuracy:  0.847678
+
+Confusion Matrix from CV test folds
+TN: 203216  FP: 26571
+FN: 12070  TP: 11823
+
+Timings (excluding file I/O)
+Train time:    0.001275 sec
+Classify time: 0.002972 sec
+CV time:       0.019688 sec
+Total time:    0.023935 sec
+
+Predictions written to: ./heart_output/heart_omp.csv
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 8
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   253680
+Unlabeled rows:  253680
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.847666
+Average CV train accuracy: 0.847758
+Average CV test accuracy:  0.847678
+
+Confusion Matrix from CV test folds
+TN: 203216  FP: 26571
+FN: 12070  TP: 11823
+
+Timings (excluding file I/O)
+Train time:    0.011823 sec
+Classify time: 0.003806 sec
+CV time:       0.022265 sec
+Total time:    0.037895 sec
+
+Predictions written to: ./heart_output/heart_hybrid.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   20000
+Unlabeled rows:  20000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.815750
+Average CV train accuracy: 0.815650
+Average CV test accuracy:  0.815400
+
+Confusion Matrix from CV test folds
+TN: 14884  FP: 2329
+FN: 1363  TP: 1424
+
+Timings (excluding file I/O)
+Train time:    0.000724 sec
+Classify time: 0.001592 sec
+CV time:       0.009253 sec
+Total time:    0.011569 sec
+
+Predictions written to: d20k_serial.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   20000
+Unlabeled rows:  20000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.815750
+Average CV train accuracy: 0.815650
+Average CV test accuracy:  0.815400
+
+Confusion Matrix from CV test folds
+TN: 14884  FP: 2329
+FN: 1363  TP: 1424
+
+Timings (excluding file I/O)
+Train time:    0.000143 sec
+Classify time: 0.000331 sec
+CV time:       0.002193 sec
+Total time:    0.002667 sec
+
+Predictions written to: d20k_omp.csv
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 8
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   20000
+Unlabeled rows:  20000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.815750
+Average CV train accuracy: 0.815650
+Average CV test accuracy:  0.815400
+
+Confusion Matrix from CV test folds
+TN: 14884  FP: 2329
+FN: 1363  TP: 1424
+
+Timings (excluding file I/O)
+Train time:    0.000496 sec
+Classify time: 0.001724 sec
+CV time:       0.009211 sec
+Total time:    0.011431 sec
+
+Predictions written to: d20k_hybrid.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   100000
+Unlabeled rows:  100000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.813860
+Average CV train accuracy: 0.813825
+Average CV test accuracy:  0.813650
+
+Confusion Matrix from CV test folds
+TN: 74346  FP: 11721
+FN: 6914  TP: 7019
+
+Timings (excluding file I/O)
+Train time:    0.004126 sec
+Classify time: 0.008313 sec
+CV time:       0.045728 sec
+Total time:    0.058167 sec
+
+Predictions written to: d100k_serial.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   100000
+Unlabeled rows:  100000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.813860
+Average CV train accuracy: 0.813825
+Average CV test accuracy:  0.813650
+
+Confusion Matrix from CV test folds
+TN: 74346  FP: 11721
+FN: 6914  TP: 7019
+
+Timings (excluding file I/O)
+Train time:    0.000535 sec
+Classify time: 0.001199 sec
+CV time:       0.008558 sec
+Total time:    0.010293 sec
+
+Predictions written to: d100k_omp.csv
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 8
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   100000
+Unlabeled rows:  100000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.813860
+Average CV train accuracy: 0.813825
+Average CV test accuracy:  0.813650
+
+Confusion Matrix from CV test folds
+TN: 74346  FP: 11721
+FN: 6914  TP: 7019
+
+Timings (excluding file I/O)
+Train time:    0.001847 sec
+Classify time: 0.008789 sec
+CV time:       0.046156 sec
+Total time:    0.056793 sec
+
+Predictions written to: d100k_hybrid.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   500000
+Unlabeled rows:  500000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814154
+Average CV train accuracy: 0.814234
+Average CV test accuracy:  0.814208
+
+Confusion Matrix from CV test folds
+TN: 371771  FP: 58562
+FN: 34334  TP: 35333
+
+Timings (excluding file I/O)
+Train time:    0.017693 sec
+Classify time: 0.044621 sec
+CV time:       0.257355 sec
+Total time:    0.319669 sec
+
+Predictions written to: d500k_serial.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   500000
+Unlabeled rows:  500000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814154
+Average CV train accuracy: 0.814234
+Average CV test accuracy:  0.814208
+
+Confusion Matrix from CV test folds
+TN: 371771  FP: 58562
+FN: 34334  TP: 35333
+
+Timings (excluding file I/O)
+Train time:    0.002968 sec
+Classify time: 0.005764 sec
+CV time:       0.042321 sec
+Total time:    0.051053 sec
+
+Predictions written to: d500k_omp.csv
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 8
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   500000
+Unlabeled rows:  500000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814154
+Average CV train accuracy: 0.814234
+Average CV test accuracy:  0.814208
+
+Confusion Matrix from CV test folds
+TN: 371771  FP: 58562
+FN: 34334  TP: 35333
+
+Timings (excluding file I/O)
+Train time:    0.008645 sec
+Classify time: 0.045780 sec
+CV time:       0.235888 sec
+Total time:    0.290312 sec
+
+Predictions written to: d500k_hybrid.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.039022 sec
+Classify time: 0.087970 sec
+CV time:       0.505132 sec
+Total time:    0.632123 sec
+
+Predictions written to: d1M_serial_1.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035814 sec
+Classify time: 0.089249 sec
+CV time:       0.510705 sec
+Total time:    0.635767 sec
+
+Predictions written to: d1M_serial_2.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.038120 sec
+Classify time: 0.088081 sec
+CV time:       0.508937 sec
+Total time:    0.635138 sec
+
+Predictions written to: d1M_serial_3.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.039236 sec
+Classify time: 0.088703 sec
+CV time:       0.511017 sec
+Total time:    0.638956 sec
+
+Predictions written to: d1M_serial_4.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.037166 sec
+Classify time: 0.088288 sec
+CV time:       0.508172 sec
+Total time:    0.633626 sec
+
+Predictions written to: d1M_serial_5.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.031572 sec
+Classify time: 0.089281 sec
+CV time:       0.508988 sec
+Total time:    0.629841 sec
+
+Predictions written to: d1M_omp_1t_1.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.031633 sec
+Classify time: 0.088738 sec
+CV time:       0.516620 sec
+Total time:    0.636990 sec
+
+Predictions written to: d1M_omp_1t_2.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.030801 sec
+Classify time: 0.088747 sec
+CV time:       0.508438 sec
+Total time:    0.627986 sec
+
+Predictions written to: d1M_omp_1t_3.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.031783 sec
+Classify time: 0.089134 sec
+CV time:       0.515356 sec
+Total time:    0.636273 sec
+
+Predictions written to: d1M_omp_1t_4.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.031006 sec
+Classify time: 0.089477 sec
+CV time:       0.511864 sec
+Total time:    0.632347 sec
+
+Predictions written to: d1M_omp_1t_5.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016047 sec
+Classify time: 0.045231 sec
+CV time:       0.274121 sec
+Total time:    0.335400 sec
+
+Predictions written to: d1M_omp_2t_1.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016504 sec
+Classify time: 0.045898 sec
+CV time:       0.270427 sec
+Total time:    0.332829 sec
+
+Predictions written to: d1M_omp_2t_2.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016234 sec
+Classify time: 0.044935 sec
+CV time:       0.271755 sec
+Total time:    0.332924 sec
+
+Predictions written to: d1M_omp_2t_3.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.015956 sec
+Classify time: 0.045861 sec
+CV time:       0.269789 sec
+Total time:    0.331606 sec
+
+Predictions written to: d1M_omp_2t_4.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016281 sec
+Classify time: 0.045301 sec
+CV time:       0.271172 sec
+Total time:    0.332755 sec
+
+Predictions written to: d1M_omp_2t_5.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008510 sec
+Classify time: 0.022956 sec
+CV time:       0.144162 sec
+Total time:    0.175628 sec
+
+Predictions written to: d1M_omp_4t_1.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008295 sec
+Classify time: 0.024009 sec
+CV time:       0.146237 sec
+Total time:    0.178541 sec
+
+Predictions written to: d1M_omp_4t_2.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008079 sec
+Classify time: 0.023175 sec
+CV time:       0.146491 sec
+Total time:    0.177745 sec
+
+Predictions written to: d1M_omp_4t_3.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008062 sec
+Classify time: 0.023004 sec
+CV time:       0.145260 sec
+Total time:    0.176326 sec
+
+Predictions written to: d1M_omp_4t_4.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008118 sec
+Classify time: 0.022967 sec
+CV time:       0.144151 sec
+Total time:    0.175236 sec
+
+Predictions written to: d1M_omp_4t_5.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004101 sec
+Classify time: 0.011182 sec
+CV time:       0.081025 sec
+Total time:    0.096309 sec
+
+Predictions written to: d1M_omp_8t_1.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004032 sec
+Classify time: 0.011267 sec
+CV time:       0.079033 sec
+Total time:    0.094332 sec
+
+Predictions written to: d1M_omp_8t_2.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004312 sec
+Classify time: 0.012332 sec
+CV time:       0.077402 sec
+Total time:    0.094046 sec
+
+Predictions written to: d1M_omp_8t_3.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004164 sec
+Classify time: 0.011598 sec
+CV time:       0.075123 sec
+Total time:    0.090885 sec
+
+Predictions written to: d1M_omp_8t_4.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004440 sec
+Classify time: 0.011310 sec
+CV time:       0.080191 sec
+Total time:    0.095942 sec
+
+Predictions written to: d1M_omp_8t_5.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002122 sec
+Classify time: 0.009306 sec
+CV time:       0.057631 sec
+Total time:    0.069058 sec
+
+Predictions written to: d1M_omp_16t_1.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002091 sec
+Classify time: 0.008839 sec
+CV time:       0.059672 sec
+Total time:    0.070602 sec
+
+Predictions written to: d1M_omp_16t_2.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002104 sec
+Classify time: 0.007633 sec
+CV time:       0.059085 sec
+Total time:    0.068823 sec
+
+Predictions written to: d1M_omp_16t_3.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002199 sec
+Classify time: 0.007308 sec
+CV time:       0.059006 sec
+Total time:    0.068514 sec
+
+Predictions written to: d1M_omp_16t_4.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002226 sec
+Classify time: 0.012051 sec
+CV time:       0.059505 sec
+Total time:    0.073782 sec
+
+Predictions written to: d1M_omp_16t_5.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.148966 sec
+Classify time: 0.484374 sec
+CV time:       2.057375 sec
+Total time:    2.690715 sec
+
+Predictions written to: d1M_mpi_1p_1.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.148853 sec
+Classify time: 0.483776 sec
+CV time:       2.056153 sec
+Total time:    2.688782 sec
+
+Predictions written to: d1M_mpi_1p_2.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.148758 sec
+Classify time: 0.483643 sec
+CV time:       2.056605 sec
+Total time:    2.689006 sec
+
+Predictions written to: d1M_mpi_1p_3.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.149111 sec
+Classify time: 0.482695 sec
+CV time:       2.043362 sec
+Total time:    2.675168 sec
+
+Predictions written to: d1M_mpi_1p_4.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.148999 sec
+Classify time: 0.484189 sec
+CV time:       2.057008 sec
+Total time:    2.690195 sec
+
+Predictions written to: d1M_mpi_1p_5.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.074259 sec
+Classify time: 0.243152 sec
+CV time:       1.135481 sec
+Total time:    1.452892 sec
+
+Predictions written to: d1M_mpi_2p_1.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.074140 sec
+Classify time: 0.243864 sec
+CV time:       1.146355 sec
+Total time:    1.464359 sec
+
+Predictions written to: d1M_mpi_2p_2.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.074231 sec
+Classify time: 0.243237 sec
+CV time:       1.154245 sec
+Total time:    1.471714 sec
+
+Predictions written to: d1M_mpi_2p_3.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.074234 sec
+Classify time: 0.244367 sec
+CV time:       1.163379 sec
+Total time:    1.481980 sec
+
+Predictions written to: d1M_mpi_2p_4.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.074092 sec
+Classify time: 0.243215 sec
+CV time:       1.156670 sec
+Total time:    1.473978 sec
+
+Predictions written to: d1M_mpi_2p_5.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.037860 sec
+Classify time: 0.125797 sec
+CV time:       0.687590 sec
+Total time:    0.851246 sec
+
+Predictions written to: d1M_mpi_4p_1.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.037211 sec
+Classify time: 0.124679 sec
+CV time:       0.687579 sec
+Total time:    0.849469 sec
+
+Predictions written to: d1M_mpi_4p_2.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.037344 sec
+Classify time: 0.125736 sec
+CV time:       0.686406 sec
+Total time:    0.849486 sec
+
+Predictions written to: d1M_mpi_4p_3.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.037450 sec
+Classify time: 0.124521 sec
+CV time:       0.684400 sec
+Total time:    0.846371 sec
+
+Predictions written to: d1M_mpi_4p_4.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.037408 sec
+Classify time: 0.124422 sec
+CV time:       0.686388 sec
+Total time:    0.848217 sec
+
+Predictions written to: d1M_mpi_4p_5.csv
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 8
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 8
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 8
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 8
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 8
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 16
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 16
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 16
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 16
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 16
+slots that were requested by the application:
+
+  ./mpi_executable
+
+Either request fewer slots for your application, or make more slots
+available for use.
+
+A "slot" is the Open MPI term for an allocatable unit where we can
+launch a process.  The number of slots available are defined by the
+environment in which Open MPI processes are run:
+
+  1. Hostfile, via "slots=N" clauses (N defaults to number of
+     processor cores if not provided)
+  2. The --host command line parameter, via a ":N" suffix on the
+     hostname (N defaults to 1 if not provided)
+  3. Resource manager (e.g., SLURM, PBS/Torque, LSF, etc.)
+  4. If none of a hostfile, the --host command line parameter, or an
+     RM is present, Open MPI defaults to the number of processor cores
+
+In all the above cases, if you want Open MPI to default to the number
+of hardware threads instead of the number of processor cores, use the
+--use-hwthread-cpus option.
+
+Alternatively, you can use the --oversubscribe option to ignore the
+number of available slots when deciding the number of processes to
+launch.
+--------------------------------------------------------------------------
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034588 sec
+Classify time: 0.089904 sec
+CV time:       0.517947 sec
+Total time:    0.642438 sec
+
+Predictions written to: d1M_hybrid_1p1t_1.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035736 sec
+Classify time: 0.089789 sec
+CV time:       0.519026 sec
+Total time:    0.644551 sec
+
+Predictions written to: d1M_hybrid_1p1t_2.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034787 sec
+Classify time: 0.089438 sec
+CV time:       0.516958 sec
+Total time:    0.641184 sec
+
+Predictions written to: d1M_hybrid_1p1t_3.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034045 sec
+Classify time: 0.089704 sec
+CV time:       0.516360 sec
+Total time:    0.640109 sec
+
+Predictions written to: d1M_hybrid_1p1t_4.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035905 sec
+Classify time: 0.089645 sec
+CV time:       0.524126 sec
+Total time:    0.649675 sec
+
+Predictions written to: d1M_hybrid_1p1t_5.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.036339 sec
+Classify time: 0.089333 sec
+CV time:       0.520257 sec
+Total time:    0.645928 sec
+
+Predictions written to: d1M_hybrid_1p2t_1.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034886 sec
+Classify time: 0.088660 sec
+CV time:       0.519314 sec
+Total time:    0.642861 sec
+
+Predictions written to: d1M_hybrid_1p2t_2.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035023 sec
+Classify time: 0.089624 sec
+CV time:       0.517014 sec
+Total time:    0.641661 sec
+
+Predictions written to: d1M_hybrid_1p2t_3.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035681 sec
+Classify time: 0.089049 sec
+CV time:       0.522723 sec
+Total time:    0.647453 sec
+
+Predictions written to: d1M_hybrid_1p2t_4.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035581 sec
+Classify time: 0.088831 sec
+CV time:       0.521608 sec
+Total time:    0.646019 sec
+
+Predictions written to: d1M_hybrid_1p2t_5.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.036711 sec
+Classify time: 0.088299 sec
+CV time:       0.525337 sec
+Total time:    0.650347 sec
+
+Predictions written to: d1M_hybrid_1p4t_1.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034538 sec
+Classify time: 0.087596 sec
+CV time:       0.523074 sec
+Total time:    0.645208 sec
+
+Predictions written to: d1M_hybrid_1p4t_2.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.036530 sec
+Classify time: 0.088504 sec
+CV time:       0.519614 sec
+Total time:    0.644649 sec
+
+Predictions written to: d1M_hybrid_1p4t_3.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035222 sec
+Classify time: 0.088059 sec
+CV time:       0.520477 sec
+Total time:    0.643757 sec
+
+Predictions written to: d1M_hybrid_1p4t_4.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033270 sec
+Classify time: 0.088916 sec
+CV time:       0.518699 sec
+Total time:    0.640886 sec
+
+Predictions written to: d1M_hybrid_1p4t_5.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035684 sec
+Classify time: 0.089235 sec
+CV time:       0.516452 sec
+Total time:    0.641370 sec
+
+Predictions written to: d1M_hybrid_1p8t_1.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035272 sec
+Classify time: 0.088577 sec
+CV time:       0.521293 sec
+Total time:    0.645143 sec
+
+Predictions written to: d1M_hybrid_1p8t_2.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033357 sec
+Classify time: 0.088898 sec
+CV time:       0.517214 sec
+Total time:    0.639470 sec
+
+Predictions written to: d1M_hybrid_1p8t_3.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033384 sec
+Classify time: 0.088910 sec
+CV time:       0.517176 sec
+Total time:    0.639470 sec
+
+Predictions written to: d1M_hybrid_1p8t_4.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.032992 sec
+Classify time: 0.088931 sec
+CV time:       0.517139 sec
+Total time:    0.639062 sec
+
+Predictions written to: d1M_hybrid_1p8t_5.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.032295 sec
+Classify time: 0.088266 sec
+CV time:       0.523443 sec
+Total time:    0.644005 sec
+
+Predictions written to: d1M_hybrid_1p16t_1.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034970 sec
+Classify time: 0.088370 sec
+CV time:       0.520979 sec
+Total time:    0.644319 sec
+
+Predictions written to: d1M_hybrid_1p16t_2.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035667 sec
+Classify time: 0.088058 sec
+CV time:       0.523675 sec
+Total time:    0.647400 sec
+
+Predictions written to: d1M_hybrid_1p16t_3.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033035 sec
+Classify time: 0.087656 sec
+CV time:       0.525234 sec
+Total time:    0.645925 sec
+
+Predictions written to: d1M_hybrid_1p16t_4.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034784 sec
+Classify time: 0.088192 sec
+CV time:       0.523638 sec
+Total time:    0.646614 sec
+
+Predictions written to: d1M_hybrid_1p16t_5.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016791 sec
+Classify time: 0.088234 sec
+CV time:       0.478959 sec
+Total time:    0.583984 sec
+
+Predictions written to: d1M_hybrid_2p1t_1.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017164 sec
+Classify time: 0.089438 sec
+CV time:       0.477055 sec
+Total time:    0.583657 sec
+
+Predictions written to: d1M_hybrid_2p1t_2.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016495 sec
+Classify time: 0.089394 sec
+CV time:       0.477147 sec
+Total time:    0.583035 sec
+
+Predictions written to: d1M_hybrid_2p1t_3.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017370 sec
+Classify time: 0.088979 sec
+CV time:       0.477396 sec
+Total time:    0.583744 sec
+
+Predictions written to: d1M_hybrid_2p1t_4.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017115 sec
+Classify time: 0.089430 sec
+CV time:       0.480176 sec
+Total time:    0.586721 sec
+
+Predictions written to: d1M_hybrid_2p1t_5.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017322 sec
+Classify time: 0.089378 sec
+CV time:       0.480333 sec
+Total time:    0.587033 sec
+
+Predictions written to: d1M_hybrid_2p2t_1.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017464 sec
+Classify time: 0.090005 sec
+CV time:       0.481486 sec
+Total time:    0.588955 sec
+
+Predictions written to: d1M_hybrid_2p2t_2.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017888 sec
+Classify time: 0.088923 sec
+CV time:       0.482489 sec
+Total time:    0.589300 sec
+
+Predictions written to: d1M_hybrid_2p2t_3.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017190 sec
+Classify time: 0.088957 sec
+CV time:       0.478788 sec
+Total time:    0.584935 sec
+
+Predictions written to: d1M_hybrid_2p2t_4.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017408 sec
+Classify time: 0.088719 sec
+CV time:       0.480733 sec
+Total time:    0.586860 sec
+
+Predictions written to: d1M_hybrid_2p2t_5.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017420 sec
+Classify time: 0.089461 sec
+CV time:       0.485497 sec
+Total time:    0.592378 sec
+
+Predictions written to: d1M_hybrid_2p4t_1.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016456 sec
+Classify time: 0.088926 sec
+CV time:       0.479766 sec
+Total time:    0.585148 sec
+
+Predictions written to: d1M_hybrid_2p4t_2.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017856 sec
+Classify time: 0.088523 sec
+CV time:       0.475652 sec
+Total time:    0.582032 sec
+
+Predictions written to: d1M_hybrid_2p4t_3.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017109 sec
+Classify time: 0.089124 sec
+CV time:       0.477150 sec
+Total time:    0.583382 sec
+
+Predictions written to: d1M_hybrid_2p4t_4.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017679 sec
+Classify time: 0.088915 sec
+CV time:       0.476513 sec
+Total time:    0.583107 sec
+
+Predictions written to: d1M_hybrid_2p4t_5.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017880 sec
+Classify time: 0.089967 sec
+CV time:       0.479586 sec
+Total time:    0.587433 sec
+
+Predictions written to: d1M_hybrid_2p8t_1.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017638 sec
+Classify time: 0.089726 sec
+CV time:       0.482014 sec
+Total time:    0.589378 sec
+
+Predictions written to: d1M_hybrid_2p8t_2.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017549 sec
+Classify time: 0.089334 sec
+CV time:       0.483959 sec
+Total time:    0.590842 sec
+
+Predictions written to: d1M_hybrid_2p8t_3.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017418 sec
+Classify time: 0.089346 sec
+CV time:       0.481394 sec
+Total time:    0.588158 sec
+
+Predictions written to: d1M_hybrid_2p8t_4.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017195 sec
+Classify time: 0.089565 sec
+CV time:       0.483968 sec
+Total time:    0.590728 sec
+
+Predictions written to: d1M_hybrid_2p8t_5.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017847 sec
+Classify time: 0.089191 sec
+CV time:       0.489735 sec
+Total time:    0.596774 sec
+
+Predictions written to: d1M_hybrid_2p16t_1.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017533 sec
+Classify time: 0.089628 sec
+CV time:       0.486186 sec
+Total time:    0.593347 sec
+
+Predictions written to: d1M_hybrid_2p16t_2.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018174 sec
+Classify time: 0.089505 sec
+CV time:       0.492408 sec
+Total time:    0.600087 sec
+
+Predictions written to: d1M_hybrid_2p16t_3.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017842 sec
+Classify time: 0.090273 sec
+CV time:       0.483498 sec
+Total time:    0.591614 sec
+
+Predictions written to: d1M_hybrid_2p16t_4.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018293 sec
+Classify time: 0.089613 sec
+CV time:       0.484536 sec
+Total time:    0.592442 sec
+
+Predictions written to: d1M_hybrid_2p16t_5.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.161516 sec
+Classify time: 0.099131 sec
+CV time:       0.559777 sec
+Total time:    0.820424 sec
+
+Predictions written to: d1M_hybrid_4p1t_1.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.045102 sec
+Classify time: 0.090520 sec
+CV time:       0.430487 sec
+Total time:    0.566108 sec
+
+Predictions written to: d1M_hybrid_4p1t_2.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.045953 sec
+Classify time: 0.090458 sec
+CV time:       0.425725 sec
+Total time:    0.562135 sec
+
+Predictions written to: d1M_hybrid_4p1t_3.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.045741 sec
+Classify time: 0.090347 sec
+CV time:       0.427661 sec
+Total time:    0.563749 sec
+
+Predictions written to: d1M_hybrid_4p1t_4.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.045693 sec
+Classify time: 0.088740 sec
+CV time:       0.425799 sec
+Total time:    0.560233 sec
+
+Predictions written to: d1M_hybrid_4p1t_5.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.041553 sec
+Classify time: 0.047379 sec
+CV time:       0.236548 sec
+Total time:    0.325480 sec
+
+Predictions written to: d1M_hybrid_4p2t_1.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.043012 sec
+Classify time: 0.047165 sec
+CV time:       0.240444 sec
+Total time:    0.330621 sec
+
+Predictions written to: d1M_hybrid_4p2t_2.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.042343 sec
+Classify time: 0.046020 sec
+CV time:       0.236695 sec
+Total time:    0.325058 sec
+
+Predictions written to: d1M_hybrid_4p2t_3.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.042205 sec
+Classify time: 0.044561 sec
+CV time:       0.232750 sec
+Total time:    0.319516 sec
+
+Predictions written to: d1M_hybrid_4p2t_4.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.042506 sec
+Classify time: 0.045665 sec
+CV time:       0.235712 sec
+Total time:    0.323883 sec
+
+Predictions written to: d1M_hybrid_4p2t_5.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.040381 sec
+Classify time: 0.023907 sec
+CV time:       0.142307 sec
+Total time:    0.206595 sec
+
+Predictions written to: d1M_hybrid_4p4t_1.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.040110 sec
+Classify time: 0.023337 sec
+CV time:       0.143705 sec
+Total time:    0.207151 sec
+
+Predictions written to: d1M_hybrid_4p4t_2.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.040555 sec
+Classify time: 0.023521 sec
+CV time:       0.145098 sec
+Total time:    0.209174 sec
+
+Predictions written to: d1M_hybrid_4p4t_3.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.039604 sec
+Classify time: 0.024001 sec
+CV time:       0.141109 sec
+Total time:    0.204714 sec
+
+Predictions written to: d1M_hybrid_4p4t_4.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.043725 sec
+Classify time: 0.024234 sec
+CV time:       0.151997 sec
+Total time:    0.219955 sec
+
+Predictions written to: d1M_hybrid_4p4t_5.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.039423 sec
+Classify time: 0.014348 sec
+CV time:       0.109504 sec
+Total time:    0.163274 sec
+
+Predictions written to: d1M_hybrid_4p8t_1.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.039321 sec
+Classify time: 0.014462 sec
+CV time:       0.107681 sec
+Total time:    0.161465 sec
+
+Predictions written to: d1M_hybrid_4p8t_2.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.039168 sec
+Classify time: 0.014380 sec
+CV time:       0.110076 sec
+Total time:    0.163624 sec
+
+Predictions written to: d1M_hybrid_4p8t_3.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.039478 sec
+Classify time: 0.015332 sec
+CV time:       0.109341 sec
+Total time:    0.164150 sec
+
+Predictions written to: d1M_hybrid_4p8t_4.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.039512 sec
+Classify time: 0.015104 sec
+CV time:       0.113141 sec
+Total time:    0.167757 sec
+
+Predictions written to: d1M_hybrid_4p8t_5.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.037989 sec
+Classify time: 0.010102 sec
+CV time:       0.102701 sec
+Total time:    0.150792 sec
+
+Predictions written to: d1M_hybrid_4p16t_1.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.039353 sec
+Classify time: 0.010516 sec
+CV time:       0.103377 sec
+Total time:    0.153245 sec
+
+Predictions written to: d1M_hybrid_4p16t_2.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.038520 sec
+Classify time: 0.010957 sec
+CV time:       0.098980 sec
+Total time:    0.148457 sec
+
+Predictions written to: d1M_hybrid_4p16t_3.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033523 sec
+Classify time: 0.032064 sec
+CV time:       0.677524 sec
+Total time:    0.743110 sec
+
+Predictions written to: d1M_hybrid_4p16t_4.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.038822 sec
+Classify time: 0.011024 sec
+CV time:       0.100177 sec
+Total time:    0.150023 sec
+
+Predictions written to: d1M_hybrid_4p16t_5.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006590 sec
+Classify time: 0.096633 sec
+CV time:       0.655954 sec
+Total time:    0.759177 sec
+
+Predictions written to: d1M_hybrid_8p1t_1.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006929 sec
+Classify time: 0.090146 sec
+CV time:       0.430729 sec
+Total time:    0.527804 sec
+
+Predictions written to: d1M_hybrid_8p1t_2.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.005194 sec
+Classify time: 0.088665 sec
+CV time:       0.439216 sec
+Total time:    0.533075 sec
+
+Predictions written to: d1M_hybrid_8p1t_3.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006502 sec
+Classify time: 0.089189 sec
+CV time:       0.444254 sec
+Total time:    0.539946 sec
+
+Predictions written to: d1M_hybrid_8p1t_4.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004590 sec
+Classify time: 0.087596 sec
+CV time:       0.429192 sec
+Total time:    0.521379 sec
+
+Predictions written to: d1M_hybrid_8p1t_5.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.005412 sec
+Classify time: 0.046539 sec
+CV time:       0.266865 sec
+Total time:    0.318815 sec
+
+Predictions written to: d1M_hybrid_8p2t_1.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.005056 sec
+Classify time: 0.047404 sec
+CV time:       0.253224 sec
+Total time:    0.305684 sec
+
+Predictions written to: d1M_hybrid_8p2t_2.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.003178 sec
+Classify time: 0.045140 sec
+CV time:       0.268310 sec
+Total time:    0.316629 sec
+
+Predictions written to: d1M_hybrid_8p2t_3.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002871 sec
+Classify time: 0.050494 sec
+CV time:       0.280860 sec
+Total time:    0.334225 sec
+
+Predictions written to: d1M_hybrid_8p2t_4.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002785 sec
+Classify time: 0.045948 sec
+CV time:       0.282670 sec
+Total time:    0.331403 sec
+
+Predictions written to: d1M_hybrid_8p2t_5.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.003069 sec
+Classify time: 0.023803 sec
+CV time:       0.220429 sec
+Total time:    0.247301 sec
+
+Predictions written to: d1M_hybrid_8p4t_1.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002851 sec
+Classify time: 0.027004 sec
+CV time:       0.180366 sec
+Total time:    0.210221 sec
+
+Predictions written to: d1M_hybrid_8p4t_2.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002353 sec
+Classify time: 0.027238 sec
+CV time:       0.171337 sec
+Total time:    0.200928 sec
+
+Predictions written to: d1M_hybrid_8p4t_3.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.003421 sec
+Classify time: 0.026326 sec
+CV time:       0.197088 sec
+Total time:    0.226835 sec
+
+Predictions written to: d1M_hybrid_8p4t_4.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004192 sec
+Classify time: 0.025156 sec
+CV time:       0.190539 sec
+Total time:    0.219887 sec
+
+Predictions written to: d1M_hybrid_8p4t_5.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.000971 sec
+Classify time: 0.016698 sec
+CV time:       0.157477 sec
+Total time:    0.175146 sec
+
+Predictions written to: d1M_hybrid_8p8t_1.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002377 sec
+Classify time: 0.033649 sec
+CV time:       0.170384 sec
+Total time:    0.206410 sec
+
+Predictions written to: d1M_hybrid_8p8t_2.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002798 sec
+Classify time: 0.018180 sec
+CV time:       0.164911 sec
+Total time:    0.185888 sec
+
+Predictions written to: d1M_hybrid_8p8t_3.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006523 sec
+Classify time: 0.015343 sec
+CV time:       0.157922 sec
+Total time:    0.179787 sec
+
+Predictions written to: d1M_hybrid_8p8t_4.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.000956 sec
+Classify time: 0.020571 sec
+CV time:       0.149459 sec
+Total time:    0.170986 sec
+
+Predictions written to: d1M_hybrid_8p8t_5.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.007232 sec
+Classify time: 0.031800 sec
+CV time:       0.283385 sec
+Total time:    0.322417 sec
+
+Predictions written to: d1M_hybrid_8p16t_1.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.005124 sec
+Classify time: 0.031539 sec
+CV time:       0.274688 sec
+Total time:    0.311352 sec
+
+Predictions written to: d1M_hybrid_8p16t_2.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009565 sec
+Classify time: 0.036707 sec
+CV time:       0.249226 sec
+Total time:    0.295497 sec
+
+Predictions written to: d1M_hybrid_8p16t_3.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008415 sec
+Classify time: 0.040448 sec
+CV time:       0.258358 sec
+Total time:    0.307221 sec
+
+Predictions written to: d1M_hybrid_8p16t_4.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001770 sec
+Classify time: 0.033460 sec
+CV time:       0.319860 sec
+Total time:    0.355090 sec
+
+Predictions written to: d1M_hybrid_8p16t_5.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpiexec noticed that process rank 0 with PID 3458205 on node exp-2-53 exited on signal 9 (Killed).
+--------------------------------------------------------------------------
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+[1776973429.381490] [exp-2-53:3458378:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3458370 length=524288) returned -1: No such process
+[exp-2-53:3458378] *** An error occurred in MPI_Bcast
+[exp-2-53:3458378] *** reported by process [3346726913,8]
+[exp-2-53:3458378] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3458378] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3458378] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3458378] ***    and potentially your MPI job)
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+[1776973434.437329] [exp-2-53:3458538:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3458530 length=524288) returned -1: No such process
+[exp-2-53:3458538] *** An error occurred in MPI_Bcast
+[exp-2-53:3458538] *** reported by process [3348889601,8]
+[exp-2-53:3458538] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3458538] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3458538] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3458538] ***    and potentially your MPI job)
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpiexec noticed that process rank 0 with PID 3458702 on node exp-2-53 exited on signal 9 (Killed).
+--------------------------------------------------------------------------
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+[1776973447.627864] [exp-2-53:3459212:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3459190 length=524288) returned -1: No such process
+[exp-2-53:3459212] *** An error occurred in MPI_Bcast
+[exp-2-53:3459212] *** reported by process [3396272129,8]
+[exp-2-53:3459212] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3459212] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3459212] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3459212] ***    and potentially your MPI job)
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+[1776973452.548065] [exp-2-53:3459400:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3459392 length=524288) returned -1: No such process
+[exp-2-53:3459400] *** An error occurred in MPI_Bcast
+[exp-2-53:3459400] *** reported by process [3413704705,8]
+[exp-2-53:3459400] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3459400] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3459400] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3459400] ***    and potentially your MPI job)
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+[1776973457.670971] [exp-2-53:3459559:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3459551 length=524288) returned -1: No such process
+[exp-2-53:3459559] *** An error occurred in MPI_Bcast
+[exp-2-53:3459559] *** reported by process [3415605249,8]
+[exp-2-53:3459559] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3459559] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3459559] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3459559] ***    and potentially your MPI job)
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+[1776973462.533422] [exp-2-53:3459662:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3459654 length=524288) returned -1: Bad address
+[exp-2-53:3459662] *** An error occurred in MPI_Bcast
+[exp-2-53:3459662] *** reported by process [3355639809,8]
+[exp-2-53:3459662] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3459662] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3459662] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3459662] ***    and potentially your MPI job)
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+[1776973467.588579] [exp-2-53:3459769:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3459761 length=524288) returned -1: Bad address
+[exp-2-53:3459769] *** An error occurred in MPI_Bcast
+[exp-2-53:3459769] *** reported by process [3370909697,8]
+[exp-2-53:3459769] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3459769] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3459769] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3459769] ***    and potentially your MPI job)
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+[1776973472.452829] [exp-2-53:3459872:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3459864 length=524288) returned -1: Bad address
+[exp-2-53:3459872] *** An error occurred in MPI_Bcast
+[exp-2-53:3459872] *** reported by process [3377790977,8]
+[exp-2-53:3459872] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3459872] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3459872] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3459872] ***    and potentially your MPI job)
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+[1776973477.381226] [exp-2-53:3459980:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3459971 length=524288) returned -1: No such process
+[exp-2-53:3459980] *** An error occurred in MPI_Bcast
+[exp-2-53:3459980] *** reported by process [3376349185,8]
+[exp-2-53:3459980] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3459980] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3459980] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3459980] ***    and potentially your MPI job)
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpiexec noticed that process rank 0 with PID 3460120 on node exp-2-53 exited on signal 9 (Killed).
+--------------------------------------------------------------------------
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+[1776973487.942748] [exp-2-53:3460268:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3460260 length=524288) returned -1: No such process
+[exp-2-53:3460268] *** An error occurred in MPI_Bcast
+[exp-2-53:3460268] *** reported by process [3470852097,8]
+[exp-2-53:3460268] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3460268] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3460268] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3460268] ***    and potentially your MPI job)
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+[1776973492.870550] [exp-2-53:3460404:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3460396 length=524288) returned -1: Bad address
+[exp-2-53:3460404] *** An error occurred in MPI_Bcast
+[exp-2-53:3460404] *** reported by process [3479764993,8]
+[exp-2-53:3460404] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3460404] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3460404] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3460404] ***    and potentially your MPI job)
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+[1776973497.796903] [exp-2-53:3460545:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3460537 length=524288) returned -1: No such process
+[exp-2-53:3460545] *** An error occurred in MPI_Bcast
+[exp-2-53:3460545] *** reported by process [3488874497,8]
+[exp-2-53:3460545] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3460545] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3460545] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3460545] ***    and potentially your MPI job)
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+[1776973502.790905] [exp-2-53:3460680:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3460672 length=524288) returned -1: No such process
+[exp-2-53:3460680] *** An error occurred in MPI_Bcast
+[exp-2-53:3460680] *** reported by process [3430744065,8]
+[exp-2-53:3460680] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3460680] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3460680] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3460680] ***    and potentially your MPI job)
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpiexec noticed that process rank 0 with PID 3460672 on node exp-2-53 exited on signal 9 (Killed).
+--------------------------------------------------------------------------
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpiexec noticed that process rank 0 with PID 3460909 on node exp-2-53 exited on signal 9 (Killed).
+--------------------------------------------------------------------------
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+[1776973517.700452] [exp-2-53:3461163:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3461155 length=524288) returned -1: No such process
+[exp-2-53:3461163] *** An error occurred in MPI_Bcast
+[exp-2-53:3461163] *** reported by process [3529310209,8]
+[exp-2-53:3461163] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3461163] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3461163] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3461163] ***    and potentially your MPI job)
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+[1776973522.629154] [exp-2-53:3461445:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3461437 length=524288) returned -1: Bad address
+[exp-2-53:3461445] *** An error occurred in MPI_Bcast
+[exp-2-53:3461445] *** reported by process [3547791361,8]
+[exp-2-53:3461445] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3461445] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3461445] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3461445] ***    and potentially your MPI job)
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+[1776973527.564037] [exp-2-53:3461719:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3461711 length=524288) returned -1: No such process
+[exp-2-53:3461719] *** An error occurred in MPI_Bcast
+[exp-2-53:3461719] *** reported by process [3490054145,8]
+[exp-2-53:3461719] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3461719] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3461719] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3461719] ***    and potentially your MPI job)
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+[1776973532.484224] [exp-2-53:3462000:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3461992 length=524288) returned -1: No such process
+[exp-2-53:3462000] *** An error occurred in MPI_Bcast
+[exp-2-53:3462000] *** reported by process [3508600833,8]
+[exp-2-53:3462000] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3462000] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3462000] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3462000] ***    and potentially your MPI job)
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+[1776973537.419992] [exp-2-53:3462400:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3462392 length=524288) returned -1: No such process
+[exp-2-53:3462400] *** An error occurred in MPI_Bcast
+[exp-2-53:3462400] *** reported by process [3601989633,8]
+[exp-2-53:3462400] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3462400] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3462400] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3462400] ***    and potentially your MPI job)
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+[1776973542.404668] [exp-2-53:3462780:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3462772 length=524288) returned -1: No such process
+[exp-2-53:3462780] *** An error occurred in MPI_Bcast
+[exp-2-53:3462780] *** reported by process [3559784449,8]
+[exp-2-53:3462780] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3462780] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3462780] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3462780] ***    and potentially your MPI job)
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+[1776973547.269570] [exp-2-53:3463112:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3463104 length=524288) returned -1: Bad address
+[exp-2-53:3463112] *** An error occurred in MPI_Bcast
+[exp-2-53:3463112] *** reported by process [3589931009,8]
+[exp-2-53:3463112] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3463112] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3463112] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3463112] ***    and potentially your MPI job)
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+[1776973552.262429] [exp-2-53:3463420:0]         cma_ep.c:85   UCX  ERROR process_vm_readv(pid=3463412 length=524288) returned -1: No such process
+[exp-2-53:3463420] *** An error occurred in MPI_Bcast
+[exp-2-53:3463420] *** reported by process [3669032961,8]
+[exp-2-53:3463420] *** on communicator MPI_COMM_WORLD
+[exp-2-53:3463420] *** MPI_ERR_INTERN: internal error
+[exp-2-53:3463420] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[exp-2-53:3463420] ***    and potentially your MPI job)
+slurmstepd: error: Detected 25 oom_kill events in StepId=48457478.batch. Some of the step tasks have been OOM Killed.
