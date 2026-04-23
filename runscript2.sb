@@ -4,6 +4,7 @@
 #SBATCH --partition=compute
 #SBATCH --nodes=1
 #SBATCH --exclusive
+#SBATCH --ntasks-per-node=128
 #SBATCH --mem=0
 #SBATCH --account=isu103
 #SBATCH --export=ALL
