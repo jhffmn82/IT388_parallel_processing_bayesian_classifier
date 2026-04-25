@@ -10,45 +10,44 @@ def format_size(rows):
 
 
 def parse_label(label):
-    """Parse a -- label -- line from cluster format.
-    Returns (binary, procs, threads) or (None, 1, 1).
+    """Parse a -- label -- line from cluster output and return (binary, procs, threads).
 
     Two label styles exist:
-      Phase 1/2 (named):  "Serial | heart | 1 thread"
-                          "OMP | 500000 | 8 threads"
-                          "Hybrid | heart | 4 procs x 2 threads"
-      Phase 3-6 (positional):
-                          "Run N"                         -> serial
-                          "N threads | Run K"             -> omp
-                          "N procs | Run K"               -> mpi
-                          "N procs x M threads | Run K"   -> hybrid
+      Phase 1/2 (named):     "Serial | heart | 1 thread"
+                             "OMP | 500000 | 8 threads"
+                             "Hybrid | heart | 4 procs x 2 threads"
+      Phase 3-6 (positional): "Run N"                       -> serial
+                              "N threads | Run K"            -> omp
+                              "N procs | Run K"              -> mpi
+                              "N procs x M threads | Run K"  -> hybrid
     """
     label = label.strip().strip('-').strip()
     procs   = 1
     threads = 1
 
-    # ── Phase 3-6 positional patterns (check before pipe branch) ─────────────
-    # "Run N"  (serial baseline)
+    # --- Phase 3-6 positional patterns (check before pipe branch) ---
+
+    # "Run N" -> serial baseline
     if re.match(r'^Run\s+\d+$', label, re.IGNORECASE):
         return 'serial', 1, 1
 
-    # "N procs x M threads | Run K"  (hybrid — must come before mpi/omp)
+    # "N procs x M threads | Run K" -> hybrid (must come before mpi/omp check)
     m = re.match(r'^(\d+)\s+procs?\s*x\s*(\d+)\s*threads?\s*\|', label, re.IGNORECASE)
     if m:
         return 'hybrid', int(m.group(1)), int(m.group(2))
 
-    # "N threads | Run K"  (omp)
+    # "N threads | Run K" -> omp
     m = re.match(r'^(\d+)\s+threads?\s*\|', label, re.IGNORECASE)
     if m:
         return 'omp', 1, int(m.group(1))
 
-    # "N procs | Run K"  (mpi)
+    # "N procs | Run K" -> mpi
     m = re.match(r'^(\d+)\s+procs?\s*\|', label, re.IGNORECASE)
     if m:
         return 'mpi', int(m.group(1)), 1
 
-    # ── Phase 1/2 named patterns ──────────────────────────────────────────────
-    # "Serial | heart | 1 thread"  /  "Hybrid | heart | 4 procs x 2 threads"
+    # --- Phase 1/2 named patterns ---
+
     if '|' in label:
         parts = [p.strip() for p in label.split('|')]
         first = parts[0].lower()
@@ -69,7 +68,7 @@ def parse_label(label):
 
 
 def detect_format(lines):
-    """Return 'expanse' if we see === PHASE N: headers, else 'cluster'."""
+    """Return 'expanse' if we see === PHASE N: headers in the first 50 lines, else 'cluster'."""
     for line in lines[:50]:
         if re.match(r'^=== PHASE \d+:', line):
             return 'expanse'
@@ -81,15 +80,14 @@ def parse_output(filename):
         lines = f.readlines()
 
     fmt = detect_format(lines)
-
     if fmt == 'expanse':
         return parse_expanse(lines)
     else:
         return parse_cluster(lines)
 
 
-# ── Expanse parser ─────────────────────────────────────────────────────────────
 def parse_expanse(lines):
+    """Parse output files generated on Expanse (=== PHASE N: header format)."""
     runs = []
     current_phase = 0
     phase_position = 0
@@ -142,6 +140,7 @@ def parse_expanse(lines):
                     p = block['processes_line'] or 1
                     t = block['threads_line'] or 1
 
+                    # Assign binary type and config based on which phase we're in
                     if current_phase == 1:
                         order = ['serial', 'omp', 'mpi', 'hybrid']
                         run['binary'] = order[phase_position % 4]
@@ -176,9 +175,8 @@ def parse_expanse(lines):
     return runs
 
 
-# ── Cluster parser ─────────────────────────────────────────────────────────────
 def parse_cluster(lines):
-    """Cluster format uses -- label -- lines to identify each run."""
+    """Parse output files from the ISU cluster (-- label -- format)."""
     runs = []
     current_binary  = None
     current_procs   = 1
@@ -189,13 +187,13 @@ def parse_cluster(lines):
     while i < len(lines):
         line = lines[i].rstrip()
 
-        # Phase headers in cluster format (mixed case) — only used for context
+        # Skip phase headers
         m = re.match(r'^=== Phase \d+:', line, re.IGNORECASE)
         if m:
             i += 1
             continue
 
-        # Label line: -- OMP | 500000 | 8 threads --
+        # Label line identifies the next run: -- OMP | 500000 | 8 threads --
         m = re.match(r'^--\s+(.+?)\s+--\s*$', line)
         if m:
             current_binary, current_procs, current_threads = parse_label(m.group(1))
@@ -215,8 +213,7 @@ def parse_cluster(lines):
                    'train_time': None, 'classify_time': None,
                    'cv_time': None, 'total_time': None}
 
-            # For hybrid, the label gives procs but not always threads —
-            # fall back to the OMP thread announcement if needed
+            # Hybrid labels give procs but not always threads — fall back to OMP announcement
             if current_binary == 'hybrid' and current_threads == 1 and recent_omp_threads:
                 run['threads'] = recent_omp_threads
 
@@ -241,7 +238,6 @@ def parse_cluster(lines):
                 m = re.match(r'Total time:\s+([\d.]+)', l)
                 if m:
                     run['total_time'] = float(m.group(1))
-                    # Override procs/threads from block if available
                     if block['processes_line']: run['procs'] = block['processes_line']
                     if block['threads_line']:   run['threads'] = block['threads_line']
                     runs.append(run)
@@ -253,12 +249,12 @@ def parse_cluster(lines):
     return runs
 
 
-# ── Averaging and table building ───────────────────────────────────────────────
 def avg(vals):
     return sum(vals) / len(vals) if vals else 0.0
 
 
 def build_tables(runs):
+    # Group runs by (binary, size, procs, threads) and average their times
     groups = defaultdict(list)
     for r in runs:
         groups[(r['binary'], r['size'], r['procs'], r['threads'])].append(r)
@@ -268,6 +264,7 @@ def build_tables(runs):
         avgs[k] = {f: avg([r[f + '_time'] for r in g])
                    for f in ['train', 'classify', 'cv', 'total']}
 
+    # Baseline total times for speedup calculations
     serial_1m = avgs.get(('serial', '1m', 1, 1), {}).get('total', 0)
     omp_base  = avgs.get(('omp',   '1m', 1, 1), {}).get('total', 0)
     mpi_base  = avgs.get(('mpi',   '1m', 1, 1), {}).get('total', 0)
@@ -286,7 +283,7 @@ def build_tables(runs):
                   f"{a['cv']:>10.6f} {a['total']:>10.6f} {sp:>9.3f} {ef:>11.3f}\n")
         return s
 
-    # Serial
+    # Serial table (all dataset sizes)
     size_ord = {'20k': 0, '100k': 1, '500k': 2, '1m': 3, 'heart': 4}
     serial_rows = sorted(
         [(k, a) for k, a in avgs.items() if k[0] == 'serial'],
@@ -295,7 +292,7 @@ def build_tables(runs):
     out.append(table("Serial (baseline = serial 1m)",
                      [(k[1], a, 1) for k, a in serial_rows], serial_1m))
 
-    # OMP
+    # OMP table (1m dataset, varying thread counts)
     omp_rows = sorted(
         [(f"{t} threads", a, t)
          for (b, s, p, t), a in avgs.items() if b == 'omp' and s == '1m'],
@@ -303,7 +300,7 @@ def build_tables(runs):
     )
     out.append(table("OMP (1m dataset, baseline = 1 thread)", omp_rows, omp_base))
 
-    # MPI
+    # MPI table (1m dataset, varying process counts)
     mpi_rows = sorted(
         [(f"{p} procs", a, p)
          for (b, s, p, t), a in avgs.items() if b == 'mpi' and s == '1m'],
@@ -311,7 +308,7 @@ def build_tables(runs):
     )
     out.append(table("MPI (1m dataset, baseline = 1 proc)", mpi_rows, mpi_base))
 
-    # Hybrid — one table per proc count
+    # Hybrid tables — one per process count
     hybrid_procs = sorted(set(p for (b, s, p, t) in avgs
                                if b == 'hybrid' and s == '1m'))
     for pc in hybrid_procs:
@@ -325,7 +322,7 @@ def build_tables(runs):
             f"Hybrid (1m dataset, {pc} procs, baseline = 1p x 1t)", rows, hyb_base
         ))
 
-    # Data-size scaling
+    # Data-size scaling table
     sizes = ['20k', '100k', '500k', '1m']
     binaries = [
         ('serial', 1, 1, 'serial (1t)'),
@@ -355,7 +352,6 @@ def build_tables(runs):
     return out
 
 
-# ── Entry point ────────────────────────────────────────────────────────────────
 if __name__ == '__main__':
     filename = input("Enter the output filename: ").strip()
     script_dir = os.path.dirname(os.path.abspath(__file__))
