@@ -29,7 +29,7 @@ echo ""
 echo "=== Compiling binaries ==="
 gcc -O2 -Wall -fopenmp nb_classifier.c -lm -o serial_executable
 gcc -O2 -Wall -fopenmp omp_nb_classifier.c -lm -o omp_executable
-srun -O2 -Wall -Wno-unused-result mpi_nb_classifier.c -lm -o mpi_executable
+mpicc -O2 -Wall -Wno-unused-result mpi_nb_classifier.c -lm -o mpi_executable
 mpicc -O2 -Wall -fopenmp -Wno-unused-result nb_classifier_hybrid.c -lm -o hybrid_executable
 
 # Verify all four binaries built successfully before proceeding
