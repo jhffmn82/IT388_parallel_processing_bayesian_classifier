@@ -10,11 +10,15 @@ nb_classifier.c: serial baseline
 
 omp_nb_classifier.c: OpenMP parallel version
 
-mpi_nb_classifier.c: MPI parallel version
+mpi_nb_classifier.c: MPI version 1
 
-nb_classifier_hybrid.c: hybrid MPI + OpenMP version
+mpi_nb_classifier_v2.c: MPI version 2, fixes a broadcast overhead bottleneck in copy_rows that caused v1 to collapse at higher process counts
 
-All four take the same arguments:
+nb_classifier_hybrid.c: hybrid MPI + OpenMP version 1
+
+nb_classifier_hybrid_v2.c: hybrid version 2, same copy_rows fix as MPI v2
+
+All files take the same arguments:
 ```
 <meta.csv> <labeled.csv> <unlabeled.csv> <output.csv> <k> <num_processes/threads>
 ```
