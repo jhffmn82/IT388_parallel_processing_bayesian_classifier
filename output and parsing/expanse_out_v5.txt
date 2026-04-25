@@ -1,0 +1,5775 @@
+=== Modules loaded ===
+
+Currently Loaded Modules:
+  1) shared                  5) cpu/0.17.3b           (c)
+  2) slurm/expanse/23.02.7   6) gcc/10.2.0/npcyll4
+  3) sdsc/1.0                7) ucx/1.10.1/dnpjjuc
+  4) DefaultModules          8) openmpi/4.1.3/oq3qvsv
+
+  Where:
+   c:  built natively for AMD Rome
+
+ 
+
+
+=== Compiling binaries ===
+=== All four binaries compiled successfully ===
+-rwxr-xr-x 1 jhoffman3 isu103 37080 Apr 25 08:14 hybrid_executable
+-rwxr-xr-x 1 jhoffman3 isu103 36352 Apr 25 08:14 mpi_executable
+-rwxr-xr-x 1 jhoffman3 isu103 32408 Apr 25 08:14 omp_executable
+-rwxr-xr-x 1 jhoffman3 isu103 31688 Apr 25 08:13 serial_executable
+
+=== PHASE 1: Heart correctness check ===
+
+=== Naive Bayesian Classification Results ===
+Training rows:   253680
+Unlabeled rows:  253680
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.847666
+Average CV train accuracy: 0.847758
+Average CV test accuracy:  0.847678
+
+Confusion Matrix from CV test folds
+TN: 203216  FP: 26571
+FN: 12070  TP: 11823
+
+Timings (excluding file I/O)
+Train time:    0.009169 sec
+Classify time: 0.022422 sec
+CV time:       0.111198 sec
+Total time:    0.142788 sec
+
+Predictions written to: ./heart_output/heart_serial.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   253680
+Unlabeled rows:  253680
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.847666
+Average CV train accuracy: 0.847758
+Average CV test accuracy:  0.847678
+
+Confusion Matrix from CV test folds
+TN: 203216  FP: 26571
+FN: 12070  TP: 11823
+
+Timings (excluding file I/O)
+Train time:    0.001123 sec
+Classify time: 0.003155 sec
+CV time:       0.021897 sec
+Total time:    0.026175 sec
+
+Predictions written to: ./heart_output/heart_omp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   253680
+Unlabeled rows:  253680
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.847666
+Average CV train accuracy: 0.847758
+Average CV test accuracy:  0.847678
+
+Confusion Matrix from CV test folds
+TN: 203216  FP: 26571
+FN: 12070  TP: 11823
+
+Timings (excluding file I/O)
+Train time:    0.002074 sec
+Classify time: 0.004068 sec
+CV time:       0.022359 sec
+Total time:    0.028501 sec
+
+Predictions written to: ./heart_output/heart_mpi.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   253680
+Unlabeled rows:  253680
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    8
+
+Training accuracy:         0.847666
+Average CV train accuracy: 0.847758
+Average CV test accuracy:  0.847678
+
+Confusion Matrix from CV test folds
+TN: 203216  FP: 26571
+FN: 12070  TP: 11823
+
+Timings (excluding file I/O)
+Train time:    0.000478 sec
+Classify time: 0.002403 sec
+CV time:       0.015774 sec
+Total time:    0.018655 sec
+
+Predictions written to: ./heart_output/heart_hybrid.csv
+=== PHASE 2: Data-size scaling ===
+
+=== Naive Bayesian Classification Results ===
+Training rows:   20000
+Unlabeled rows:  20000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.815750
+Average CV train accuracy: 0.815650
+Average CV test accuracy:  0.815400
+
+Confusion Matrix from CV test folds
+TN: 14884  FP: 2329
+FN: 1363  TP: 1424
+
+Timings (excluding file I/O)
+Train time:    0.000672 sec
+Classify time: 0.001628 sec
+CV time:       0.008261 sec
+Total time:    0.010560 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   20000
+Unlabeled rows:  20000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.815750
+Average CV train accuracy: 0.815650
+Average CV test accuracy:  0.815400
+
+Confusion Matrix from CV test folds
+TN: 14884  FP: 2329
+FN: 1363  TP: 1424
+
+Timings (excluding file I/O)
+Train time:    0.000182 sec
+Classify time: 0.000443 sec
+CV time:       0.002794 sec
+Total time:    0.003419 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   20000
+Unlabeled rows:  20000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.815750
+Average CV train accuracy: 0.815650
+Average CV test accuracy:  0.815400
+
+Confusion Matrix from CV test folds
+TN: 14884  FP: 2329
+FN: 1363  TP: 1424
+
+Timings (excluding file I/O)
+Train time:    0.000154 sec
+Classify time: 0.000441 sec
+CV time:       0.001922 sec
+Total time:    0.002517 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   20000
+Unlabeled rows:  20000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    4
+
+Training accuracy:         0.815750
+Average CV train accuracy: 0.815650
+Average CV test accuracy:  0.815400
+
+Confusion Matrix from CV test folds
+TN: 14884  FP: 2329
+FN: 1363  TP: 1424
+
+Timings (excluding file I/O)
+Train time:    0.000193 sec
+Classify time: 0.000411 sec
+CV time:       0.001888 sec
+Total time:    0.002492 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   100000
+Unlabeled rows:  100000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.813860
+Average CV train accuracy: 0.813825
+Average CV test accuracy:  0.813650
+
+Confusion Matrix from CV test folds
+TN: 74346  FP: 11721
+FN: 6914  TP: 7019
+
+Timings (excluding file I/O)
+Train time:    0.003679 sec
+Classify time: 0.008312 sec
+CV time:       0.041978 sec
+Total time:    0.053969 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   100000
+Unlabeled rows:  100000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.813860
+Average CV train accuracy: 0.813825
+Average CV test accuracy:  0.813650
+
+Confusion Matrix from CV test folds
+TN: 74346  FP: 11721
+FN: 6914  TP: 7019
+
+Timings (excluding file I/O)
+Train time:    0.000741 sec
+Classify time: 0.001442 sec
+CV time:       0.009781 sec
+Total time:    0.011965 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   100000
+Unlabeled rows:  100000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.813860
+Average CV train accuracy: 0.813825
+Average CV test accuracy:  0.813650
+
+Confusion Matrix from CV test folds
+TN: 74346  FP: 11721
+FN: 6914  TP: 7019
+
+Timings (excluding file I/O)
+Train time:    0.001137 sec
+Classify time: 0.001805 sec
+CV time:       0.008686 sec
+Total time:    0.011629 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   100000
+Unlabeled rows:  100000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    4
+
+Training accuracy:         0.813860
+Average CV train accuracy: 0.813825
+Average CV test accuracy:  0.813650
+
+Confusion Matrix from CV test folds
+TN: 74346  FP: 11721
+FN: 6914  TP: 7019
+
+Timings (excluding file I/O)
+Train time:    0.000518 sec
+Classify time: 0.001810 sec
+CV time:       0.009663 sec
+Total time:    0.011991 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   500000
+Unlabeled rows:  500000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814154
+Average CV train accuracy: 0.814234
+Average CV test accuracy:  0.814208
+
+Confusion Matrix from CV test folds
+TN: 371771  FP: 58562
+FN: 34334  TP: 35333
+
+Timings (excluding file I/O)
+Train time:    0.017513 sec
+Classify time: 0.044002 sec
+CV time:       0.229040 sec
+Total time:    0.290554 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   500000
+Unlabeled rows:  500000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814154
+Average CV train accuracy: 0.814234
+Average CV test accuracy:  0.814208
+
+Confusion Matrix from CV test folds
+TN: 371771  FP: 58562
+FN: 34334  TP: 35333
+
+Timings (excluding file I/O)
+Train time:    0.002373 sec
+Classify time: 0.006171 sec
+CV time:       0.044768 sec
+Total time:    0.053313 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   500000
+Unlabeled rows:  500000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814154
+Average CV train accuracy: 0.814234
+Average CV test accuracy:  0.814208
+
+Confusion Matrix from CV test folds
+TN: 371771  FP: 58562
+FN: 34334  TP: 35333
+
+Timings (excluding file I/O)
+Train time:    0.002294 sec
+Classify time: 0.008270 sec
+CV time:       0.046333 sec
+Total time:    0.056898 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   500000
+Unlabeled rows:  500000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    4
+
+Training accuracy:         0.814154
+Average CV train accuracy: 0.814234
+Average CV test accuracy:  0.814208
+
+Confusion Matrix from CV test folds
+TN: 371771  FP: 58562
+FN: 34334  TP: 35333
+
+Timings (excluding file I/O)
+Train time:    0.002840 sec
+Classify time: 0.008257 sec
+CV time:       0.045303 sec
+Total time:    0.056400 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.036667 sec
+Classify time: 0.087513 sec
+CV time:       0.455341 sec
+Total time:    0.579520 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.011573 sec
+Classify time: 0.012425 sec
+CV time:       0.107926 sec
+Total time:    0.131924 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004270 sec
+Classify time: 0.016699 sec
+CV time:       0.090434 sec
+Total time:    0.111404 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004269 sec
+Classify time: 0.015533 sec
+CV time:       0.091492 sec
+Total time:    0.111294 sec
+
+Predictions written to: /tmp/temp.csv
+=== PHASE 3: Serial baseline (1M) ===
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034090 sec
+Classify time: 0.086585 sec
+CV time:       0.453341 sec
+Total time:    0.574016 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035375 sec
+Classify time: 0.086858 sec
+CV time:       0.451130 sec
+Total time:    0.573363 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034880 sec
+Classify time: 0.086557 sec
+CV time:       0.456450 sec
+Total time:    0.577887 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034888 sec
+Classify time: 0.086518 sec
+CV time:       0.455435 sec
+Total time:    0.576841 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034894 sec
+Classify time: 0.087609 sec
+CV time:       0.455754 sec
+Total time:    0.578257 sec
+
+Predictions written to: /tmp/temp.csv
+=== PHASE 4: OMP scaling (1M) ===
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033510 sec
+Classify time: 0.086465 sec
+CV time:       0.505014 sec
+Total time:    0.624989 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033743 sec
+Classify time: 0.086362 sec
+CV time:       0.502531 sec
+Total time:    0.622636 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033444 sec
+Classify time: 0.086854 sec
+CV time:       0.503906 sec
+Total time:    0.624204 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033479 sec
+Classify time: 0.086396 sec
+CV time:       0.502187 sec
+Total time:    0.622061 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033221 sec
+Classify time: 0.087144 sec
+CV time:       0.505381 sec
+Total time:    0.625746 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016760 sec
+Classify time: 0.044166 sec
+CV time:       0.267538 sec
+Total time:    0.328463 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018006 sec
+Classify time: 0.044164 sec
+CV time:       0.266230 sec
+Total time:    0.328399 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017007 sec
+Classify time: 0.044039 sec
+CV time:       0.266542 sec
+Total time:    0.327587 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017381 sec
+Classify time: 0.044346 sec
+CV time:       0.265071 sec
+Total time:    0.326798 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017088 sec
+Classify time: 0.044213 sec
+CV time:       0.267090 sec
+Total time:    0.328391 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009020 sec
+Classify time: 0.023947 sec
+CV time:       0.145441 sec
+Total time:    0.178409 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008847 sec
+Classify time: 0.023976 sec
+CV time:       0.145973 sec
+Total time:    0.178796 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008926 sec
+Classify time: 0.023808 sec
+CV time:       0.147711 sec
+Total time:    0.180444 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008938 sec
+Classify time: 0.023981 sec
+CV time:       0.144584 sec
+Total time:    0.177503 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008806 sec
+Classify time: 0.024567 sec
+CV time:       0.145280 sec
+Total time:    0.178653 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004289 sec
+Classify time: 0.011730 sec
+CV time:       0.078739 sec
+Total time:    0.094758 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004608 sec
+Classify time: 0.011753 sec
+CV time:       0.081328 sec
+Total time:    0.097689 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004360 sec
+Classify time: 0.011881 sec
+CV time:       0.080639 sec
+Total time:    0.096880 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004591 sec
+Classify time: 0.012067 sec
+CV time:       0.082441 sec
+Total time:    0.099100 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004859 sec
+Classify time: 0.012158 sec
+CV time:       0.080799 sec
+Total time:    0.097816 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002346 sec
+Classify time: 0.007611 sec
+CV time:       0.059208 sec
+Total time:    0.069165 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002331 sec
+Classify time: 0.007618 sec
+CV time:       0.060049 sec
+Total time:    0.069998 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002711 sec
+Classify time: 0.007841 sec
+CV time:       0.061205 sec
+Total time:    0.071757 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002664 sec
+Classify time: 0.007905 sec
+CV time:       0.060821 sec
+Total time:    0.071390 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Threads:         16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.005618 sec
+Classify time: 0.007658 sec
+CV time:       0.075368 sec
+Total time:    0.088644 sec
+
+Predictions written to: /tmp/temp.csv
+=== PHASE 5: MPI scaling (1M) ===
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033293 sec
+Classify time: 0.089392 sec
+CV time:       0.416036 sec
+Total time:    0.538721 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.032079 sec
+Classify time: 0.090652 sec
+CV time:       0.419838 sec
+Total time:    0.542569 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033010 sec
+Classify time: 0.090694 sec
+CV time:       0.415551 sec
+Total time:    0.539255 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.033341 sec
+Classify time: 0.088359 sec
+CV time:       0.415271 sec
+Total time:    0.536971 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.031187 sec
+Classify time: 0.089632 sec
+CV time:       0.417876 sec
+Total time:    0.538695 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016701 sec
+Classify time: 0.046542 sec
+CV time:       0.225419 sec
+Total time:    0.288662 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016194 sec
+Classify time: 0.046802 sec
+CV time:       0.226115 sec
+Total time:    0.289111 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016691 sec
+Classify time: 0.046877 sec
+CV time:       0.228028 sec
+Total time:    0.291596 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016020 sec
+Classify time: 0.046716 sec
+CV time:       0.225330 sec
+Total time:    0.288067 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.016865 sec
+Classify time: 0.046652 sec
+CV time:       0.226284 sec
+Total time:    0.289801 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008622 sec
+Classify time: 0.026142 sec
+CV time:       0.133868 sec
+Total time:    0.168632 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008269 sec
+Classify time: 0.026132 sec
+CV time:       0.138952 sec
+Total time:    0.173353 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008833 sec
+Classify time: 0.036815 sec
+CV time:       0.134270 sec
+Total time:    0.179919 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.007968 sec
+Classify time: 0.026557 sec
+CV time:       0.133782 sec
+Total time:    0.168307 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008048 sec
+Classify time: 0.036800 sec
+CV time:       0.133568 sec
+Total time:    0.178417 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.003948 sec
+Classify time: 0.016886 sec
+CV time:       0.089654 sec
+Total time:    0.110488 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004060 sec
+Classify time: 0.016690 sec
+CV time:       0.088937 sec
+Total time:    0.109687 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004146 sec
+Classify time: 0.016715 sec
+CV time:       0.105232 sec
+Total time:    0.126093 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004136 sec
+Classify time: 0.016833 sec
+CV time:       0.090210 sec
+Total time:    0.111179 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004061 sec
+Classify time: 0.016406 sec
+CV time:       0.091648 sec
+Total time:    0.112115 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002374 sec
+Classify time: 0.010616 sec
+CV time:       0.068685 sec
+Total time:    0.081675 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002144 sec
+Classify time: 0.010926 sec
+CV time:       0.069786 sec
+Total time:    0.082856 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002256 sec
+Classify time: 0.010718 sec
+CV time:       0.068529 sec
+Total time:    0.081503 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002730 sec
+Classify time: 0.010785 sec
+CV time:       0.068749 sec
+Total time:    0.082263 sec
+
+Predictions written to: /tmp/temp.csv
+
+=== Naive Bayesian Classification Results (v2) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002222 sec
+Classify time: 0.010991 sec
+CV time:       0.070353 sec
+Total time:    0.083566 sec
+
+Predictions written to: /tmp/temp.csv
+=== PHASE 6: Hybrid scaling (1M) ===
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.034503 sec
+Classify time: 0.087225 sec
+CV time:       0.415575 sec
+Total time:    0.537304 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035257 sec
+Classify time: 0.086563 sec
+CV time:       0.411828 sec
+Total time:    0.533648 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035031 sec
+Classify time: 0.086397 sec
+CV time:       0.411304 sec
+Total time:    0.532732 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035969 sec
+Classify time: 0.087318 sec
+CV time:       0.413028 sec
+Total time:    0.536316 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.035726 sec
+Classify time: 0.086505 sec
+CV time:       0.416595 sec
+Total time:    0.538826 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017260 sec
+Classify time: 0.045150 sec
+CV time:       0.220316 sec
+Total time:    0.282727 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018019 sec
+Classify time: 0.045573 sec
+CV time:       0.221820 sec
+Total time:    0.285412 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017565 sec
+Classify time: 0.045224 sec
+CV time:       0.223797 sec
+Total time:    0.286585 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017167 sec
+Classify time: 0.045078 sec
+CV time:       0.219968 sec
+Total time:    0.282214 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017352 sec
+Classify time: 0.045043 sec
+CV time:       0.220102 sec
+Total time:    0.282497 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008850 sec
+Classify time: 0.024713 sec
+CV time:       0.134682 sec
+Total time:    0.168245 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008775 sec
+Classify time: 0.024546 sec
+CV time:       0.135969 sec
+Total time:    0.169290 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008625 sec
+Classify time: 0.024459 sec
+CV time:       0.135610 sec
+Total time:    0.168694 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009903 sec
+Classify time: 0.024488 sec
+CV time:       0.135293 sec
+Total time:    0.169684 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009282 sec
+Classify time: 0.024628 sec
+CV time:       0.136281 sec
+Total time:    0.170191 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004371 sec
+Classify time: 0.014448 sec
+CV time:       0.082437 sec
+Total time:    0.101255 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004759 sec
+Classify time: 0.013566 sec
+CV time:       0.081636 sec
+Total time:    0.099961 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004314 sec
+Classify time: 0.014144 sec
+CV time:       0.083286 sec
+Total time:    0.101743 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004435 sec
+Classify time: 0.014207 sec
+CV time:       0.082477 sec
+Total time:    0.101119 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004204 sec
+Classify time: 0.014154 sec
+CV time:       0.082679 sec
+Total time:    0.101037 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002134 sec
+Classify time: 0.008433 sec
+CV time:       0.057999 sec
+Total time:    0.068566 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002363 sec
+Classify time: 0.008334 sec
+CV time:       0.059274 sec
+Total time:    0.069971 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002272 sec
+Classify time: 0.008502 sec
+CV time:       0.059026 sec
+Total time:    0.069801 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002090 sec
+Classify time: 0.008431 sec
+CV time:       0.058412 sec
+Total time:    0.068932 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       1
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002095 sec
+Classify time: 0.008375 sec
+CV time:       0.059004 sec
+Total time:    0.069473 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018388 sec
+Classify time: 0.047221 sec
+CV time:       0.236411 sec
+Total time:    0.302019 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018091 sec
+Classify time: 0.047349 sec
+CV time:       0.235087 sec
+Total time:    0.300527 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018137 sec
+Classify time: 0.046823 sec
+CV time:       0.229667 sec
+Total time:    0.294627 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.017943 sec
+Classify time: 0.047636 sec
+CV time:       0.235493 sec
+Total time:    0.301072 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018180 sec
+Classify time: 0.047540 sec
+CV time:       0.234155 sec
+Total time:    0.299875 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008893 sec
+Classify time: 0.025510 sec
+CV time:       0.140348 sec
+Total time:    0.174752 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009173 sec
+Classify time: 0.025514 sec
+CV time:       0.132782 sec
+Total time:    0.167469 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.008936 sec
+Classify time: 0.026290 sec
+CV time:       0.147732 sec
+Total time:    0.182957 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009070 sec
+Classify time: 0.026331 sec
+CV time:       0.148880 sec
+Total time:    0.184281 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009208 sec
+Classify time: 0.029256 sec
+CV time:       0.157514 sec
+Total time:    0.195978 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004445 sec
+Classify time: 0.015268 sec
+CV time:       0.092133 sec
+Total time:    0.111846 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004354 sec
+Classify time: 0.015266 sec
+CV time:       0.084148 sec
+Total time:    0.103767 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.005110 sec
+Classify time: 0.016293 sec
+CV time:       0.093319 sec
+Total time:    0.114722 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004623 sec
+Classify time: 0.015969 sec
+CV time:       0.091589 sec
+Total time:    0.112181 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004480 sec
+Classify time: 0.014445 sec
+CV time:       0.082674 sec
+Total time:    0.101598 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002189 sec
+Classify time: 0.010165 sec
+CV time:       0.073623 sec
+Total time:    0.085977 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002410 sec
+Classify time: 0.009752 sec
+CV time:       0.062941 sec
+Total time:    0.075103 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002547 sec
+Classify time: 0.010213 sec
+CV time:       0.062811 sec
+Total time:    0.075571 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002190 sec
+Classify time: 0.010121 sec
+CV time:       0.073355 sec
+Total time:    0.085666 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002147 sec
+Classify time: 0.010056 sec
+CV time:       0.071738 sec
+Total time:    0.083941 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001570 sec
+Classify time: 0.008974 sec
+CV time:       0.064116 sec
+Total time:    0.074660 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001599 sec
+Classify time: 0.010818 sec
+CV time:       0.064089 sec
+Total time:    0.076506 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001572 sec
+Classify time: 0.008832 sec
+CV time:       0.065068 sec
+Total time:    0.075472 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001630 sec
+Classify time: 0.010364 sec
+CV time:       0.064027 sec
+Total time:    0.076021 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       2
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001111 sec
+Classify time: 0.008501 sec
+CV time:       0.064934 sec
+Total time:    0.074545 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009107 sec
+Classify time: 0.027273 sec
+CV time:       0.155329 sec
+Total time:    0.191709 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009011 sec
+Classify time: 0.027208 sec
+CV time:       0.149800 sec
+Total time:    0.186019 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009204 sec
+Classify time: 0.026787 sec
+CV time:       0.145777 sec
+Total time:    0.181767 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009233 sec
+Classify time: 0.027138 sec
+CV time:       0.155692 sec
+Total time:    0.192064 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.009079 sec
+Classify time: 0.026991 sec
+CV time:       0.155227 sec
+Total time:    0.191297 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004670 sec
+Classify time: 0.016431 sec
+CV time:       0.095812 sec
+Total time:    0.116913 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.005429 sec
+Classify time: 0.017833 sec
+CV time:       0.100290 sec
+Total time:    0.123552 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004558 sec
+Classify time: 0.016418 sec
+CV time:       0.095111 sec
+Total time:    0.116087 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004613 sec
+Classify time: 0.017311 sec
+CV time:       0.104705 sec
+Total time:    0.126628 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004674 sec
+Classify time: 0.017081 sec
+CV time:       0.100364 sec
+Total time:    0.122118 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002383 sec
+Classify time: 0.014251 sec
+CV time:       0.079551 sec
+Total time:    0.096185 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002333 sec
+Classify time: 0.011245 sec
+CV time:       0.072374 sec
+Total time:    0.085952 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.003516 sec
+Classify time: 0.012334 sec
+CV time:       0.074044 sec
+Total time:    0.089894 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002393 sec
+Classify time: 0.012058 sec
+CV time:       0.074994 sec
+Total time:    0.089445 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002777 sec
+Classify time: 0.011397 sec
+CV time:       0.078850 sec
+Total time:    0.093024 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001495 sec
+Classify time: 0.010370 sec
+CV time:       0.061188 sec
+Total time:    0.073053 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001619 sec
+Classify time: 0.010674 sec
+CV time:       0.068702 sec
+Total time:    0.080995 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001743 sec
+Classify time: 0.007999 sec
+CV time:       0.061627 sec
+Total time:    0.071368 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001594 sec
+Classify time: 0.008865 sec
+CV time:       0.066236 sec
+Total time:    0.076696 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002152 sec
+Classify time: 0.008990 sec
+CV time:       0.061887 sec
+Total time:    0.073029 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001401 sec
+Classify time: 0.007205 sec
+CV time:       0.056273 sec
+Total time:    0.064879 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001310 sec
+Classify time: 0.006971 sec
+CV time:       0.054861 sec
+Total time:    0.063143 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001056 sec
+Classify time: 0.007995 sec
+CV time:       0.058288 sec
+Total time:    0.067339 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.000941 sec
+Classify time: 0.007896 sec
+CV time:       0.054240 sec
+Total time:    0.063078 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       4
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001987 sec
+Classify time: 0.008305 sec
+CV time:       0.063658 sec
+Total time:    0.073950 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004848 sec
+Classify time: 0.017120 sec
+CV time:       0.095875 sec
+Total time:    0.117843 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004552 sec
+Classify time: 0.018093 sec
+CV time:       0.103355 sec
+Total time:    0.126000 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004704 sec
+Classify time: 0.017264 sec
+CV time:       0.104279 sec
+Total time:    0.126247 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.005128 sec
+Classify time: 0.018247 sec
+CV time:       0.100853 sec
+Total time:    0.124228 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.004416 sec
+Classify time: 0.016687 sec
+CV time:       0.103457 sec
+Total time:    0.124560 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002151 sec
+Classify time: 0.011871 sec
+CV time:       0.079490 sec
+Total time:    0.093512 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002365 sec
+Classify time: 0.011928 sec
+CV time:       0.080952 sec
+Total time:    0.095245 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002301 sec
+Classify time: 0.012665 sec
+CV time:       0.075425 sec
+Total time:    0.090390 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002808 sec
+Classify time: 0.013806 sec
+CV time:       0.083243 sec
+Total time:    0.099858 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002345 sec
+Classify time: 0.012493 sec
+CV time:       0.073241 sec
+Total time:    0.088079 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001498 sec
+Classify time: 0.010260 sec
+CV time:       0.066877 sec
+Total time:    0.078635 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001506 sec
+Classify time: 0.009517 sec
+CV time:       0.059036 sec
+Total time:    0.070059 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001208 sec
+Classify time: 0.009182 sec
+CV time:       0.061887 sec
+Total time:    0.072278 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001486 sec
+Classify time: 0.009189 sec
+CV time:       0.063380 sec
+Total time:    0.074055 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001258 sec
+Classify time: 0.009752 sec
+CV time:       0.066220 sec
+Total time:    0.077230 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001088 sec
+Classify time: 0.008602 sec
+CV time:       0.057032 sec
+Total time:    0.066722 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.000734 sec
+Classify time: 0.008393 sec
+CV time:       0.057285 sec
+Total time:    0.066412 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001039 sec
+Classify time: 0.008805 sec
+CV time:       0.058845 sec
+Total time:    0.068688 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.000875 sec
+Classify time: 0.008563 sec
+CV time:       0.056195 sec
+Total time:    0.065633 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006975 sec
+Classify time: 0.009253 sec
+CV time:       0.067024 sec
+Total time:    0.083253 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006626 sec
+Classify time: 0.021504 sec
+CV time:       0.304142 sec
+Total time:    0.332273 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006553 sec
+Classify time: 0.015554 sec
+CV time:       0.053853 sec
+Total time:    0.075961 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006741 sec
+Classify time: 0.019371 sec
+CV time:       0.142806 sec
+Total time:    0.168917 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006638 sec
+Classify time: 0.014630 sec
+CV time:       0.069492 sec
+Total time:    0.090760 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       8
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.005994 sec
+Classify time: 0.007280 sec
+CV time:       0.051941 sec
+Total time:    0.065214 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002407 sec
+Classify time: 0.012059 sec
+CV time:       0.079356 sec
+Total time:    0.093821 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002414 sec
+Classify time: 0.014529 sec
+CV time:       0.085510 sec
+Total time:    0.102453 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002409 sec
+Classify time: 0.015950 sec
+CV time:       0.095469 sec
+Total time:    0.113828 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002662 sec
+Classify time: 0.013972 sec
+CV time:       0.086906 sec
+Total time:    0.103540 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+OpenMP running with 1 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    1
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.002372 sec
+Classify time: 0.012500 sec
+CV time:       0.074230 sec
+Total time:    0.089102 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001301 sec
+Classify time: 0.012000 sec
+CV time:       0.078751 sec
+Total time:    0.092052 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001289 sec
+Classify time: 0.010582 sec
+CV time:       0.062522 sec
+Total time:    0.074393 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001461 sec
+Classify time: 0.012561 sec
+CV time:       0.075290 sec
+Total time:    0.089313 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001584 sec
+Classify time: 0.010876 sec
+CV time:       0.065847 sec
+Total time:    0.078307 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+OpenMP running with 2 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    2
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.001312 sec
+Classify time: 0.012630 sec
+CV time:       0.073102 sec
+Total time:    0.087044 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.007071 sec
+Classify time: 0.017487 sec
+CV time:       0.073699 sec
+Total time:    0.098256 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.000901 sec
+Classify time: 0.009377 sec
+CV time:       0.060594 sec
+Total time:    0.070872 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.000901 sec
+Classify time: 0.011393 sec
+CV time:       0.075488 sec
+Total time:    0.087782 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.000882 sec
+Classify time: 0.012272 sec
+CV time:       0.073457 sec
+Total time:    0.086612 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+OpenMP running with 4 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    4
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.000914 sec
+Classify time: 0.010338 sec
+CV time:       0.062994 sec
+Total time:    0.074246 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006641 sec
+Classify time: 0.015712 sec
+CV time:       0.073671 sec
+Total time:    0.096024 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006633 sec
+Classify time: 0.013982 sec
+CV time:       0.054177 sec
+Total time:    0.074792 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006646 sec
+Classify time: 0.022027 sec
+CV time:       0.197840 sec
+Total time:    0.226513 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006327 sec
+Classify time: 0.021771 sec
+CV time:       0.300043 sec
+Total time:    0.328140 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+OpenMP running with 8 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    8
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.006131 sec
+Classify time: 0.027796 sec
+CV time:       0.225469 sec
+Total time:    0.259395 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018402 sec
+Classify time: 0.044936 sec
+CV time:       0.783611 sec
+Total time:    0.846949 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018539 sec
+Classify time: 0.046017 sec
+CV time:       0.775175 sec
+Total time:    0.839730 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.023985 sec
+Classify time: 0.045092 sec
+CV time:       0.798999 sec
+Total time:    0.868075 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.018637 sec
+Classify time: 0.045861 sec
+CV time:       0.784817 sec
+Total time:    0.849315 sec
+
+Predictions written to: /tmp/temp.csv
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+OpenMP running with 16 threads
+
+=== Naive Bayesian Classification Results (v3) ===
+Training rows:   1000000
+Unlabeled rows:  1000000
+Features:        21
+Classes:         2
+k-folds:         5
+Processes:       16
+Threads/proc:    16
+
+Training accuracy:         0.814510
+Average CV train accuracy: 0.814449
+Average CV test accuracy:  0.814454
+
+Confusion Matrix from CV test folds
+TN: 744137  FP: 116530
+FN: 69016  TP: 70317
+
+Timings (excluding file I/O)
+Train time:    0.019640 sec
+Classify time: 0.045961 sec
+CV time:       0.794805 sec
+Total time:    0.860406 sec
+
+Predictions written to: /tmp/temp.csv
+=== ALL PHASES COMPLETE ===
