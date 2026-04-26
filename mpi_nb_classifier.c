@@ -14,7 +14,8 @@
 #include <string.h>
 #include <math.h>
 #include <mpi.h>
- 
+
+//needed for reading in CSV, defines max rows to read in at a time
 #define MAX_LINE_LEN 8192
  
 // Print the expected command line format and quit.
@@ -81,6 +82,7 @@ void read_metadata(const char* meta_file,
     int total_cols = 0;
     int i, r;
  
+    // Count how many columns are in the metadata header.
     fgets(line, sizeof(line), fp);
     strcpy(copy, line);
     token = strtok(copy, ",\r\n");
@@ -92,6 +94,7 @@ void read_metadata(const char* meta_file,
     *num_features = total_cols - 1;
     get_target_name(meta_file, target_name);
  
+    // Allocate the main metadata arrays.
     *feature_num_values = (int*) malloc(*num_features * sizeof(int));
     *feature_min_values = (int*) malloc(*num_features * sizeof(int));
     *feature_offsets = (int*) malloc(*num_features * sizeof(int));
@@ -251,10 +254,12 @@ void counts_to_log_probs(int num_features,
     int c, j, v;
     double prior_denom = total_rows + alpha * num_classes;
  
+    // Compute the prior probability for each class.
     for (c = 0; c < num_classes; c++) {
         log_class_priors[c] = log((class_counts[c] + alpha) / prior_denom);
     }
  
+    // Compute the conditional probability tables for each feature.
     for (j = 0; j < num_features; j++) {
         for (c = 0; c < num_classes; c++) {
             double denom = class_counts[c] + alpha * feature_num_values[j];
@@ -540,6 +545,7 @@ void cross_validate(int* labeled_data,
     int fold, i;
     double train_sum = 0.0, test_sum = 0.0;
  
+    // Allocate one model for reuse across all folds.
     long long* class_counts = (long long*) malloc(num_classes * sizeof(long long));
     long long* feature_counts = (long long*) malloc(total_prob_size * sizeof(long long));
     double* log_class_priors = (double*) malloc(num_classes * sizeof(double));
@@ -553,9 +559,11 @@ void cross_validate(int* labeled_data,
         int test_size = end - start;
         int train_size = labeled_rows - test_size;
  
+        // Build row index lists for this fold.
         int* train_idx = (int*) malloc(train_size * sizeof(int));
         int* test_idx = (int*) malloc(test_size * sizeof(int));
  
+        // Allocate the fold-specific train/test data and predictions.
         int* train_data = (int*) malloc(train_size * labeled_cols * sizeof(int));
         int* test_data = (int*) malloc(test_size * labeled_cols * sizeof(int));
         int* y_train = (int*) malloc(train_size * sizeof(int));
@@ -566,6 +574,7 @@ void cross_validate(int* labeled_data,
         int train_pos = 0, test_pos = 0;
         int tn, fp, fn, tp;
  
+        // Split rows into this fold's train set and test set.
         for (i = 0; i < labeled_rows; i++) {
             if (i >= start && i < end) test_idx[test_pos++] = i;
             else train_idx[train_pos++] = i;
@@ -576,11 +585,13 @@ void cross_validate(int* labeled_data,
         build_truth(train_data, train_size, labeled_cols, y_train);
         build_truth(test_data, test_size, labeled_cols, y_test);
  
+        // Train on the training fold.
         train_model(train_data, train_size, labeled_cols, num_features, num_classes,
                     feature_num_values, feature_offsets, class_values,
                     feature_min_values, total_prob_size,
                     class_counts, feature_counts, log_class_priors, log_probs);
  
+        // Score both train and test so we can report both averages.
         classify_dataset(train_data, train_size, labeled_cols, num_features, num_classes,
                          feature_num_values, feature_offsets, class_values,
                          feature_min_values, log_class_priors, log_probs, pred_train);
@@ -695,6 +706,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
  
+    // Read command line arguments.
     meta_file = argv[1];
     labeled_file = argv[2];
     unlabeled_file = argv[3];
@@ -755,18 +767,20 @@ int main(int argc, char* argv[]) {
     MPI_Bcast(labeled_data, labeled_rows * labeled_cols, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(unlabeled_data, unlabeled_rows * num_features, MPI_INT, 0, MPI_COMM_WORLD);
  
-    // Model allocation
+    // Allocate the model arrays.
     class_counts = (long long*) calloc(num_classes, sizeof(long long));
     feature_counts = (long long*) calloc(total_prob_size, sizeof(long long));
     log_class_priors = (double*) malloc(num_classes * sizeof(double));
     log_probs = (double*) malloc(total_prob_size * sizeof(double));
  
+    // Allocate arrays for labels and predictions.
     truth = (int*) malloc(labeled_rows * sizeof(int));
     train_predictions = (int*) malloc(labeled_rows * sizeof(int));
     unlabeled_predictions = (int*) malloc(unlabeled_rows * sizeof(int));
  
     build_truth(labeled_data, labeled_rows, labeled_cols, truth);
  
+    // Time the training step on the full labeled dataset.
     MPI_Barrier(MPI_COMM_WORLD);
     t0 = MPI_Wtime();
  
@@ -778,6 +792,7 @@ int main(int argc, char* argv[]) {
     t1 = MPI_Wtime();
     train_time = t1 - t0;
  
+    // Time classification on both the labeled and unlabeled datasets.
     t0 = MPI_Wtime();
  
     classify_dataset(labeled_data, labeled_rows, labeled_cols, num_features, num_classes,
@@ -794,6 +809,7 @@ int main(int argc, char* argv[]) {
  
     train_accuracy = compute_accuracy(truth, train_predictions, labeled_rows);
  
+    // Time k-fold cross validation separately.
     t0 = MPI_Wtime();
     cross_validate(labeled_data, labeled_rows, labeled_cols, num_features, num_classes,
                    feature_num_values, feature_min_values, feature_offsets,
@@ -805,9 +821,11 @@ int main(int argc, char* argv[]) {
     if (rank == 0) {
         total_time = train_time + classify_time + cv_time;
  
+        // Write predictions for the unlabeled dataset.
         write_predictions_csv(output_file, unlabeled_data, unlabeled_rows,
                               num_features, target_name, unlabeled_predictions);
  
+        // Print a simple summary of results.
         printf("\n=== Naive Bayesian Classification Results ===\n");
         printf("Training rows:   %d\n", labeled_rows);
         printf("Unlabeled rows:  %d\n", unlabeled_rows);
@@ -832,6 +850,7 @@ int main(int argc, char* argv[]) {
         printf("\nPredictions written to: %s\n", output_file);
     }
  
+    // Free all heap memory before exiting.
     free(feature_num_values);
     free(feature_min_values);
     free(class_values);

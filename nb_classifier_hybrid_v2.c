@@ -31,10 +31,12 @@
 #include <string.h>
 #include <math.h>
 #include <mpi.h>
-#include <omp.h>   /* HYBRID: added for OpenMP */
+#include <omp.h>   // HYBRID: added for OpenMP
 
+//needed for reading in CSV, defines max rows to read in at a time
 #define MAX_LINE_LEN 8192
 
+// Print the expected command line format and quit.
 void Usage(char* prog_name) {
     fprintf(stderr,
         "usage: %s <meta.csv> <labeled.csv> <unlabeled.csv> <output.csv> <k> <num_threads>\n",
@@ -42,6 +44,9 @@ void Usage(char* prog_name) {
     exit(0);
 }
 
+/* Count the number of data rows in a CSV file.
+ * We start at -1 because the first row is the header.
+ */
 int count_rows(const char* filename) {
     FILE* fp = fopen(filename, "r");
     char line[MAX_LINE_LEN];
@@ -51,6 +56,9 @@ int count_rows(const char* filename) {
     return rows;
 }
 
+/* Read the last column name from the metadata header.
+ * That becomes the target column name in the output file.
+ */
 void get_target_name(const char* meta_file, char* target_name) {
     FILE* fp = fopen(meta_file, "r");
     char line[MAX_LINE_LEN];
@@ -64,6 +72,15 @@ void get_target_name(const char* meta_file, char* target_name) {
     }
 }
 
+/* Read the metadata file.
+ *
+ * From the metadata we get:
+ *   number of features and classes
+ *   number of possible values for each feature
+ *   minimum value for each feature
+ *   actual class labels
+ *   offsets for flattening the probability tables into one array
+ */
 void read_metadata(const char* meta_file,
                    int* num_features,
                    int* num_classes,
@@ -80,6 +97,7 @@ void read_metadata(const char* meta_file,
     int total_cols = 0;
     int i, r;
 
+    // Count how many columns are in the metadata header.
     fgets(line, sizeof(line), fp);
     strcpy(copy, line);
     token = strtok(copy, ",\r\n");
@@ -91,10 +109,12 @@ void read_metadata(const char* meta_file,
     *num_features = total_cols - 1;
     get_target_name(meta_file, target_name);
 
+    // Allocate the main metadata arrays.
     *feature_num_values = (int*) malloc(*num_features * sizeof(int));
     *feature_min_values = (int*) malloc(*num_features * sizeof(int));
     *feature_offsets = (int*) malloc(*num_features * sizeof(int));
 
+    // The second row tells us how many values each column can take.
     fgets(line, sizeof(line), fp);
     token = strtok(line, ",\r\n");
     for (i = 0; i < *num_features; i++) {
@@ -104,12 +124,18 @@ void read_metadata(const char* meta_file,
     *num_classes = atoi(token);
     *class_values = (int*) malloc(*num_classes * sizeof(int));
 
+    /* Precompute offsets so all feature/class/value counts can live
+     * in one flat array instead of a 3-D structure.
+     */
     *total_prob_size = 0;
     for (i = 0; i < *num_features; i++) {
         (*feature_offsets)[i] = *total_prob_size;
         *total_prob_size += (*num_classes) * (*feature_num_values)[i];
     }
 
+    /* Read the allowed-values rows; we only need the minimum feature
+     * value per feature and the class labels from the last column.
+     */
     for (r = 0; r < *num_classes; r++) {
         fgets(line, sizeof(line), fp);
         token = strtok(line, ",\r\n");
@@ -124,13 +150,16 @@ void read_metadata(const char* meta_file,
     fclose(fp);
 }
 
+/* Read either the labeled or unlabeled CSV data into one flat array.
+ * Skips the header row, then stores values row-by-row.
+ */
 void read_csv_data(const char* filename, int cols, int rows, int* data) {
     FILE* fp = fopen(filename, "r");
     char line[MAX_LINE_LEN];
     char* token;
     int i, j;
 
-    fgets(line, sizeof(line), fp);
+    fgets(line, sizeof(line), fp); // skip header
 
     for (i = 0; i < rows; i++) {
         fgets(line, sizeof(line), fp);
@@ -144,6 +173,7 @@ void read_csv_data(const char* filename, int cols, int rows, int* data) {
     fclose(fp);
 }
 
+// Convert an actual class label into a class index 0..C-1.
 int class_label_to_index(int class_label, int* class_values, int num_classes) {
     int c;
     for (c = 0; c < num_classes; c++) {
@@ -152,10 +182,12 @@ int class_label_to_index(int class_label, int* class_values, int num_classes) {
     return 0;
 }
 
+// Map a raw feature value to a zero-based index using the per-feature minimum.
 int feature_value_to_index(int feature_j, int value, int* feature_min_values) {
     return value - feature_min_values[feature_j];
 }
 
+// Zero out the class and feature count arrays before each training pass.
 void zero_arrays(int num_classes,
                  int total_prob_size,
                  long long* class_counts,
@@ -192,7 +224,7 @@ void accumulate_counts_range(int* labeled_data,
                              int* feature_min_values,
                              long long* class_counts,
                              long long* feature_counts,
-                             int* row_indices) {    /* V2: new parameter — NULL for main train */
+                             int* row_indices) {    // V2: new parameter — NULL for main train
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -240,6 +272,7 @@ void accumulate_counts_range(int* labeled_data,
         }
     }
 
+    // Sum across all processes so every rank has the full counts.
     MPI_Allreduce(local_class_counts, class_counts, num_classes, MPI_LONG_LONG, MPI_SUM, MPI_COMM_WORLD);
     MPI_Allreduce(local_feature_counts, feature_counts, total_feature_elements, MPI_LONG_LONG, MPI_SUM, MPI_COMM_WORLD);
 
@@ -247,6 +280,9 @@ void accumulate_counts_range(int* labeled_data,
     free(local_feature_counts);
 }
 
+/* Convert the raw counts into log probabilities.
+ * Uses Laplace smoothing with alpha = 1.0.
+ */
 void counts_to_log_probs(int num_features,
                          int num_classes,
                          int* feature_num_values,
@@ -260,10 +296,12 @@ void counts_to_log_probs(int num_features,
     int c, j, v;
     double prior_denom = total_rows + alpha * num_classes;
 
+    // Compute the prior probability for each class.
     for (c = 0; c < num_classes; c++) {
         log_class_priors[c] = log((class_counts[c] + alpha) / prior_denom);
     }
 
+    // Compute the conditional probability tables for each feature.
     for (j = 0; j < num_features; j++) {
         for (c = 0; c < num_classes; c++) {
             double denom = class_counts[c] + alpha * feature_num_values[j];
@@ -294,7 +332,7 @@ void train_model(int* labeled_data,
                  double* log_probs) {
 
     zero_arrays(num_classes, total_prob_size, class_counts, feature_counts);
-    /* V2: pass NULL for row_indices — main train uses contiguous range */
+    // V2: pass NULL for row_indices — main train uses contiguous range
     accumulate_counts_range(labeled_data, 0, rows, labeled_cols, num_features, num_classes,
                             feature_num_values, feature_offsets, class_values,
                             feature_min_values, class_counts, feature_counts, NULL);
@@ -302,6 +340,7 @@ void train_model(int* labeled_data,
                         class_counts, feature_counts, rows, log_class_priors, log_probs);
 }
 
+// Score one row against every class and return the label with the highest log score.
 int classify_row(int* row,
                  int num_features,
                  int num_classes,
@@ -354,7 +393,7 @@ void classify_dataset(int* data,
                       double* log_class_priors,
                       double* log_probs,
                       int* predictions,
-                      int* row_indices) {    /* V2: new parameter — NULL for main classify */
+                      int* row_indices) {    // V2: new parameter — NULL for main classify
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -385,6 +424,7 @@ void classify_dataset(int* data,
                                             log_class_priors, log_probs);
     }
 
+    // Use Gatherv because the row count can differ by one across ranks.
     int* recv_counts = (int*) malloc(size * sizeof(int));
     int* displacements = (int*) malloc(size * sizeof(int));
 
@@ -402,9 +442,8 @@ void classify_dataset(int* data,
     free(displacements);
 }
 
-/* build_truth is unchanged it already operates on a contiguous labeled_data
- * block. During CV in v2 we call it on labeled_data with the fold indices
- * directly, so we add the same row_indices parameter for consistency.
+/* Pull the true class labels out of the last column of a labeled dataset.
+ * Each process extracts its slice and Allgatherv reassembles the full array.
  *
  * V2 CHANGE: added row_indices parameter. When not NULL, extracts truth labels
  * by resolving indices into labeled_data rather than assuming contiguous rows.
@@ -413,7 +452,7 @@ void classify_dataset(int* data,
  * slice. Each row writes to its own index so there is no contention.
  */
 void build_truth(int* labeled_data, int total_rows, int labeled_cols, int* truth,
-                 int* row_indices) {    /* V2: new parameter — NULL for main truth build */
+                 int* row_indices) {    // V2: new parameter — NULL for main truth build
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -426,10 +465,10 @@ void build_truth(int* labeled_data, int total_rows, int labeled_cols, int* truth
 
     int* local_truth = (int*) malloc(local_rows * sizeof(int));
 
-    /* HYBRID: OMP parallelizes label extraction within this rank's local slice. */
+    // HYBRID: OMP parallelizes label extraction within this rank's local slice.
 #pragma omp parallel for schedule(static)
     for (int i = 0; i < local_rows; i++) {
-        /* V2: resolve actual row via row_indices if provided */
+        // V2: resolve actual row via row_indices if provided
         int row = (row_indices != NULL)
                   ? row_indices[start_row + i]
                   : (start_row + i);
@@ -453,7 +492,8 @@ void build_truth(int* labeled_data, int total_rows, int labeled_cols, int* truth
     free(displacements);
 }
 
-/* HYBRID: OMP reduction added inside each rank's local slice.
+/* Compute accuracy (correct / total) in parallel.
+ * HYBRID: OMP reduction added inside each rank's local slice.
  * MPI_Allreduce then combines local correct counts across all ranks.
  */
 double compute_accuracy(int* truth, int* pred, int total_n) {
@@ -469,7 +509,7 @@ double compute_accuracy(int* truth, int* pred, int total_n) {
 
     int local_correct = 0;
 
-    /* HYBRID: OMP reduction over this rank's slice. */
+    // HYBRID: OMP reduction over this rank's slice.
 #pragma omp parallel for schedule(static) reduction(+:local_correct)
     for (int i = 0; i < local_n; i++) {
         if (truth[start_idx + i] == pred[start_idx + i])
@@ -482,7 +522,8 @@ double compute_accuracy(int* truth, int* pred, int total_n) {
     return (double) global_correct / total_n;
 }
 
-/* HYBRID: OMP reduction added inside each rank's local slice.
+/* Build a binary confusion matrix (assumes class labels are 0 and 1).
+ * HYBRID: OMP reduction added inside each rank's local slice.
  * MPI_Reduce then combines local counts to rank 0.
  */
 void confusion_matrix_binary(int* truth, int* pred, int total_n,
@@ -496,9 +537,9 @@ void confusion_matrix_binary(int* truth, int* pred, int total_n,
     int local_n = n_per_proc + (rank < remainder ? 1 : 0);
     int start_idx = rank * n_per_proc + (rank < remainder ? rank : remainder);
 
-    int local_counts[4] = {0, 0, 0, 0};
+    int local_counts[4] = {0, 0, 0, 0}; // [TN, FP, FN, TP]
 
-    /* HYBRID: OMP reduction over this rank's slice. */
+    // HYBRID: OMP reduction over this rank's slice.
 #pragma omp parallel for schedule(static) reduction(+:local_counts[:4])
     for (int i = 0; i < local_n; i++) {
         int idx = start_idx + i;
@@ -552,6 +593,7 @@ void cross_validate(int* labeled_data,
     int fold, i;
     double train_sum = 0.0, test_sum = 0.0;
 
+    // Allocate one model for reuse across all folds.
     long long* class_counts = (long long*) malloc(num_classes * sizeof(long long));
     long long* feature_counts = (long long*) malloc(total_prob_size * sizeof(long long));
     double* log_class_priors = (double*) malloc(num_classes * sizeof(double));
@@ -565,6 +607,7 @@ void cross_validate(int* labeled_data,
         int test_size = end - start;
         int train_size = labeled_rows - test_size;
 
+        // Build row index lists for this fold.
         int* train_idx = (int*) malloc(train_size * sizeof(int));
         int* test_idx = (int*) malloc(test_size * sizeof(int));
 
@@ -579,6 +622,7 @@ void cross_validate(int* labeled_data,
         int train_pos = 0, test_pos = 0;
         int tn, fp, fn, tp;
 
+        // Split rows into this fold's train set and test set.
         for (i = 0; i < labeled_rows; i++) {
             if (i >= start && i < end) test_idx[test_pos++] = i;
             else train_idx[train_pos++] = i;
@@ -591,31 +635,33 @@ void cross_validate(int* labeled_data,
                                 num_features, num_classes,
                                 feature_num_values, feature_offsets, class_values,
                                 feature_min_values, class_counts, feature_counts,
-                                train_idx);    /* V2: pass train_idx instead of train_data */
+                                train_idx);    // V2: pass train_idx instead of train_data
         counts_to_log_probs(num_features, num_classes, feature_num_values, feature_offsets,
                             class_counts, feature_counts, train_size,
                             log_class_priors, log_probs);
 
-        /* V2: build truth labels directly from labeled_data via row_indices */
+        // V2: build truth labels directly from labeled_data via row_indices
         build_truth(labeled_data, train_size, labeled_cols, y_train, train_idx);
         build_truth(labeled_data, test_size,  labeled_cols, y_test,  test_idx);
 
-        /* V2: classify directly from labeled_data via row_indices */
+        // V2: classify directly from labeled_data via row_indices
         classify_dataset(labeled_data, train_size, labeled_cols, num_features, num_classes,
                          feature_num_values, feature_offsets, class_values,
                          feature_min_values, log_class_priors, log_probs, pred_train,
-                         train_idx);    /* V2: pass train_idx instead of train_data */
+                         train_idx);    // V2: pass train_idx instead of train_data
 
         classify_dataset(labeled_data, test_size, labeled_cols, num_features, num_classes,
                          feature_num_values, feature_offsets, class_values,
                          feature_min_values, log_class_priors, log_probs, pred_test,
-                         test_idx);    /* V2: pass test_idx instead of test_data */
+                         test_idx);    // V2: pass test_idx instead of test_data
 
+        // compute_accuracy uses Allreduce so both values are valid on all ranks.
         train_sum += compute_accuracy(y_train, pred_train, train_size);
         test_sum += compute_accuracy(y_test, pred_test, test_size);
 
         confusion_matrix_binary(y_test, pred_test, test_size, &tn, &fp, &fn, &tp);
 
+        // confusion_matrix_binary only sets these on rank 0, so only accumulate there.
         int rank;
         MPI_Comm_rank(MPI_COMM_WORLD, &rank);
         if (rank == 0) {
@@ -627,7 +673,7 @@ void cross_validate(int* labeled_data,
 
         free(train_idx);
         free(test_idx);
-        /* V2: removed free(train_data) and free(test_data) — no longer allocated */
+        // V2: removed free(train_data) and free(test_data) — no longer allocated
         free(y_train);
         free(y_test);
         free(pred_train);
@@ -643,6 +689,9 @@ void cross_validate(int* labeled_data,
     free(log_probs);
 }
 
+/* Write the unlabeled dataset back out with the predicted class appended
+ * as the final column.
+ */
 void write_predictions_csv(const char* filename,
                            int* unlabeled_data,
                            int unlabeled_rows,
@@ -665,13 +714,16 @@ void write_predictions_csv(const char* filename,
     fclose(fp);
 }
 
+/* Main driver: reads files, trains the model, runs cross validation,
+ * classifies the unlabeled data, and prints the results.
+ */
 int main(int argc, char* argv[]) {
     char* meta_file;
     char* labeled_file;
     char* unlabeled_file;
     char* output_file;
     int k;
-    int num_threads;   /* HYBRID: added for OMP thread count */
+    int num_threads;   // HYBRID: added for OMP thread count
 
     int num_features, num_classes, total_prob_size;
     int* feature_num_values = NULL;
@@ -720,12 +772,13 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
+    // Read command line arguments.
     meta_file = argv[1];
     labeled_file = argv[2];
     unlabeled_file = argv[3];
     output_file = argv[4];
     k = atoi(argv[5]);
-    num_threads = atoi(argv[6]);   /* HYBRID: read thread count from CLI */
+    num_threads = atoi(argv[6]);   // HYBRID: read thread count from CLI
 
     if (k < 2) {
         if (rank == 0) Usage(argv[0]);
@@ -733,16 +786,19 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    /* HYBRID: set OMP thread count for this rank */
+    // HYBRID: set OMP thread count for this rank
     omp_set_num_threads(num_threads);
 
-    /* HYBRID: each rank prints its thread count so we can verify in output */
+    // HYBRID: each rank prints its thread count so we can verify in output
     #pragma omp parallel
     {
         #pragma omp single
         printf("OpenMP running with %d threads\n", omp_get_num_threads());
     }
 
+    /* Only rank 0 reads the files; scalar metadata is then broadcast so
+     * all ranks can allocate the right array sizes before the array broadcasts.
+     */
     if (rank == 0) {
         read_metadata(meta_file, &num_features, &num_classes,
                       &feature_num_values, &feature_min_values,
@@ -760,6 +816,7 @@ int main(int argc, char* argv[]) {
         read_csv_data(unlabeled_file, num_features, unlabeled_rows, unlabeled_data);
     }
 
+    // Broadcast scalar values so non-root ranks know the sizes.
     MPI_Bcast(&num_features, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(&num_classes, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(&total_prob_size, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -769,6 +826,7 @@ int main(int argc, char* argv[]) {
 
     labeled_cols = num_features + 1;
 
+    // Non-root processes allocate their arrays now that sizes are known.
     if (rank != 0) {
         feature_num_values = (int*) malloc(num_features * sizeof(int));
         feature_min_values = (int*) malloc(num_features * sizeof(int));
@@ -778,6 +836,7 @@ int main(int argc, char* argv[]) {
         unlabeled_data = (int*) malloc(unlabeled_rows * num_features * sizeof(int));
     }
 
+    // Broadcast metadata arrays and data to all ranks.
     MPI_Bcast(feature_num_values, num_features, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(feature_min_values, num_features, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(feature_offsets, num_features, MPI_INT, 0, MPI_COMM_WORLD);
@@ -785,18 +844,21 @@ int main(int argc, char* argv[]) {
     MPI_Bcast(labeled_data, labeled_rows * labeled_cols, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(unlabeled_data, unlabeled_rows * num_features, MPI_INT, 0, MPI_COMM_WORLD);
 
+    // Allocate the model arrays.
     class_counts = (long long*) calloc(num_classes, sizeof(long long));
     feature_counts = (long long*) calloc(total_prob_size, sizeof(long long));
     log_class_priors = (double*) malloc(num_classes * sizeof(double));
     log_probs = (double*) malloc(total_prob_size * sizeof(double));
 
+    // Allocate arrays for labels and predictions.
     truth = (int*) malloc(labeled_rows * sizeof(int));
     train_predictions = (int*) malloc(labeled_rows * sizeof(int));
     unlabeled_predictions = (int*) malloc(unlabeled_rows * sizeof(int));
 
-    /* V2: pass NULL for row_indices — main truth build uses contiguous range */
+    // V2: pass NULL for row_indices — main truth build uses contiguous range
     build_truth(labeled_data, labeled_rows, labeled_cols, truth, NULL);
 
+    // Time the training step on the full labeled dataset.
     MPI_Barrier(MPI_COMM_WORLD);
     t0 = MPI_Wtime();
 
@@ -808,14 +870,16 @@ int main(int argc, char* argv[]) {
     t1 = MPI_Wtime();
     train_time = t1 - t0;
 
+    // Time classification on both the labeled and unlabeled datasets.
     t0 = MPI_Wtime();
 
-    /* V2: pass NULL for row_indices — main classify uses contiguous range */
+    // V2: pass NULL for row_indices — main classify uses contiguous range
     classify_dataset(labeled_data, labeled_rows, labeled_cols, num_features, num_classes,
                      feature_num_values, feature_offsets, class_values,
                      feature_min_values, log_class_priors, log_probs, train_predictions,
                      NULL);
 
+    // Unlabeled data has no label column, so cols == num_features.
     classify_dataset(unlabeled_data, unlabeled_rows, num_features, num_features, num_classes,
                      feature_num_values, feature_offsets, class_values,
                      feature_min_values, log_class_priors, log_probs, unlabeled_predictions,
@@ -826,6 +890,7 @@ int main(int argc, char* argv[]) {
 
     train_accuracy = compute_accuracy(truth, train_predictions, labeled_rows);
 
+    // Time k-fold cross validation separately.
     t0 = MPI_Wtime();
     cross_validate(labeled_data, labeled_rows, labeled_cols, num_features, num_classes,
                    feature_num_values, feature_min_values, feature_offsets,
@@ -837,9 +902,11 @@ int main(int argc, char* argv[]) {
     if (rank == 0) {
         total_time = train_time + classify_time + cv_time;
 
+        // Write predictions for the unlabeled dataset.
         write_predictions_csv(output_file, unlabeled_data, unlabeled_rows,
                               num_features, target_name, unlabeled_predictions);
 
+        // Print a simple summary of results.
         printf("\n=== Naive Bayesian Classification Results (v3) ===\n");
         printf("Training rows:   %d\n", labeled_rows);
         printf("Unlabeled rows:  %d\n", unlabeled_rows);
@@ -847,7 +914,7 @@ int main(int argc, char* argv[]) {
         printf("Classes:         %d\n", num_classes);
         printf("k-folds:         %d\n", k);
         printf("Processes:       %d\n", size);
-        printf("Threads/proc:    %d\n", num_threads);   /* HYBRID: added */
+        printf("Threads/proc:    %d\n", num_threads);   // HYBRID: added
 
         printf("\nTraining accuracy:         %.6f\n", train_accuracy);
         printf("Average CV train accuracy: %.6f\n", avg_train_acc);
@@ -865,6 +932,7 @@ int main(int argc, char* argv[]) {
         printf("\nPredictions written to: %s\n", output_file);
     }
 
+    // Free all heap memory before exiting.
     free(feature_num_values);
     free(feature_min_values);
     free(class_values);
